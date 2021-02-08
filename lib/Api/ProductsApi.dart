@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
 import 'package:RMart/Context/UserContext.dart';
-import 'package:RMart/Pages/ProductDetails.dart';
 import 'package:http/http.dart' as http ;
 
 class ProductsApi{
@@ -29,7 +28,7 @@ class ProductsApi{
 
   static getMyOrders() async{
      var client = http.Client();
-     var uriResponse = await client.get(ApiContext.url+"/getMyOrders/"+UserContext.user.rpayId);
+     var uriResponse = await client.get(ApiContext.url+"/getMyOrders/"+UserContext.user.rmartId);
      Map result = json.decode(uriResponse.body);
      if(result["message"]!="success"){
        return [];

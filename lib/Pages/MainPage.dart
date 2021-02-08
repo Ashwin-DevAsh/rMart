@@ -3,6 +3,7 @@ import 'package:RMart/assets/AppCololrs.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import 'Cart.dart';
@@ -29,6 +30,7 @@ class _MainPageState extends State<MainPage> {
              navBarState.setPage(0);
           });
         }else{
+          SystemNavigator.pop();
           return Future.value(true);
         }
   }

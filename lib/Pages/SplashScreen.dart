@@ -6,7 +6,6 @@ import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/FavouriteListModel.dart';
-import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Models/User.dart';
 import 'package:RMart/Pages/Registration/Login.dart';
 import 'package:RMart/assets/AppCololrs.dart';
@@ -16,7 +15,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sembast/sembast.dart';
 import 'MainPage.dart';
-import 'Products.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -60,10 +58,12 @@ class _SplashScreenState extends State<SplashScreen> {
     bool userExist = await DataBaseHelper.store.record("User").exists(DataBaseHelper.db);
     if(userExist){
        UserContext.user =  User.fromMap(await DataBaseHelper.store.record("User").get(DataBaseHelper.db));
-      //  openHomePage(context);
-        HelperFunctions.navigate(context, Login());
+       openHomePage(context);
+      
     }else{
-      await getRPayAccess();
+        Future.delayed(Duration(seconds: 1),(){
+           HelperFunctions.navigateReplace(context, Login());
+        });
     }
   }
 

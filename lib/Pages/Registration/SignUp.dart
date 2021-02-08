@@ -1,3 +1,4 @@
+import 'package:RMart/Api/RegistrationApi.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Pages/Registration/Otp.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
@@ -15,28 +16,52 @@ class _SignUpState extends State<SignUp> {
 
   var shouldHidePassword = true;
 
+  var name = TextEditingController();
+  var email = TextEditingController();
+  var phoneNumber = TextEditingController();
+  var collegeID = TextEditingController();
+  var password = TextEditingController();
+
+  var isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Column(
-            children: [
-              SingleChildScrollView(
+      body: Builder(
+        builder: (context) {
+          return SafeArea(
+              child: isLoading?Column(
+                children: [
+                  Expanded(child: Center(child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),)
+                ],
+              ):
+                  Column(
+                    children: [
+                      Expanded(
+                                              child: SingleChildScrollView(
+                                                physics: BouncingScrollPhysics(),
 
-                child: Column(
-                  children: [
-                  HelperWidgets.getHeader("", (){Navigator.pop(context);}),
-                  SizedBox(height:20),
-                  getGreetings(),
-                  getTextField(),
-                ],),
+                          child: Column(
+                            children: [
+                            HelperWidgets.getHeader("", (){Navigator.pop(context);}),
+                            SizedBox(height:20),
+                            getGreetings(),
+                            getTextField(),
+                            SizedBox(height: 30),
 
-              ),
-              Expanded(child: Center()),
-              getFooter(context)
+                          ],),
 
-            ],
-          ),
+                        ),
+                      ),
+                            getFooter(context)
+
+                    ],
+                  ),
+
+               
+          );
+        }
       ),
     );
   }
@@ -50,71 +75,182 @@ class _SignUpState extends State<SignUp> {
             TextField(
               cursorColor: AppColors.accentColor,
               decoration: new InputDecoration(hintText: "Name"),
+              controller: name,
               
             ),
             SizedBox(height: 30),
+          
+
+            TextField(
+              keyboardType: TextInputType.number,
+              cursorColor: AppColors.accentColor,
+              decoration: new InputDecoration(hintText: "College ID (180701038)"),
+              controller: collegeID,
+            ),
+            SizedBox(height: 30),
+
             TextField(
               cursorColor: AppColors.accentColor,
-              decoration: new InputDecoration(hintText: "Email address"),
+              keyboardType: TextInputType.emailAddress,
+              decoration: new InputDecoration(hintText: "Email Address"),
+              controller: email,
             ),
             SizedBox(height: 30),
             TextField(
+
+              keyboardType: TextInputType.number,
               cursorColor: AppColors.accentColor,
               decoration: new InputDecoration(hintText: "Phone number"),
+              controller: phoneNumber,
             ),
             SizedBox(height: 30),
             TextField(
+              controller: password,
               obscureText: shouldHidePassword,
               keyboardType: TextInputType.visiblePassword,
               cursorColor: AppColors.accentColor,
               decoration: 
               new InputDecoration(hintText: "Password",
               suffixIcon: IconButton(icon:Icon(shouldHidePassword?Icons.visibility_off:Icons.visibility),onPressed: (){
-                setState(() {
+                setState(() {    
                   shouldHidePassword= !shouldHidePassword;
                 });
               },)),
             ),
+            SizedBox(
+              height:MediaQuery.of(context).size.width/2
+            )
         ],
       ),
     );
   }
 
 
-    Widget getFooter(context) {
+  Widget getFooter(context) {
     return Container(
+      decoration: BoxDecoration(
+                        borderRadius:BorderRadius.only(topLeft: Radius.circular(20)) ,
+                        border: Border.all(color: Colors.grey.withAlpha(90),width: 0.5)
+                    ),
       width: MediaQuery.of(context).size.width,
       height: 100,
-      child: Row(children: [
-        SizedBox(width: 20),
-        // Text(
-        //   "forgot Password?",
-        //   style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        // ),
-        Expanded(child: Center()),
-        GestureDetector(
-          onTap: () {
-            HelperFunctions.navigate(context, Otp());
-          },
-          child: Material(
-            color: AppColors.accentColor,
-            borderRadius: BorderRadius.circular(10),
-            elevation: 10,
-            child: Container(
-              height: 50,
-              width: 80,
-              child: Icon(
-                Icons.arrow_forward,
-                color: Colors.white,
+      child: Material(
+        borderRadius: BorderRadius.only(topLeft:Radius.circular(20)),
+          elevation: 20,
+              child: Row(children: [
+                 SizedBox(width: 20),
+        Text(
+          "Need help?",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+          Expanded(child: Center()),
+          GestureDetector(
+            onTap: () {
+                next(context);
+            },
+            child: Material(
+              color: AppColors.accentColor,
+              borderRadius: BorderRadius.circular(10),
+              elevation: 10,
+              child: Container(
+                height: 50,
+                width: 80,
+                child: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
-        ),
-        SizedBox(
-          width: 20,
-        )
-      ]),
+          SizedBox(
+            width: 20,
+          )
+        ]),
+      ),
     );
+  }
+
+  next(context) async{
+    print("next");
+   if(isValidInput(context)){
+
+     setState(() {
+       isLoading=true;
+     });
+
+      var dataGetOtp = {
+        "email":email.text.trim(),
+        "number":phoneNumber.text.trim()
+      };
+
+
+      var signUpData = {
+        "email":email.text.trim(),
+        "phoneNumber":phoneNumber.text.trim(),
+        "name":name.text.trim(),
+        "collegeID":collegeID.text.trim(),
+        "password":password.text.trim()
+      };
+
+      var result = await RegistrationApi.getOtp(dataGetOtp);
+      if(result["message"]=="done"){
+          HelperFunctions.navigate(context, Otp(signUpdata:signUpData));
+      }else{
+        setState(() {
+          isLoading=false;
+        });
+        Scaffold.of(context).showSnackBar(SnackBar(content:Text("Failed")));
+
+      }
+
+   }
+  }
+
+  bool isValidInput(context){
+
+    if(name.text.isEmpty || collegeID.text.isEmpty || phoneNumber.text.isEmpty || password.text.isEmpty || email.text.isEmpty ){
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid credientials"),));
+      return false;
+    }
+
+    if(name.text.length<3){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Name"),));
+      return false;
+    }
+
+
+    if(email.text.length<5 || !email.text.contains("@") || !email.text.contains(".")){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Email"),));
+      return false;
+    }
+
+     if(collegeID.text.length<3){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid College ID"),));
+      return false;
+    }
+
+    if(phoneNumber.text.length!=10 ){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
+      return false;
+    }
+
+    try{
+      int.parse(phoneNumber.text);
+    }catch(e){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
+    }
+
+    try{
+      int.parse(collegeID.text);
+    }catch(e){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
+    }
+
+    if(password.text.length<8){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Password must be atleast 8 character"),));
+       return false;
+    }
+    return true;
   }
 
   Widget getGreetings(){

@@ -1,40 +1,66 @@
+import 'package:RMart/Api/RegistrationApi.dart';
+import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
+import 'package:RMart/Models/User.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
+import 'package:sembast/sembast.dart';
+
+import '../MainPage.dart';
 
 
 class Otp extends StatefulWidget {
+
+  var signUpdata;
+
+  Otp({this.signUpdata});
+
   @override
   _OtpState createState() => _OtpState();
 }
 
 class _OtpState extends State<Otp> {
+
+  var otp = TextEditingController();
+  var isLoading = false;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            SingleChildScrollView(
-                 child: Column(
-                   children: [
-                     HelperWidgets.getHeader("", (){}),
+      body: Builder(
+        builder: (context) {
+          return SafeArea(
+            child: isLoading?Column(
+                children: [
+                  Expanded(child: Center(child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),)
+                ],
+              ):Column(
+              children: [
+                SingleChildScrollView(
+                     child: Column(
+                       children: [
+                         HelperWidgets.getHeader("", (){}),
 
-                       SizedBox(height: 30),
+                           SizedBox(height: 30),
 
-                       getGreetings(),
-                      SizedBox(height: 60),
-                       getTextView()
-              
-                   ],
-                 ),
-            ),
-             Expanded(child: Center()),
-              getFooter(context)
-                        ],
-                      ),
-                    ),
+                           getGreetings(),
+                          SizedBox(height: 60),
+                           getTextView()
+                  
+                       ],
+                     ),
+                ),
+                 Expanded(child: Center()),
+                  getFooter(context)
+                            ],
+                          ),
+                        );
+        }
+      ),
                   );
                 }
               
@@ -45,6 +71,7 @@ class _OtpState extends State<Otp> {
                     child: Column(
                       children: [
                              TextField(
+                               controller: otp,
                               cursorColor: AppColors.accentColor,
                               decoration: new InputDecoration(hintText: "0 0 0 0"),
                             ),
@@ -69,18 +96,67 @@ class _OtpState extends State<Otp> {
                                     )
                                     ),
                                     SizedBox(height: 30),
-                            Text(
-                                    "Please enter the 4 digit otp which we sent to your email and phone number",
-                                    style: TextStyle(
-                                      color: Colors.black.withOpacity(0.6),
-                                      fontSize: 17,
-                                    )
-                                    )
+                            Padding(
+                              padding: const EdgeInsets.only(left:2.0),
+                              child: Text(
+                                      "Please enter the 4 digit otp which we sent to your email and phone number",
+                                      style: TextStyle(
+                                        height: 1.4,
+                                        color: Colors.black.withOpacity(0.6),
+                                        fontSize: 17,
+                                      )
+                                      ),
+                            )
                         ],
                       ),
                     ),
                   );
                 }
+
+  next(context)async{
+   if(isValidInput(context)){
+     setState(() {
+       isLoading=true;
+     });
+     widget.signUpdata["otp"]=otp.text.trim();
+
+      var result = await RegistrationApi.signUp( widget.signUpdata);
+      print(result);
+      if(result["message"]=="done"){
+         openHomePage(widget.signUpdata,result["token"]);
+      }else{
+        setState(() {
+          isLoading=false;
+        });
+        Scaffold.of(context).showSnackBar(SnackBar(content:Text(result["message"])));
+      }
+   }
+  }
+
+  openHomePage(result,token)async{
+     UserContext.user = User(
+       name:result["name"],
+       number:result["phoneNumber"],
+       email: result["email"],
+       rmartId:"rMart@"+result["phoneNumber"],
+       token:token,
+       cart: [],favourite: []);
+     await StoreRef.main().record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
+        Future.delayed(Duration(seconds: 1),(){
+      HelperFunctions.navigateReplace(context,MainPage());
+    });
+  }
+
+
+  isValidInput(context){
+    if(otp.text.length<4){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Otp"),));
+      return false;
+    }
+
+    return true;
+
+  }
               
    Widget getFooter(context) {
     return Container(
@@ -95,7 +171,7 @@ class _OtpState extends State<Otp> {
         Expanded(child: Center()),
         GestureDetector(
           onTap: () {
-            HelperFunctions.navigate(context, Otp());
+            next(context);
           },
           child: Material(
             color: AppColors.accentColor,

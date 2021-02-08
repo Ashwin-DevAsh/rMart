@@ -1,9 +1,15 @@
 
+import 'package:RMart/Api/RegistrationApi.dart';
+import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
+import 'package:RMart/Models/User.dart';
+import 'package:RMart/Pages/MainPage.dart';
 import 'package:RMart/Pages/Registration/SignUp.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sembast/sembast.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -16,9 +22,76 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
-  void login(email, password, context) async {
+  void login(context) async {
+    if(isValidInput(context)){
+
+      setState(() {
+        isLoading=true;
+      });
+
+
+      var logindata = {
+        "email":email.text.trim(),
+        "phoneNumber":email.text.trim(),
+        "password":password.text.trim()
+      };    
+
+
+      var result = await RegistrationApi.login(logindata);
+      if(result["message"]=="done"){
+          openHomePage(result["user"], result["token"]);
+      }else{
+        setState(() {
+          isLoading=false;
+        });
+        Scaffold.of(context).showSnackBar(SnackBar(content:Text("Failed")));
+      }
+
+ 
+    }    
+  }
+
+
+    openHomePage(result,token)async{
+     UserContext.user = User(
+       name:result["name"],
+       number:result["number"],
+       email: result["email"],
+       rmartId:"rMart@"+result["number"],
+       token:token,
+       cart: [],favourite: []);
+      await StoreRef.main().record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
+          Future.delayed(Duration(seconds: 1),(){
+        HelperFunctions.navigateReplace(context,MainPage());
+    });
+  }
+
+
+
+
+  isValidInput(context){
+   try{
+      int.parse(email.text.toLowerCase());
+      if(email.text.length!=10 ){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
+      return false;
+    }
+
+    }catch(e){
+      if(email.text.length<5){
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid cr"),));
+        return false;
+      }
+    }
+
+    if(password.text.length<8){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Password"),));
+       return false;
+    }
+    return true;
 
   }
+      
 
   void loginSuccess(admin, token) async {
  
@@ -26,6 +99,8 @@ class _LoginState extends State<Login> {
 
   TextEditingController email = new TextEditingController();
   TextEditingController password = new TextEditingController();
+
+  var isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +113,13 @@ class _LoginState extends State<Login> {
         },
         child: SafeArea(
           child: Builder(builder: (context) {
-            return Container(
+            return isLoading?
+            Column(
+                children: [
+                  Expanded(child: Center(child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),)
+                ],
+              ): Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: Column(
@@ -72,7 +153,7 @@ class _LoginState extends State<Login> {
         Expanded(child: Center()),
         GestureDetector(
           onTap: () {
-            login(email.text, password.text, context);
+            login( context);
           },
           child: Material(
             color: AppColors.accentColor,
@@ -178,6 +259,7 @@ class _LoginState extends State<Login> {
                   ),
                   SizedBox(height: 30),
                   TextField(
+                    
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
                     controller: password,
