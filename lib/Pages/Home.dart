@@ -15,6 +15,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
+import 'SearchResult.dart';
+
 
 
 class Home extends StatefulWidget {
@@ -23,6 +25,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+
+  var searchController = TextEditingController();
 
 
   @override
@@ -63,6 +68,7 @@ class _HomeState extends State<Home> {
                 child: Container(
                  height: 55,
                  child: TextField(
+                   controller: searchController,
                    cursorColor: AppColors.accentColor,
                    decoration: InputDecoration(
                      hintText: "what are you looking for",
@@ -73,19 +79,26 @@ class _HomeState extends State<Home> {
                  ) ,
                ),
              ),
-             Material(
-               elevation: 5,
-               shadowColor: AppColors.accentColor,
-                borderRadius: BorderRadius.circular(10),
-               color: AppColors.accentColor,
-               child:Container(
-                 
-                 height: 55,
-                 width: 54,
-                 child: Center(
-                    child: Icon(MaterialIcons.search,color: Colors.white,),
-                 ),
-               )
+             GestureDetector(
+               onTap: (){
+                 if(searchController.text.isNotEmpty){
+                   HelperFunctions.navigate(context, SearchResult(keyword: searchController.text,));
+                 }
+               },
+                            child: Material(
+                 elevation: 5,
+                 shadowColor: AppColors.accentColor,
+                  borderRadius: BorderRadius.circular(10),
+                 color: AppColors.accentColor,
+                 child:Container(
+                   
+                   height: 55,
+                   width: 54,
+                   child: Center(
+                      child: Icon(MaterialIcons.search,color: Colors.white,),
+                   ),
+                 )
+               ),
              )
            ],
          ),
@@ -254,7 +267,7 @@ class _HomeState extends State<Home> {
                       child: Center(
                         child:CachedNetworkImage(
                           fit: BoxFit.cover,
-                          imageUrl: ApiContext.imageURL+UserContext.user.rmartId+".jpg",
+                          imageUrl: ApiContext.profileURL+"rMart@"+UserContext.user.number+".jpg",
                           placeholder: (context, url) => Image.asset("lib/assets/Images/avatar.webp"),
                           errorWidget: (context, url, error) => Image.asset("lib/assets/Images/avatar.webp"),
                         )

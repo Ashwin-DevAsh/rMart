@@ -187,9 +187,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                                Consumer<CartListModel>(
                                  builder:(context,cart,_)=> IconButton(
                                    icon:Icon(Entypo.shopping_cart, size: 25,color: Colors.grey),
-                                   onPressed: () {
-                                       cart.addItem(CartProduct( widget.product, count, widget.product.price*count));
-                                       AlertHelper.showSuccessSnackBar(context, "Added Successfully");
+                                   onPressed: () async{
+                                      if(HelperFunctions.isSameCategory(cart.cart, widget.product)){
+                                    cart.addItem(CartProduct( widget.product, 1, widget.product.price));
+                                    AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
+                                  }else{
+                                    if(await HelperFunctions.showWarning(context, cart,widget.product)){
+                                      Future.delayed(Duration(milliseconds: 500),(){
+                                        cart.clear();
+                                        cart.addItem(CartProduct( widget.product, 1, widget.product.price)); 
+                                        AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
+                                      });
+                                    }
+                                  }
+                                      //  cart.addItem(CartProduct( widget.product, count, widget.product.price*count));
+                                      //  AlertHelper.showSuccessSnackBar(context, "Added Successfully");
                                    },
                                  ),
                                ),
@@ -263,7 +275,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 
                     var product = productMap is Product?productMap: Product(productMap["productid"],
                         productMap["productname"],
-                        productMap["price"],
+                        int.parse(productMap["price"]),
                         ApiContext.productImageURL+ productMap["imageurl"],
                         widget.product.productOwner,
                         widget.product.category);

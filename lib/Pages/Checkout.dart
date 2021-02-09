@@ -1,14 +1,16 @@
+import 'package:RMart/Api/OrderApi.dart';
+import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
+import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
+import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/CartProduct.dart';
 import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Pages/CheckOutResult.dart';
-import 'package:RMart/Widgets/AlertHelper.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 // ignore: must_be_immutable
@@ -17,27 +19,35 @@ class CheckOut extends StatefulWidget {
   List products =[] ;
   int totalAmount = 0;
   int totalItems = 0;
+  CartListModel cart;
 
 
-  CheckOut(this.products, this.totalAmount, this.totalItems);
+  CheckOut(this.products, this.totalAmount, this.totalItems,{this.cart});
 
   @override
   _CheckOutState createState() => _CheckOutState();
 }
 
 class _CheckOutState extends State<CheckOut> {
+
+
+  var isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading?Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),
+    ):Scaffold(
       bottomNavigationBar: bottomSheet()  ,
       backgroundColor: AppColors.backgroundColor,
-      body: SafeArea(
+      body:  SafeArea(
         child: SingleChildScrollView(
-          child: Column(
+          child:  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               HelperWidgets.getHeader("Checkout", (){Navigator.pop(context);}),
-
               Padding(
                 padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
                 child: Column(
@@ -55,15 +65,17 @@ class _CheckOutState extends State<CheckOut> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left:20,top: 12,right: 10,bottom: 12),
-                              child: Image(image: Image.asset("lib/assets/Images/martLogo.png").image,color: AppColors.rPayPrimaryColor,),
+                              child: Image(image: Image.asset("lib/assets/Images/razorpay.png").image,),
                             ),
-                            Text("rPay",style: TextStyle(fontWeight: FontWeight.w600),),
+                            Text("Online Payment",style: TextStyle(fontWeight: FontWeight.w600),),
                             Expanded(child: Container(),),
                             Radio(groupValue: true,value: true, activeColor: AppColors.accentColor ,onChanged: (_){})
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    SizedBox(height:20),
+               
                   ],
                 ),
               )
@@ -75,24 +87,100 @@ class _CheckOutState extends State<CheckOut> {
     );
   }
 
-  razorpayCheckout(){
-    var razorpay = Razorpay();
-    razorpay.open(options);
+
+  makeOrder(context)async{
+
+    if(isLoading){
+      return;
+    }
+    
+    setState(() {
+      isLoading = true;
+    });
+
+    Map data = {
+      "products":widget.products,
+      "amount":widget.totalAmount.toString(),
+      "orderBy":{
+          "id":  "rMart@"+ UserContext.user.number,
+          "name":   UserContext.user.name,
+          "number": UserContext.user.number,
+          "email":   UserContext.user.email
+      },
+
+    };
+    var result = await OrderApi.makeOrder(data);
+    print(result);
+    if(result["message"]=="done"){    
+         var orderID = result["orderID"]; 
+         razorpayCheckout(widget.totalAmount,orderID);
+    }else{
+    setState(() {
+      isLoading = false;
+    });
+    Scaffold.of(context).showSnackBar(SnackBar(content:Text(result["message"])));
+
+    }
+  }
+
+  razorpayCheckout(amount,orderID){
+      var razorpay = Razorpay();
+      razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+      razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+      razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+      try{
+         options["amount"] = amount*100;
+         options["order_id"] = orderID;
+         razorpay.open(options);
+      }catch(e){
+        print(e);
+      }
+
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+      print("\n\n success = "+response.orderId+response.paymentId);
+         setState(() {
+              isLoading = false;
+         });
+
+         try{
+           widget.cart.clear();
+         }catch(e){}
+
+         
+      HelperFunctions.navigateReplace(context, CheckOutResult(response: response,));
+         
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+          print("\n\n failed = "+response.toString());
+             setState(() {
+              isLoading = false;
+            });
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+       print("\n\n external app = "+response.toString());
+          setState(() {
+              isLoading = false;
+            });
+
   }
 
 
   var options = {
-    'key': 'rzp_test_xkmYhXXE5iOTRu',
-    'amount': 50, //in the smallest currency sub-unit.
-    'name': 'Acme Corp.',
-    'order_id': 'order_EMBFqjiHEEn80l', // Generate order_id using Orders API
-    'description': 'Fine T-Shirt',
-    'timeout': 60, // in seconds
+    'key': 'rzp_test_haMW9Vd119BFk3',
+    'name': 'rMart',
+    'description': 'by team initators',
     'prefill': {
-      'contact': '9123456789',
-      'email': 'gaurav.kumar@example.com'
+      'contact': UserContext.user.number,
+      'email': UserContext.user.email
     }
- };
+  };
+
+
+ 
 
   Widget bottomSheet(){
     return  Material(
@@ -161,18 +249,8 @@ class _CheckOutState extends State<CheckOut> {
               padding: const EdgeInsets.only(left:0,right: 0),
               child: GestureDetector(
                 onTap: ()async{
-                  razorpayCheckout();
-                  // var platform =  MethodChannel("NativeChannel");
-                  // Map result = await platform.invokeMethod("pay",{"amount":widget.totalAmount,"products":widget.products});
-                  // print(result);
-                  // if(result["message"]=="Success"){
-                  //    Future.delayed(Duration(seconds: 1),(){
-                  //      HelperFunctions.navigateReplace(context, CheckOutResult(
-                  //        amount: widget.totalAmount,products: widget.products,
-                  //        paymentMethod: result,
-                  //      ));
-                  //    });
-                  // }
+                  makeOrder(context);
+
                 },
                 child: Material(
                     elevation: 2.5,

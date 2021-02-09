@@ -107,14 +107,12 @@ class _CartState extends State<Cart> {
                      Expanded(child: Container(),),
                        GestureDetector(
                             onTap: (){
-
                               HelperFunctions.navigate(context, CheckOut(
                                   CartListModel.cartProductMap,
                                   totalPrice,
-                                  totalProducts
+                                  totalProducts,
+                                  cart: cart,
                               ));
-
-
                             },
                             child: Material(
                                elevation: 5,

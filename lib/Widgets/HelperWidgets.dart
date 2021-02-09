@@ -203,9 +203,21 @@ class HelperWidgets{
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: (){
-                          cart.addItem(CartProduct( object, 1, object.price));
-                          AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
+                        onTap: ()async{
+                          if(HelperFunctions.isSameCategory(cart.cart, object)){
+                             cart.addItem(CartProduct( object, 1, object.price));
+                             AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
+                          }else{
+                             if(await HelperFunctions.showWarning(context, cart,object)){
+                               Future.delayed(Duration(milliseconds: 500),(){
+                                 cart.clear();
+                                 cart.addItem(CartProduct( object, 1, object.price)); 
+                                 AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
+                               });
+                             }
+                          }
+
+
                         },
                         child: Material(
                           borderRadius: BorderRadius.only(bottomRight: Radius.circular(20),topLeft: Radius.circular(20)),
@@ -228,6 +240,7 @@ class HelperWidgets{
       ),
     );
   }
+
 
 
 }

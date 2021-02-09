@@ -2,7 +2,9 @@ import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
+import 'package:RMart/Models/User.dart';
 import 'package:RMart/Pages/MyOrders.dart';
+import 'package:RMart/Pages/Registration/Otp.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -45,7 +47,7 @@ class _ProfileState extends State<Profile> {
 
                    getBigListTile(
                        title: "Number",
-                       subtitle: "+"+UserContext.user.number,
+                       subtitle: "+91"+UserContext.user.number,
                        icon:Icons.call_outlined
                    ),
 
@@ -66,6 +68,15 @@ class _ProfileState extends State<Profile> {
             
 
                    Divider(),
+                  getNormalListTile(
+                       title: "Password Recovery",
+                       icon:MaterialCommunityIcons.lock_outline,
+                       onClick: (){
+                         HelperFunctions.navigate(context, Otp(isRecoveryOtp: true,number: UserContext.user.number,email: UserContext.user.email,));
+                       }),
+            
+
+                  //  Divider(),
 
                    getNormalListTile(
                        title: "Logout",
@@ -123,7 +134,7 @@ class _ProfileState extends State<Profile> {
               borderRadius: BorderRadius.circular(30),
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                imageUrl: ApiContext.imageURL+UserContext.user.rmartId+".jpg",
+                imageUrl: ApiContext.profileURL+"rMart@"+UserContext.user.number+".jpg",
                 placeholder: (context, url) => Image.asset("lib/assets/Images/avatar.webp"),
                 errorWidget: (context, url, error) => Image.asset("lib/assets/Images/avatar.webp"),
               ),
@@ -135,7 +146,7 @@ class _ProfileState extends State<Profile> {
             children: [
               Text(UserContext.user.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
               SizedBox(height: 5,),
-              Text(UserContext.user.rmartId,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,color: Colors.grey),)
+              Text("rMart@"+UserContext.user.number,style: TextStyle(fontSize: 12,fontWeight: FontWeight.w600,color: Colors.grey),)
             ],
           )
         ],

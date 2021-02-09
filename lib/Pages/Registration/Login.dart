@@ -5,7 +5,9 @@ import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/User.dart';
 import 'package:RMart/Pages/MainPage.dart';
+import 'package:RMart/Pages/Registration/Otp.dart';
 import 'package:RMart/Pages/Registration/SignUp.dart';
+import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +19,10 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  var isLoding = false;
+  var isButtonLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -26,6 +32,23 @@ class _LoginState extends State<Login> {
     if(isValidInput(context)){
 
       setState(() {
+        isButtonLoading=true;
+      });
+
+      var canLogin = await RegistrationApi.canLogin({"phoneNumber":email.text.trim(),"email":email.text.trim()});
+
+      if(canLogin["message"]!="done"){
+        Scaffold.of(context).showSnackBar(SnackBar(content:Text(canLogin["message"])));
+           setState(() {
+             isButtonLoading=false;
+           });
+        return;
+      } 
+
+
+      setState(() {
+        isButtonLoading=false;
+
         isLoading=true;
       });
 
@@ -57,7 +80,6 @@ class _LoginState extends State<Login> {
        name:result["name"],
        number:result["number"],
        email: result["email"],
-       rmartId:"rMart@"+result["number"],
        token:token,
        cart: [],favourite: []);
       await StoreRef.main().record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
@@ -71,15 +93,15 @@ class _LoginState extends State<Login> {
 
   isValidInput(context){
    try{
-      int.parse(email.text.toLowerCase());
+      int.parse(email.text.toLowerCase().trim());
       if(email.text.length!=10 ){
        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
       return false;
     }
 
     }catch(e){
-      if(email.text.length<5){
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid cr"),));
+      if(email.text.trim().length<5){
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid credientials"),));
         return false;
       }
     }
@@ -140,15 +162,56 @@ class _LoginState extends State<Login> {
     );
   }
 
+  bool isValidNumberOrEmail(context){
+    try{
+      int.parse(email.text.toLowerCase());
+      if(email.text.length!=10 ){
+       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter valid email or phone number"),));
+      return false;
+    }
+
+    }catch(e){
+      if(email.text.length<5){
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter valid email or phone number"),));
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   Widget getFooter(context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 100,
       child: Row(children: [
         SizedBox(width: 20),
-        Text(
-          "forgot Password?",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        GestureDetector(
+          onTap: ()async{
+            if(isValidNumberOrEmail(context)){
+                setState(() {
+                  isButtonLoading = true;
+                });
+                var canLogin = await RegistrationApi.canLogin({"phoneNumber":email.text.trim(),"email":email.text.trim()});
+
+                if(canLogin["message"]!="done"){
+                  Scaffold.of(context).showSnackBar(SnackBar(content:Text(canLogin["message"])));
+                       setState(() {
+                  isButtonLoading = false;
+                });
+                  return;
+                } 
+
+                setState(() {
+                  isButtonLoading = false;
+                });
+                HelperFunctions.navigate(context, Otp(isRecoveryOtp: true,number: email.text.trim(),email: email.text.trim(),));
+            }
+          },
+          child: Text(
+            "forgot Password?",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
         ),
         Expanded(child: Center()),
         GestureDetector(
@@ -162,7 +225,14 @@ class _LoginState extends State<Login> {
             child: Container(
               height: 50,
               width: 80,
-              child: Icon(
+              child: isButtonLoading? Center(
+          child: SizedBox(
+            height: 25,
+            width: 25,
+                      child: CircularProgressIndicator(
+              
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),),
+          ),): Icon(
                 Icons.arrow_forward,
                 color: Colors.white,
               ),
@@ -237,7 +307,7 @@ class _LoginState extends State<Login> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Wellcome Back",
+              "Welcome Back",
               style: TextStyle(
                 fontSize: 32,
               ),

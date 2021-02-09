@@ -67,22 +67,22 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-   getRPayAccess(){
-      Future.delayed(Duration(seconds: 1),()async{
-        var platform =  MethodChannel("NativeChannel");
-        Map result = await platform.invokeMethod("getAccess");
-        print(result);
-        if(result["message"]=="Success"){
-            UserContext.user = User(name:result["name"],number:result["number"],email: result["email"],cart: [],favourite: []);
-            await DataBaseHelper.store.record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
-            openHomePage(context);
-        }else if(result["message"]=="Failed"){
-          Future.delayed(Duration(seconds: 1),(){
-            SystemNavigator.pop();
-          });
-        }
-      });
-  }
+  //  getRPayAccess(){
+  //     Future.delayed(Duration(seconds: 1),()async{
+  //       var platform =  MethodChannel("NativeChannel");
+  //       Map result = await platform.invokeMethod("getAccess");
+  //       print(result);
+  //       if(result["message"]=="Success"){
+  //           UserContext.user = User(name:result["name"],number:result["number"],email: result["email"],cart: [],favourite: []);
+  //           await DataBaseHelper.store.record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
+  //           openHomePage(context);
+  //       }else if(result["message"]=="Failed"){
+  //         Future.delayed(Duration(seconds: 1),(){
+  //           SystemNavigator.pop();
+  //         });
+  //       }
+  //     });
+  // }
 
 
   loadContextData(){

@@ -4,6 +4,7 @@ import 'package:RMart/Pages/Registration/Otp.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 class SignUp extends StatefulWidget {
@@ -27,41 +28,50 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Builder(
-        builder: (context) {
-          return SafeArea(
-              child: isLoading?Column(
-                children: [
-                  Expanded(child: Center(child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),)
-                ],
-              ):
-                  Column(
-                    children: [
-                      Expanded(
-                                              child: SingleChildScrollView(
-                                                physics: BouncingScrollPhysics(),
+      body: WillPopScope(
+        onWillPop: (){
+          if(isLoading){
+            SystemNavigator.pop();
+          }else{
+            Navigator.of(context).pop();
+          }
+        },
+              child: Builder(
+          builder: (context) {
+            return SafeArea(
+                child: isLoading?Column(
+                  children: [
+                    Expanded(child: Center(child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),)
+                  ],
+                ):
+                    Column(
+                      children: [
+                        Expanded(
+                                                child: SingleChildScrollView(
+                                                  physics: BouncingScrollPhysics(),
 
-                          child: Column(
-                            children: [
-                            HelperWidgets.getHeader("", (){Navigator.pop(context);}),
-                            SizedBox(height:20),
-                            getGreetings(),
-                            getTextField(),
-                            SizedBox(height: 30),
+                            child: Column(
+                              children: [
+                              HelperWidgets.getHeader("", (){Navigator.pop(context);}),
+                              SizedBox(height:20),
+                              getGreetings(),
+                              getTextField(),
+                              SizedBox(height: 30),
 
-                          ],),
+                            ],),
 
+                          ),
                         ),
-                      ),
-                            getFooter(context)
+                              getFooter(context)
 
-                    ],
-                  ),
+                      ],
+                    ),
 
-               
-          );
-        }
+                 
+            );
+          }
+        ),
       ),
     );
   }
@@ -194,7 +204,7 @@ class _SignUpState extends State<SignUp> {
 
       var result = await RegistrationApi.getOtp(dataGetOtp);
       if(result["message"]=="done"){
-          HelperFunctions.navigate(context, Otp(signUpdata:signUpData));
+          HelperFunctions.navigate(context, Otp(signUpdata:signUpData,email: email.text.trim(),number: phoneNumber.text.trim(),isRecoveryOtp: false,));
       }else{
         setState(() {
           isLoading=false;

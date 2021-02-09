@@ -1,11 +1,15 @@
+import 'package:RMart/Api/RecoveryApi.dart';
 import 'package:RMart/Api/RegistrationApi.dart';
+import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/User.dart';
+import 'package:RMart/Pages/Registration/ChangePassword.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sembast/sembast.dart';
 
 import '../MainPage.dart';
@@ -14,8 +18,11 @@ import '../MainPage.dart';
 class Otp extends StatefulWidget {
 
   var signUpdata;
+  var isRecoveryOtp = false;
+  var number;
+  var email;
 
-  Otp({this.signUpdata});
+  Otp({this.signUpdata,this.isRecoveryOtp,this.email,this.number});
 
   @override
   _OtpState createState() => _OtpState();
@@ -26,40 +33,61 @@ class _OtpState extends State<Otp> {
   var otp = TextEditingController();
   var isLoading = false;
 
+  @override
+  void initState() {
+    if(widget.isRecoveryOtp){
+      var dataGetOtp = {
+        "email":widget.email,
+        "number":widget.number
+      };
+      RecoveryApi.getRecoveryOtp(dataGetOtp);
+      }
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Builder(
-        builder: (context) {
-          return SafeArea(
-            child: isLoading?Column(
+      body: WillPopScope(
+        onWillPop: (){
+          if(widget.isRecoveryOtp){
+            Navigator.pop(context);
+          }else{
+             SystemNavigator.pop();
+          }
+        },
+              child: Builder(
+          builder: (context) {
+            return SafeArea(
+              child: isLoading?Column(
+                  children: [
+                    Expanded(child: Center(child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),)
+                  ],
+                ):Column(
                 children: [
-                  Expanded(child: Center(child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),)
-                ],
-              ):Column(
-              children: [
-                SingleChildScrollView(
-                     child: Column(
-                       children: [
-                         HelperWidgets.getHeader("", (){}),
+                  SingleChildScrollView(
+                       child: Column(
+                         children: [
+                           HelperWidgets.getHeader("", (){}),
 
-                           SizedBox(height: 30),
+                             SizedBox(height: 30),
 
-                           getGreetings(),
-                          SizedBox(height: 60),
-                           getTextView()
-                  
-                       ],
-                     ),
-                ),
-                 Expanded(child: Center()),
-                  getFooter(context)
-                            ],
-                          ),
-                        );
-        }
+                             getGreetings(),
+                            SizedBox(height: 60),
+                             getTextView()
+                    
+                         ],
+                       ),
+                  ),
+                   Expanded(child: Center()),
+                    getFooter(context)
+                              ],
+                            ),
+                          );
+          }
+        ),
       ),
                   );
                 }
@@ -115,21 +143,42 @@ class _OtpState extends State<Otp> {
 
   next(context)async{
    if(isValidInput(context)){
-     setState(() {
-       isLoading=true;
-     });
-     widget.signUpdata["otp"]=otp.text.trim();
+      setState(() {
+        isLoading=true;
+      });
+      if(widget.isRecoveryOtp){
+           var dataGetOtp = {
+        "email":widget.email,
+        "number":widget.number,
+        "otp":otp.text.trim()
+      };
+         var result = await RecoveryApi.verifyRecoveryOtp(dataGetOtp);
+         if(result["message"]=="done"){
+           Future.delayed(Duration(seconds: 1),(){
+             HelperFunctions.navigateReplace(context, ChangePassword(widget.number,widget.email));
+           });
+         }else{
+          setState(() {
+            isLoading=false;
+          });
+            Scaffold.of(context).showSnackBar(SnackBar(content:Text(result["message"])));
+         }
 
-      var result = await RegistrationApi.signUp( widget.signUpdata);
-      print(result);
-      if(result["message"]=="done"){
-         openHomePage(widget.signUpdata,result["token"]);
       }else{
-        setState(() {
-          isLoading=false;
-        });
-        Scaffold.of(context).showSnackBar(SnackBar(content:Text(result["message"])));
+        widget.signUpdata["otp"]=otp.text.trim();
+        var result = await RegistrationApi.signUp( widget.signUpdata);
+        print(result);
+        if(result["message"]=="done"){
+         openHomePage(widget.signUpdata,result["token"]);
+        }else{
+          setState(() {
+            isLoading=false;
+          });
+          Scaffold.of(context).showSnackBar(SnackBar(content:Text(result["message"])));
+        }
       }
+
+  
    }
   }
 
@@ -138,11 +187,12 @@ class _OtpState extends State<Otp> {
        name:result["name"],
        number:result["phoneNumber"],
        email: result["email"],
-       rmartId:"rMart@"+result["phoneNumber"],
        token:token,
        cart: [],favourite: []);
+       print(UserContext.user.toMap());
      await StoreRef.main().record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
         Future.delayed(Duration(seconds: 1),(){
+   
       HelperFunctions.navigateReplace(context,MainPage());
     });
   }

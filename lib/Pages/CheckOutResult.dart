@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:RMart/Api/OrderApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
@@ -9,18 +10,15 @@ import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http ;
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class CheckOutResult extends StatefulWidget {
 
-  @required
-  var products;
-  @required
-  var amount;
-  @required
-  var paymentMethod;
+
+  PaymentSuccessResponse response;
 
 
-  CheckOutResult({this.products, this.amount, this.paymentMethod});
+  CheckOutResult({this.response});
 
   @override
   _CheckOutResultState createState() => _CheckOutResultState();
@@ -31,44 +29,20 @@ class _CheckOutResultState extends State<CheckOutResult> {
   var isLoading = true;
   var isSuccess = false;
 
+  Future<bool> verifyPayment() async {
 
+    var orderID = widget.response.orderId;
+    var paymentID = widget.response.paymentId;
 
-  Future<bool> placeOrder() async {
+    var data = {
+        "orderID":orderID,
+        "paymentID":paymentID,
+    };
 
-    var client = http.Client();
-    try {
-      Map data = {
-        "products":widget.products,
-        "amount":widget.amount.toString(),
-        "transactionData":{
-          "amount" :widget.amount.toString(),
-          "to": {
-            "id":   UserContext.user.rmartId,
-            "name":   "rMart",
-            "number": UserContext.user.number,
-            "email":   UserContext.user.email
-          },
-          "from" : {
-            "id" : "rpay@${widget.paymentMethod["number"]}",
-            "number" :  widget.paymentMethod["number"],
-            "name" :  widget.paymentMethod["name"],
-            "email":  widget.paymentMethod["email"]
-          }
-        }
-      };
-      var body = json.encode(data);
-      print(widget.paymentMethod["token"]);
-      var uriResponse = await client.post(ApiContext.url+"/makeOrder",
-          headers: {
-            "Content-Type": "application/json",
-            "token":widget.paymentMethod["token"]
-          },
-          body:body
-      );
-      Map result = json.decode(uriResponse.body);
-      print(result);
-      if(result["message"]=="done"){
-        widget.paymentMethod["token"]="";
+    var result = await OrderApi.verifyPayment(data);
+    print(result);
+
+    if(result["message"]=="success"){
         setState(() {
           isLoading = false;
           isSuccess = true;
@@ -81,21 +55,15 @@ class _CheckOutResultState extends State<CheckOutResult> {
         });
         return false;
       }
-    } catch(e) {
-      print(e);
-      client.close();
-      setState(() {
-        isLoading = false;
-        isSuccess = false;
-      });
-      return false;
-    }
+ 
   }
 
+
+  
   @override
   void initState() {
     Future.delayed(Duration(seconds: 1),(){
-      placeOrder();
+      verifyPayment();
     });
     super.initState();
   }
@@ -127,7 +95,7 @@ class _CheckOutResultState extends State<CheckOutResult> {
               isLoading=true;
             });
             Future.delayed(Duration(seconds: 1),(){
-              placeOrder();
+              verifyPayment();
             });
           }
       );
@@ -183,6 +151,9 @@ class _CheckOutResultState extends State<CheckOutResult> {
       ),
     );
   }
+
+
+
 
   Widget getBottomSheet(buttonText,onButtonTap){
     return Container(

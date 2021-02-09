@@ -3,27 +3,12 @@ import 'dart:convert';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:http/http.dart' as http ;
 
-class RegistrationApi{
+class RecoveryApi{
 
   static var client = http.Client();
-   static Future<Map> signUp(data) async{
+   static Future<Map> verifyRecoveryOtp(data) async{
     var body = json.encode(data);
-      var uriResponse = await client.post(ApiContext.profileURL+"/signup",
-          headers: {
-            "Content-Type": "application/json",
-            
-          },
-          body:body
-      );
-      Map result = json.decode(uriResponse.body);
-      print(result);
-      return result;
-   }
-
-   static Future<Map> getOtp(data) async{
-    print(data);
-    var body = json.encode(data);
-      var uriResponse = await client.post(ApiContext.profileURL+"/getOtp",
+      var uriResponse = await client.post(ApiContext.profileURL+"/verifyRecoveryOtp",
           headers: {
             "Content-Type": "application/json",
           },
@@ -33,7 +18,6 @@ class RegistrationApi{
       print(result);
       return result;
    }
-
 
    static Future<Map> getRecoveryOtp(data) async{
     print(data);
@@ -49,10 +33,10 @@ class RegistrationApi{
       return result;
    }
 
-   static Future<Map> login(data) async{
+   static Future<Map> changePassword(data) async{
     print(data);
     var body = json.encode(data);
-      var uriResponse = await client.post(ApiContext.profileURL+"/login",
+      var uriResponse = await client.post(ApiContext.profileURL+"/changePassword",
           headers: {
             "Content-Type": "application/json",
           },
@@ -62,20 +46,5 @@ class RegistrationApi{
       print(result);
       return result;
    }
-
-   static Future<Map> canLogin(data) async{
-    print(data);
-    var body = json.encode(data);
-      var uriResponse = await client.post(ApiContext.profileURL+"/canLogin",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body:body
-      );
-      Map result = json.decode(uriResponse.body);
-      print(result);
-      return result;
-   }
-
 
 }

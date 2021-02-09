@@ -13,9 +13,7 @@ class CartListModel extends ChangeNotifier{
     cartProductMap.forEach((element) {
      cart.add(CartProduct.fromMap(element));
     });
-
     notifyListeners();
-
   }
 
   addItem(CartProduct cartProduct){
@@ -39,9 +37,14 @@ class CartListModel extends ChangeNotifier{
     cartProductMap[position] = cart[position].toJson();
     notifyListeners();
     UserContext.user.updateUserDatabase();
-
   }
 
+  clear(){
+    this.cart.clear();
+    cartProductMap.clear();
+    notifyListeners();
+    UserContext.user.updateUserDatabase();
+  }
 
 
   removeItem(int index){
@@ -49,7 +52,6 @@ class CartListModel extends ChangeNotifier{
     cartProductMap.removeAt(index);
     notifyListeners();
     UserContext.user.updateUserDatabase();
-
   }
 
 }

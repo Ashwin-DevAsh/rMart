@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http ;
 class ProductsApi{
   static Future<List> getProducts() async{
     var client = http.Client();
-     var uriResponse = await client.get(ApiContext.url+"/getAllProducts");
+     var uriResponse = await client.get(ApiContext.martURL+"/getAllProducts");
      Map result = json.decode(uriResponse.body);
      if(result["message"]!="success"){
        return [];
@@ -20,7 +20,7 @@ class ProductsApi{
 
   static Future<List> getMerchants() async{
      var client = http.Client();
-     var uriResponse = await client.get(ApiContext.profileUrl+"/getMerchants");
+     var uriResponse = await client.get(ApiContext.profileURL+"/getMerchants");
      var result = json.decode(uriResponse.body);  
      print(result);
      return result;
@@ -28,7 +28,7 @@ class ProductsApi{
 
   static getMyOrders() async{
      var client = http.Client();
-     var uriResponse = await client.get(ApiContext.url+"/getMyOrders/"+UserContext.user.rmartId);
+     var uriResponse = await client.get(ApiContext.martURL+"/getMyOrders/rMart@"+UserContext.user.number);
      Map result = json.decode(uriResponse.body);
      if(result["message"]!="success"){
        return [];
