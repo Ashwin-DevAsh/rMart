@@ -1,7 +1,10 @@
+import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
+import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/CartProduct.dart';
+import 'package:RMart/Models/OrdersListModel.dart';
 import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Pages/Checkout.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
@@ -13,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 
 class OrderDetails extends StatefulWidget {
@@ -23,8 +27,9 @@ class OrderDetails extends StatefulWidget {
   int totalAmount = 0;
   int totalItems = 0;
   var products = [];
+  OrderListModel orderNotifier;
 
-  OrderDetails({this.order}){
+  OrderDetails({this.order,this.orderNotifier}){
     this.products = this.order["products"];
     this.products.forEach((element) { 
       totalAmount+= element["totalPrice"];
@@ -35,33 +40,70 @@ class OrderDetails extends StatefulWidget {
 
 class _OrderDetailsState extends State<OrderDetails> {
 
+
+  connectSocket() async{
+  IO.Socket socket = IO.io('http://${ApiContext.syncURL}/');
+
+  print(socket.connected);
+  
+  socket.onConnect((io) {
+      print('connect ');
+          socket.emit("getInformation",{
+            "id":UserContext.getId
+          });
+      });
+
+    socket.on('event', (data) => print(data));
+    socket.onDisconnect((_) => print('disconnect'));
+  }
+
+  @override
+  void initState() {
+    connectSocket();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: bottomSheet()  ,
       backgroundColor: AppColors.backgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HelperWidgets.getHeader("Order ${widget.order["orederid"]}", (){Navigator.pop(context);}),
+      body: WillPopScope(
+        onWillPop: (){
+          Navigator.pop(context);
 
-              Padding(
-                padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
-                child: Center(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  // children: [
-                child:    QrImage(
-                      data: (widget.order["orederid"]),
-                      version: QrVersions.auto,
-                      size: 250.0,
+          widget.orderNotifier.refresh();
+        },
+              child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              
+                HelperWidgets.getHeader("Order ${widget.order["orederid"]}", (){Navigator.pop(context);}),
+
+                Padding(
+                  padding:  EdgeInsets.only(bottom:0 ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height-450,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
+                      child: Center(
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        // children: [
+                      child: QrImage(
+                            data: (widget.order["orederid"]),
+                            version: QrVersions.auto,
+                            size: 250.0,
+                          ),
+                        // ],
+                      ),
                     ),
-                  // ],
-                ),
-              )
+                  ),
+                )
 
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -75,7 +117,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       // elevation: 10,
       color: AppColors.backgroundColor,
       child: Container(
-        height: 400,
+        height: 340,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -132,26 +174,26 @@ class _OrderDetailsState extends State<OrderDetails> {
               ),
             ),
 
-
-            Padding(
-              padding: const EdgeInsets.only(left:0,right: 0),
-              child: GestureDetector(
+            // status=="pending"?Center():
+            // Padding(
+            //   padding: const EdgeInsets.only(left:0,right: 0),
+            //   child: GestureDetector(
        
-                child: Material(
-                    elevation: 2.5,
-                    shadowColor: AppColors.accentColor,
-                    // borderRadius: BorderRadius.circular(10),
-                    color: AppColors.accentColor,
-                    child:Container(
-                      height: 60,
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: Text(status.toUpperCase(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
-                      ),
-                    )
-                ),
-              ),
-            ),
+            //     child: Material(
+            //         elevation: 2.5,
+            //         shadowColor: AppColors.accentColor,
+            //         // borderRadius: BorderRadius.circular(10),
+            //         color: AppColors.accentColor,
+            //         child:Container(
+            //           height: 60,
+            //           width: MediaQuery.of(context).size.width,
+            //           child: Center(
+            //             child: Text(status.toUpperCase(),style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+            //           ),
+            //         )
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

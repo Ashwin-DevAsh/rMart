@@ -10,6 +10,7 @@ import 'package:RMart/Pages/Checkout.dart';
 import 'package:RMart/Widgets/AlertHelper.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -48,11 +49,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                     simpleAppBar(),
                     Container(
                       height: (MediaQuery.of(context).size.height-300)*0.5,
-                      child: Image(
-                        colorBlendMode: BlendMode.color,
+                      child: CachedNetworkImage(
+                      height: (MediaQuery.of(context).size.height-300)*0.5,width:(MediaQuery.of(context).size.width)*0.7,
+                      imageUrl:widget.product.imageURL,
+                      colorBlendMode: BlendMode.color,
                         fit: BoxFit.scaleDown,
-                        image: Image.network(widget.product.imageURL).image,
-                        height: (MediaQuery.of(context).size.height-300)*0.5,width:(MediaQuery.of(context).size.width)*0.7,)
+                    ),
+                      // child: Image(
+                      //   colorBlendMode: BlendMode.color,
+                      //   fit: BoxFit.scaleDown,
+                      //   image: Image.network(widget.product.imageURL).image,
+                      //   height: (MediaQuery.of(context).size.height-300)*0.5,width:(MediaQuery.of(context).size.width)*0.7,)
                     ),
                     SizedBox(height: 70,)
                   ],
@@ -315,7 +322,12 @@ class _ProductDetailsState extends State<ProductDetails> {
               width: 70,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image(image: Image.network(product.imageURL).image,fit: BoxFit.scaleDown,),
+                child: CachedNetworkImage(
+                      height: (MediaQuery.of(context).size.height-300)*0.5,width:(MediaQuery.of(context).size.width)*0.7,
+                      imageUrl:product.imageURL,
+                      fit: BoxFit.scaleDown
+                      )
+                // Image(image: Image.network(product.imageURL).image,fit: BoxFit.scaleDown,),
               ),
             ),
           ),

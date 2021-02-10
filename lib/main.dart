@@ -1,5 +1,6 @@
 import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/FavouriteListModel.dart';
+import 'package:RMart/Models/OrdersListModel.dart';
 import 'package:RMart/Pages/SplashScreen.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,16 +20,19 @@ class MyApp extends StatelessWidget {
      statusBarIconBrightness: Brightness.dark,
   ));
     return ChangeNotifierProvider(
-      create: (context)=>FavouriteListModel(),
-      child: ChangeNotifierProvider(
-        create: (context)=>CartListModel(),
-        child: MaterialApp(
-           theme: new ThemeData(
-            primaryColor: AppColors.accentColor,
-            primaryColorDark: AppColors.accentColor,
+      create:(context)=> OrderListModel(),
+          child: ChangeNotifierProvider(
+        create: (context)=>FavouriteListModel(),
+        child: ChangeNotifierProvider(
+          create: (context)=>CartListModel(),
+          child: MaterialApp(
+             theme: new ThemeData(
+              primaryColor: AppColors.accentColor,
+              primaryColorDark: AppColors.accentColor,
+            ),
+            debugShowCheckedModeBanner: false,
+            home:SplashScreen()
           ),
-          debugShowCheckedModeBanner: false,
-          home:SplashScreen()
         ),
       ),
     );

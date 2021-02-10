@@ -9,6 +9,7 @@ import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Pages/CheckOutResult.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -113,24 +114,30 @@ class _CheckOutState extends State<CheckOut> {
     print(result);
     if(result["message"]=="done"){    
          var orderID = result["orderID"]; 
-         razorpayCheckout(widget.totalAmount,orderID);
+         var signature = result["signature"];
+         razorpayCheckout(widget.totalAmount,orderID,signature);
     }else{
-    setState(() {
-      isLoading = false;
-    });
-    Scaffold.of(context).showSnackBar(SnackBar(content:Text(result["message"])));
+      print(result);
+      setState(() {
+        isLoading = false;
+      });
+      if(result["message"]=="closed"){
+        HelperFunctions.showAlertDialog(context,"Oops !","Sorry! Unfortunately we couldn't place this order. You can place order(s) between 12:00 PM to 9:00 PM for the next day.Kindly cooperate with us. We will be improvising our services soon!");
+      }
 
     }
   }
 
-  razorpayCheckout(amount,orderID){
+  razorpayCheckout(amount,orderID,signature){
       var razorpay = Razorpay();
       razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
       razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
       razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+      print("\n\norder id = "+orderID);
       try{
          options["amount"] = amount*100;
          options["order_id"] = orderID;
+        //  options["signature"] = signature;
          razorpay.open(options);
       }catch(e){
         print(e);
@@ -170,7 +177,7 @@ class _CheckOutState extends State<CheckOut> {
 
 
   var options = {
-    'key': 'rzp_test_haMW9Vd119BFk3',
+    'key': 'rzp_live_oO8buRtgSKWLK3',
     'name': 'rMart',
     'description': 'by team initators',
     'prefill': {
@@ -329,7 +336,12 @@ class _CheckOutState extends State<CheckOut> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Image(image: Image.network(cartProduct.product.imageURL).image,fit: BoxFit.scaleDown,width: 60,),
+                      CachedNetworkImage(
+                      width: 60,
+                      imageUrl:cartProduct.product.imageURL,
+                      fit: BoxFit.scaleDown
+                      ),
+                      // Image(image: Image.network(cartProduct.product.imageURL).image,fit: BoxFit.scaleDown,width: 60,),
                       SizedBox(width: 10,),
                       Container(
                         height: 70,

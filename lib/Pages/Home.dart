@@ -71,7 +71,7 @@ class _HomeState extends State<Home> {
                    controller: searchController,
                    cursorColor: AppColors.accentColor,
                    decoration: InputDecoration(
-                     hintText: "what are you looking for",
+                     hintText: "what are you looking for ?",
                      border: OutlineInputBorder(
                       borderSide: BorderSide.none
                        )
@@ -267,7 +267,7 @@ class _HomeState extends State<Home> {
                       child: Center(
                         child:CachedNetworkImage(
                           fit: BoxFit.cover,
-                          imageUrl: ApiContext.profileURL+"rMart@"+UserContext.user.number+".jpg",
+                          imageUrl: ApiContext.profileURL+"/rMart@"+UserContext.user.number+".jpg",
                           placeholder: (context, url) => Image.asset("lib/assets/Images/avatar.webp"),
                           errorWidget: (context, url, error) => Image.asset("lib/assets/Images/avatar.webp"),
                         )

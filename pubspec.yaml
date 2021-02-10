@@ -40,6 +40,7 @@ dependencies:
   jaguar_jwt: ^2.1.6
   razorpay_flutter: ^1.1.0
   pin_code_fields: ^6.1.0
+  socket_io_client: ^0.9.12
 
 dev_dependencies:
   flutter_test:

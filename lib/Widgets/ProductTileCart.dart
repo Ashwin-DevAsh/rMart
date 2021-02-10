@@ -4,6 +4,7 @@ import 'package:RMart/Models/CartProduct.dart';
 import 'package:RMart/Models/Product.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +48,11 @@ class _ProductTileCartState extends State<ProductTileCart> {
             padding: const EdgeInsets.only(left:10.0,right: 10),
             child: Row(
               children: [
-                Image(image: Image.network(widget.cartProduct.product.imageURL).image,height: 100,width: 120,),
+                CachedNetworkImage(
+                  height: 100,width: 120,
+                   imageUrl:widget.cartProduct.product.imageURL,
+                             fit: BoxFit.scaleDown,),
+                // Image(image: Image.network(widget.cartProduct.product.imageURL).image,height: 100,width: 120,),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: Container(

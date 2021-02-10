@@ -29,7 +29,7 @@ class HelperFunctions{
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text('Alert'),
+                  title: Text('Oops !'),
                   content: Text("""You have choosed item from another category are you sure thet you want remove the existing item from the cart"""),
                   actions: <Widget>[
                     new FlatButton(
@@ -45,6 +45,29 @@ class HelperFunctions{
                       },
 
                       child: Text('Yes',style: TextStyle(color: AppColors.accentColor)),
+                    ),
+                  ],
+                );
+              },
+      );
+  }
+
+   static showAlertDialog(context,title,subtitle){
+       return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(title),
+                  content: Text(subtitle),
+                  actions: <Widget>[
+                  
+                    FlatButton(
+                      onPressed: () {
+                           Navigator.of(context).pop(true);
+                                       
+                      },
+
+                      child: Text('OK',style: TextStyle(color: AppColors.accentColor)),
                     ),
                   ],
                 );

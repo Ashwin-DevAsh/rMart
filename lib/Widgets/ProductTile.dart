@@ -7,6 +7,7 @@ import 'package:RMart/Pages/ProductDetails.dart';
 import 'package:RMart/Widgets/AlertHelper.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -53,9 +54,13 @@ class _ProductTileState extends State<ProductTile> {
                       height: 100,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image(
-                            image: Image.network(widget.product.imageURL).image,
-                            fit: BoxFit.scaleDown,)
+                          child:CachedNetworkImage(
+                             fit: BoxFit.scaleDown,
+                              imageUrl:widget.product.imageURL
+                          ),
+                          // child: Image(
+                          //   image: Image.network(widget.product.imageURL).image,
+                          //   fit: BoxFit.scaleDown,)
                       )
                   ),
                 ),

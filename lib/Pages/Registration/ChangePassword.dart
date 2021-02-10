@@ -174,13 +174,17 @@ class _ChangePasswordState extends State<ChangePassword> {
               barrierDismissible: false,
             context: context,
             child: new AlertDialog(
-              title: const Text("Successfully Done !"),
+              title: const Text("Successfully Changed !"),
+              content: Text("Dear user your password has been successfully changed"),
               actions: [
                 new FlatButton(
                   child:  Text("Ok",style: TextStyle(color: AppColors.accentColor),),
                   onPressed: (){
                     Navigator.pop(context);
+                    Future.delayed(Duration(milliseconds: 500),(){
                     Navigator.pop(context);
+
+                    });
                     },
                 ),
               ],

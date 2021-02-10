@@ -1,11 +1,13 @@
 import 'package:RMart/Api/ProductsApi.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
+import 'package:RMart/Models/OrdersListModel.dart';
 import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Pages/OrderDetails.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyOrders extends StatefulWidget {
   @override
@@ -17,68 +19,76 @@ class MyOrdersState extends State<MyOrders> {
   var selectedCategory = 0;
   var isLoaded = true;
 
+  refresh(){
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: FutureBuilder(
-        future: ProductsApi.getMyOrders(),
-        builder: (context, snapshot) {
+      body: Consumer<OrderListModel>(
+          builder:(context,orderNotifier,_)=> FutureBuilder(
+          future: ProductsApi.getMyOrders(),
+          builder: (context, snapshot) {
 
-          if(!snapshot.hasData){
-            return Center(
-            child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),);
-          }
+            if(!snapshot.hasData){
+              return Center(
+              child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),);
+            }
 
-          var orders = snapshot.data;
+            print("My Orders = "+snapshot.data.toString());
 
-          return SafeArea(
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HelperWidgets.getHeader("", (){Navigator.pop(context);}),
-                  Padding(
-                    padding: const EdgeInsets.only(left:20,top: 20),
-                    child: Text("My Orders",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
-                  ),
-                  SizedBox(height:25),
-                  HelperWidgets.getCategory(context, categories, selectedCategory, (index){
-                    setState(() {
-                      selectedCategory = index;
+            var orders = snapshot.data;
 
-                      isLoaded = false;
-                      Future.delayed(Duration(seconds: 1),(){
-                        setState(() {
-                          isLoaded = true;
+            return SafeArea(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HelperWidgets.getHeader("", (){Navigator.pop(context);}),
+                    Padding(
+                      padding: const EdgeInsets.only(left:20,top: 20),
+                      child: Text("My Orders",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
+                    ),
+                    SizedBox(height:25),
+                    HelperWidgets.getCategory(context, categories, selectedCategory, (index){
+                      setState(() {
+                        selectedCategory = index;
+
+                        isLoaded = false;
+                        Future.delayed(Duration(seconds: 1),(){
+                          setState(() {
+                            isLoaded = true;
+                          });
                         });
                       });
-                    });
-                  }),
-                  SizedBox(height:30),
-                  ...getOrderList(orders)
-                ],
+                    }),
+                    SizedBox(height:30),
+                    ...getOrderList(orders,orderNotifier)
+                  ],
+                ),
               ),
-            ),
-          );
-        }
+            );
+          }
+        ),
       ),
     );
   }
 
-  List<Widget> getOrderList(orders){
+  List<Widget> getOrderList(orders,orderNotifier){
     if(isLoaded){
       if(categories[selectedCategory]=="All"){
-      return  List.generate(orders.length, (index) => orderTile(context,orders[index]));  
+      return  List.generate(orders.length, (index) => orderTile(context,orders[index],orderNotifier));  
 
       }else if(categories[selectedCategory]=="Pending"){
         var pendingOrders =orders.where((o)=>o["status"]=="pending").toList();
-        return List.generate(pendingOrders.length, (index) => orderTile(context,pendingOrders[index]));  
+        return List.generate(pendingOrders.length, (index) => orderTile(context,pendingOrders[index],orderNotifier));  
       }else{
         var expOrders =orders.where((o)=>o["status"]!="pending").toList();
-        return List.generate(expOrders.length, (index) => orderTile(context,expOrders[index])); 
+        return List.generate(expOrders.length, (index) => orderTile(context,expOrders[index],orderNotifier)); 
       }
 
     }else{
@@ -92,7 +102,7 @@ class MyOrdersState extends State<MyOrders> {
     }
   }
 
-  static Widget orderTile(context,order){
+  static Widget orderTile(context,order,orderNotifier){
 
     var itemCount = 0;
 
@@ -104,7 +114,7 @@ class MyOrdersState extends State<MyOrders> {
       padding: const EdgeInsets.only(left:20,right: 20,bottom: 20),
       child: GestureDetector(
         onTap: (){
-          HelperFunctions.navigate(context, OrderDetails(order:order));
+          HelperFunctions.navigate(context,OrderDetails(order:order,orderNotifier:orderNotifier));
         },
         child: Material(
           color: AppColors.backgroundColor,
@@ -154,7 +164,7 @@ class MyOrdersState extends State<MyOrders> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Status",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.grey),),
-                              Text(order["status"],style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),)
+                              Text(order["status"].toString().toUpperCase(),style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),)
                             ],
                           ),
                         ),
