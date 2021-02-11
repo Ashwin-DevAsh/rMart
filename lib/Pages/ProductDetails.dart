@@ -134,7 +134,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width/1.5,
+                                width: MediaQuery.of(context).size.width/1.75,
                                 child: Text(
                                   widget.product.productName,
                                     overflow: TextOverflow.ellipsis,maxLines: 1,
@@ -142,7 +142,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                        
                                       fontWeight: FontWeight.w600,
                                       fontSize: 25,
-                                      fontFamily: AppFonts.textFonts,
+                                      // fontFamily: AppFonts.textFonts,
                                       
                                       ),),
                               ),

@@ -15,6 +15,7 @@ import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import '../Extensions/StringExtensions.dart';
 
 import 'Products.dart';
 import 'SearchResult.dart';
@@ -413,7 +414,7 @@ class _HomeState extends State<Home> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(heading,style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(heading.toString().capitalize(),style: TextStyle(fontWeight: FontWeight.bold),),
                         SizedBox(height:5),
                         Container(
                           width: 120,
@@ -460,56 +461,7 @@ class _HomeState extends State<Home> {
         ),
       ),
     )
-      // child: Padding(
-      //   padding: const EdgeInsets.only(bottom:25.0),
-      //   child: Material(
-      //         elevation: 0.5,
-      //         color: AppColors.backgroundColor,
-      //         borderRadius:BorderRadius.circular(20),
-      //         child: Stack(
-      //           children: [
-      //             Container(
-      //               height: 250,
-      //               width: MediaQuery.of(context).size.width/2-30,
-      //               decoration: BoxDecoration(
-      //                   borderRadius:BorderRadius.circular(20) ,
-      //                   border: Border.all(color: Colors.grey.withAlpha(90),width: 0.3)
-      //               ),
-      //               child:Column(
-      //                 crossAxisAlignment: CrossAxisAlignment.center,
-      //                 children: [
-      //                   SizedBox(height: 15,),
-      //                   Text(heading,style: TextStyle(fontWeight: FontWeight.bold),),
-      //                   Expanded(child: Container()),
-      //                   Image(image: Image.asset("lib/assets/Images/Categories/$heading.png").image,width: MediaQuery.of(context).size.width/2-80,),
-      //                   Expanded(child: Container()),
-      //                   Expanded(child: Container()),
-      //                 ],
-      //               ),
-      //             ),
-      //             Container(
-      //               height: 250,
-      //               width: MediaQuery.of(context).size.width/2-30,
-      //               child:Column(
-      //                 crossAxisAlignment: CrossAxisAlignment.start,
-      //                 children: [
-      //                   Expanded(child: Container()),
-      //                   Material(
-      //                     borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomLeft: Radius.circular(20)),
-      //                           color: AppColors.accentColor.withAlpha(20),
-      //                     child: Container(height: 30,width: 70,
-      //                       child: Center(
-      //                         child: Text("${products.length} Items",style: TextStyle(color: AppColors.accentColor,fontSize: 10,fontWeight: FontWeight.bold),),
-      //                       ),
-      //                     ),
-      //                   ),
-      //                 ],
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      // ),
+    
     
     );
   }

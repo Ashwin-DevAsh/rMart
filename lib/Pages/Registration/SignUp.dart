@@ -5,6 +5,7 @@ import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class SignUp extends StatefulWidget {
@@ -28,6 +29,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: WillPopScope(
         onWillPop: (){
           if(isLoading){
@@ -93,7 +95,7 @@ class _SignUpState extends State<SignUp> {
 
             TextField(
               cursorColor: AppColors.accentColor,
-              decoration: new InputDecoration(hintText: "Roll No. / Staff ID"),
+              decoration: new InputDecoration(hintText: "Student ID / Staff ID"),
               controller: collegeID,
             ),
             SizedBox(height: 30),
@@ -137,20 +139,30 @@ class _SignUpState extends State<SignUp> {
 
   Widget getFooter(context) {
     return Container(
-      decoration: BoxDecoration(
-                        borderRadius:BorderRadius.only(topLeft: Radius.circular(20)) ,
-                        border: Border.all(color: Colors.grey.withAlpha(90),width: 0.5)
-                    ),
+      color: AppColors.backgroundColor,
+      // decoration: BoxDecoration(
+      //                   borderRadius:BorderRadius.only(topLeft: Radius.circular(20)) ,
+      //                   border: Border.all(color: Colors.grey.withAlpha(90),width: 0.5)
+      //               ),
       width: MediaQuery.of(context).size.width,
       height: 100,
       child: Material(
+      color: AppColors.backgroundColor,
+
         borderRadius: BorderRadius.only(topLeft:Radius.circular(20)),
-          elevation: 20,
+          // elevation: 20,
               child: Row(children: [
                  SizedBox(width: 20),
-        Text(
-          "Need help?",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        GestureDetector(
+          onTap: (){
+            try{
+                  launch("mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Help");
+            }catch(e){}
+          },
+                  child: Text(
+            "Need help?",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
         ),
           Expanded(child: Center()),
           GestureDetector(
