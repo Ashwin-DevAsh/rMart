@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left:22.5,top: 25),
+            padding: const EdgeInsets.only(left:22.5,top: 25,bottom: 5),
             child: Text("Categories",style: TextStyle(color: AppColors.textColor,fontWeight: FontWeight.bold)),
           ),
           SizedBox(height:20),
@@ -270,6 +270,7 @@ class _HomeState extends State<Home> {
                mainAxisAlignment: MainAxisAlignment.center,
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
+                 SizedBox(height:5),
                   GestureDetector(
                      onTap: (){
                        HelperFunctions.navigate(context, MyOrders());
@@ -373,33 +374,70 @@ class _HomeState extends State<Home> {
         HelperFunctions.navigate(context, Products(heading: heading,products: products,));
       },
       child: Padding(
-        padding: const EdgeInsets.only(bottom:25.0),
-        child: Material(
-              elevation: 0.5,
-              color: AppColors.backgroundColor,
-              borderRadius:BorderRadius.circular(20),
-              child: Stack(
+      padding: const EdgeInsets.only(bottom:20.0),
+      child: Material(
+        color: AppColors.backgroundColor,
+        // shadowColor: AppColors.accentColor,
+        elevation: 0.5,
+        borderRadius: BorderRadius.circular(20),
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius:BorderRadius.circular(20) ,
+                  border: Border.all(color: Colors.grey.withAlpha(90),width: 0.3)
+              ),
+              height: 250,
+              width: MediaQuery.of(context).size.width/2-30,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 250,
-                    width: MediaQuery.of(context).size.width/2-30,
-                    decoration: BoxDecoration(
-                        borderRadius:BorderRadius.circular(20) ,
-                        border: Border.all(color: Colors.grey.withAlpha(90),width: 0.3)
-                    ),
-                    child:Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 15,),
-                        Text(heading,style: TextStyle(fontWeight: FontWeight.bold),),
-                        Expanded(child: Container()),
-                        Image(image: Image.asset("lib/assets/Images/Categories/$heading.png").image,width: MediaQuery.of(context).size.width/2-80,),
-                        Expanded(child: Container()),
-                        Expanded(child: Container()),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.only(top:28.0,bottom: 28,left: 20,right: 20),
+                    child: Container(
+                        color: AppColors.backgroundColor,
+                        height: 90,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image(image: Image.asset("lib/assets/Images/Categories/$heading.png").image)
+                            // child: Image(
+                            //   image: Image.network(widget.product.imageURL).image,
+                            //   fit: BoxFit.scaleDown,)
+                        )
                     ),
                   ),
-                  Container(
+
+                  Padding(
+                    padding: const EdgeInsets.only(left:10,right: 10,top: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(heading,style: TextStyle(fontWeight: FontWeight.bold),),
+                        SizedBox(height:5),
+                        Container(
+                          width: 120,
+                          child: Text("Delivery from 1 am to 7pm",style: TextStyle(fontSize: 10,fontFamily: AppFonts.textFonts,),)),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+            
+
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+
+                ],
+              ),
+            ),
+
+            Container(
                     height: 250,
                     width: MediaQuery.of(context).size.width/2-30,
                     child:Column(
@@ -418,10 +456,61 @@ class _HomeState extends State<Home> {
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
+          ],
+        ),
       ),
+    )
+      // child: Padding(
+      //   padding: const EdgeInsets.only(bottom:25.0),
+      //   child: Material(
+      //         elevation: 0.5,
+      //         color: AppColors.backgroundColor,
+      //         borderRadius:BorderRadius.circular(20),
+      //         child: Stack(
+      //           children: [
+      //             Container(
+      //               height: 250,
+      //               width: MediaQuery.of(context).size.width/2-30,
+      //               decoration: BoxDecoration(
+      //                   borderRadius:BorderRadius.circular(20) ,
+      //                   border: Border.all(color: Colors.grey.withAlpha(90),width: 0.3)
+      //               ),
+      //               child:Column(
+      //                 crossAxisAlignment: CrossAxisAlignment.center,
+      //                 children: [
+      //                   SizedBox(height: 15,),
+      //                   Text(heading,style: TextStyle(fontWeight: FontWeight.bold),),
+      //                   Expanded(child: Container()),
+      //                   Image(image: Image.asset("lib/assets/Images/Categories/$heading.png").image,width: MediaQuery.of(context).size.width/2-80,),
+      //                   Expanded(child: Container()),
+      //                   Expanded(child: Container()),
+      //                 ],
+      //               ),
+      //             ),
+      //             Container(
+      //               height: 250,
+      //               width: MediaQuery.of(context).size.width/2-30,
+      //               child:Column(
+      //                 crossAxisAlignment: CrossAxisAlignment.start,
+      //                 children: [
+      //                   Expanded(child: Container()),
+      //                   Material(
+      //                     borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomLeft: Radius.circular(20)),
+      //                           color: AppColors.accentColor.withAlpha(20),
+      //                     child: Container(height: 30,width: 70,
+      //                       child: Center(
+      //                         child: Text("${products.length} Items",style: TextStyle(color: AppColors.accentColor,fontSize: 10,fontWeight: FontWeight.bold),),
+      //                       ),
+      //                     ),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      // ),
+    
     );
   }
 

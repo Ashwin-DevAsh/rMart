@@ -1,5 +1,6 @@
 import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/CartProduct.dart';
+import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Pages/Merchant.dart';
 import 'package:RMart/Widgets/AlertHelper.dart';
 import 'package:RMart/Widgets/ScaleRoute.dart';
@@ -17,7 +18,7 @@ class HelperFunctions{
   }
 
 
-  static Future<bool> isSameCategory(context, CartListModel cart ,object,count)async{
+  static Future<bool> isSameCategory(context, CartListModel cart ,Product object,count)async{
     var lock = ["breakfast","lunch","snacks"];
     if(!lock.contains(object.category)){
       return true;
@@ -27,7 +28,7 @@ class HelperFunctions{
                 if(await HelperFunctions.showWarning(context,object,i.product.category,object.category)){
                           Future.delayed(Duration(milliseconds: 500),()async{
                             await cart.clear();
-                            await cart.addItem(CartProduct( object, count, object.price)); 
+                            await cart.addItem(CartProduct( object, count, object.price*count)); 
                             AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
                           });
                         }

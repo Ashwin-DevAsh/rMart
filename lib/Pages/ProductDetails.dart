@@ -133,12 +133,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(widget.product.productName,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 25,
-                                    fontFamily: AppFonts.textFonts),),
-                              Text("From ${ProductContext.getOwnerName(widget.product.productOwner)}",
+                              Container(
+                                width: MediaQuery.of(context).size.width/1.5,
+                                child: Text(
+                                  widget.product.productName,
+                                    overflow: TextOverflow.ellipsis,maxLines: 1,
+                                  style: TextStyle(
+                                       
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 25,
+                                      fontFamily: AppFonts.textFonts,
+                                      
+                                      ),),
+                              ),
+                         
+                                Text("From ${ProductContext.getOwnerName(widget.product.productOwner)}",
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey,
@@ -202,7 +211,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   widget.product.price*count,
                                   count
                               ));
-                                  
                                       //  cart.addItem(CartProduct( widget.product, count, widget.product.price*count));
                                       //  AlertHelper.showSuccessSnackBar(context, "Added Successfully");
                                    },
@@ -216,8 +224,9 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                           GestureDetector(
                             onTap: ()async{
+                              
                              if(await HelperFunctions.isSameCategory(context,cart,widget.product,count)){
-                                    cart.addItem(CartProduct( widget.product, count, widget.product.price));
+                                    cart.addItem(CartProduct( widget.product, count, widget.product.price*count));
                                     AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
                              }
                             },

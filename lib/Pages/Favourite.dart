@@ -6,6 +6,7 @@ import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Pages/Explore.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
+import 'package:RMart/assets/AppFonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -138,17 +139,18 @@ class _FavouriteState extends State<Favourite> {
       child: Center(
           child: Column(
             children: [
-              Image(image: Image.asset("lib/assets/Images/foods.png").image,width: MediaQuery.of(context).size.width*0.75,),
-              SizedBox(height: 10,),
+              SizedBox(height: 20,),
+              Image(image: Image.asset("lib/assets/Images/favorites.png").image,width: MediaQuery.of(context).size.width*0.60,),
+              SizedBox(height: 20,),
               Text("Your list is empty",
-                style: TextStyle(fontSize: 12,color: Colors.grey),),
+                style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey),),
               Text("Add something from the menu",
-                  style: TextStyle(fontSize: 12,color: Colors.grey)),
-              SizedBox(height: 30,),
+                  style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey)),
+              SizedBox(height: 10,),
               Material(
-                shadowColor: AppColors.accentColor,
-                elevation: 0.1,
-                color: AppColors.backgroundColor,
+                // shadowColor: AppColors.accentColor,
+                // elevation: 0.1,
+                // color: AppColors.backgroundColor,
                 borderRadius: BorderRadius.circular(5),
                 child: GestureDetector(
                   onTap: (){
@@ -157,14 +159,14 @@ class _FavouriteState extends State<Favourite> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: AppColors.accentColor.withAlpha(20),
-                        borderRadius:BorderRadius.circular(5),
-                        border: Border.all(color: AppColors.accentColor.withAlpha(90),width: 0.3)
+                        color: AppColors.backgroundColor,
+                        // borderRadius:BorderRadius.circular(5),
+                        // border: Border.all(color: AppColors.accentColor.withAlpha(90),width: 0.3)
                     ),
                     height:40,
                     width: MediaQuery.of(context).size.width/2,
                     child: Center(child: Text("Explore",
-                      style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: AppColors.accentColor),)),
+                      style: TextStyle(fontSize: 18,color: AppColors.accentColor,fontWeight: FontWeight.bold),)),
                   ),
                 ),
               )

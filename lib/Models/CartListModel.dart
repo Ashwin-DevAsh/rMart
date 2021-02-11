@@ -17,7 +17,7 @@ class CartListModel extends ChangeNotifier{
   }
 
   addItem(CartProduct cartProduct){
-    if( cart.contains(cartProduct)){
+    if(cart.contains(cartProduct)){
       int position = cart.indexOf(cartProduct);
       cart[position].totalPrice+=cartProduct.totalPrice;
       cart[position].count+=cartProduct.count;
