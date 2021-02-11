@@ -48,9 +48,9 @@ class _SearchResultState extends State<SearchResult> {
            child: Column(
              crossAxisAlignment: CrossAxisAlignment.start,
              children: [
-               HelperWidgets.getHeader("", (){
+               HelperWidgets.getHeader(context,"", (){
                  Navigator.of(context).pop();
-               }),
+               },showShoppingCart: true),
                SizedBox(height:5),
                Padding(
                  padding: const EdgeInsets.only(left:20.0),

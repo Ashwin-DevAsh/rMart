@@ -83,18 +83,10 @@ class _ProductTileState extends State<ProductTile> {
 
                               builder:(context,cart,_)=> GestureDetector(
                                 onTap: ()async{
-                                if(HelperFunctions.isSameCategory(cart.cart, widget.product)){
-                                    cart.addItem(CartProduct( widget.product, 1, widget.product.price));
-                                    AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
-                                  }else{
-                                    if(await HelperFunctions.showWarning(context, cart,widget.product)){
-                                      Future.delayed(Duration(milliseconds: 500),(){
-                                        cart.clear();
-                                        cart.addItem(CartProduct( widget.product, 1, widget.product.price)); 
-                                        AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
-                                      });
+                                    if(await HelperFunctions.isSameCategory(context,cart,widget.product,1)){
+                                          cart.addItem(CartProduct(widget.product, 1, widget.product.price));
+                                          AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
                                     }
-                                  }
                                 },
                                 child: Material(
                                   borderRadius: BorderRadius.circular(10),

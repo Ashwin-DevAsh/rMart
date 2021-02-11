@@ -8,6 +8,7 @@ import 'package:RMart/Models/FavouriteListModel.dart';
 import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Pages/Checkout.dart';
 import 'package:RMart/Widgets/AlertHelper.dart';
+import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -46,7 +47,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    simpleAppBar(),
+                    HelperWidgets.getHeader(context, "", Navigator.of(context).pop,showShoppingCart: true), //simpleAppBar(),
                     Container(
                       height: (MediaQuery.of(context).size.height-300)*0.5,
                       child: CachedNetworkImage(
@@ -193,20 +194,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                                ),
                                Consumer<CartListModel>(
                                  builder:(context,cart,_)=> IconButton(
-                                   icon:Icon(Entypo.shopping_cart, size: 25,color: Colors.grey),
+                                   icon:Image(image: Image.asset("lib/assets/Images/order_now_logo.png").image,height: 30),
+                                  //  Icon(Entypo.shopping_bag,size: 25,color: Colors.grey,), //Image(image: Image.asset("lib/assets/Images/order_now_logo.png").image,height: 30),
                                    onPressed: () async{
-                                      if(HelperFunctions.isSameCategory(cart.cart, widget.product)){
-                                    cart.addItem(CartProduct( widget.product, 1, widget.product.price));
-                                    AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
-                                  }else{
-                                    if(await HelperFunctions.showWarning(context, cart,widget.product)){
-                                      Future.delayed(Duration(milliseconds: 500),(){
-                                        cart.clear();
-                                        cart.addItem(CartProduct( widget.product, 1, widget.product.price)); 
-                                        AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
-                                      });
-                                    }
-                                  }
+                                          HelperFunctions.navigate(context,CheckOut(
+                                  [CartProduct(widget.product, count,widget.product.price*count).toJson()],
+                                  widget.product.price*count,
+                                  count
+                              ));
+                                  
                                       //  cart.addItem(CartProduct( widget.product, count, widget.product.price*count));
                                       //  AlertHelper.showSuccessSnackBar(context, "Added Successfully");
                                    },
@@ -215,15 +211,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                            ],),
                          ),
 
+                          Consumer<CartListModel>(
+                                 builder:(context,cart,_)=>
+
                           GestureDetector(
-                            onTap: (){
-
-                              HelperFunctions.navigate(context,CheckOut(
-                                  [CartProduct(widget.product, count,widget.product.price*count).toJson()],
-                                  widget.product.price*count,
-                                  count
-                              ));
-
+                            onTap: ()async{
+                             if(await HelperFunctions.isSameCategory(context,cart,widget.product,count)){
+                                    cart.addItem(CartProduct( widget.product, count, widget.product.price));
+                                    AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
+                             }
                             },
                             child: Material(
                               elevation: 5,
@@ -232,11 +228,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                               borderRadius: BorderRadius.circular(20),
                               child: Container(
                                 height:40,
-                                child: Center(child: Text("Order Now",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: AppColors.backgroundColor),)),
+                                child: Center(child: Text("Add to cart",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: AppColors.backgroundColor),)),
                                 width: MediaQuery.of(context).size.width/2-50,
                               ),
                             ),
-                          )
+                          ))
                         ],
                       ),
                     ),

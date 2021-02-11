@@ -48,7 +48,7 @@ class MyOrdersState extends State<MyOrders> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HelperWidgets.getHeader("", (){Navigator.pop(context);}),
+                    HelperWidgets.getHeader(context,"", (){Navigator.pop(context);},showShoppingCart: true),
                     Padding(
                       padding: const EdgeInsets.only(left:20,top: 20),
                       child: Text("My Orders",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),

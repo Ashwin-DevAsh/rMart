@@ -94,7 +94,7 @@ class _LoginState extends State<Login> {
   isValidInput(context){
    try{
       int.parse(email.text.toLowerCase().trim());
-      if(email.text.length!=10 ){
+      if(email.text.trim().length!=10 ){
        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
       return false;
     }

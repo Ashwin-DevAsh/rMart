@@ -1,3 +1,4 @@
+import 'package:RMart/Api/ProductsApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
 import 'package:RMart/Context/UserContext.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
+import 'Products.dart';
 import 'SearchResult.dart';
 
 
@@ -119,37 +121,65 @@ class _HomeState extends State<Home> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left:22.5,top: 25),
-            child: Text("Suggestions",style: TextStyle(color: AppColors.textColor,fontWeight: FontWeight.bold)),
+            child: Text("Categories",style: TextStyle(color: AppColors.textColor,fontWeight: FontWeight.bold)),
           ),
           SizedBox(height:20),
           SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
-            child:HelperWidgets.customGridView(ProductContext.suggestions,context,
-                extraTile: Padding(
-              padding: const EdgeInsets.only(bottom:20.0),
+            child: customGridView(ProductsApi.categories, context, extraTile: Padding(
+              padding: const EdgeInsets.only(bottom:25.0),
               child: GestureDetector(
-                onTap: (){
-                  HelperFunctions.navigate(context, Explore());
-                },
-                child: Material(
-                  elevation: 5,
-                  shadowColor: AppColors.accentColor,
-                  color: AppColors.accentColor,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
-                  child: Container(
-                    height:50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Explore",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: AppColors.backgroundColor),),
-                      ],
+                  onTap: (){
+                    HelperFunctions.navigate(context, MyOrders());
+                  },
+                  child: Material(
+                    elevation: 5,
+                    shadowColor: AppColors.accentColor,
+                    color: AppColors.accentColor,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                    child: Container(
+                      height:50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("My Orders",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: AppColors.backgroundColor),),
+                        ],
+                      ),
+                      width: MediaQuery.of(context).size.width/2-10,
                     ),
-                    width: MediaQuery.of(context).size.width/2-10,
                   ),
                 ),
-              ),
-            ))
+            ),)
+            
+            
+      
+            // HelperWidgets.customGridView(ProductContext.suggestions,context,
+            //     extraTile: Padding(
+            //   padding: const EdgeInsets.only(bottom:20.0),
+            //   child: GestureDetector(
+            //     onTap: (){
+            //       HelperFunctions.navigate(context, Explore());
+            //     },
+            //     child: Material(
+            //       elevation: 5,
+            //       shadowColor: AppColors.accentColor,
+            //       color: AppColors.accentColor,
+            //       borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
+            //       child: Container(
+            //         height:50,
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: [
+            //             Text("My Orders",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: AppColors.backgroundColor),),
+            //           ],
+            //         ),
+            //         width: MediaQuery.of(context).size.width/2-10,
+            //       ),
+            //     ),
+            //   ),
+            // ))
+          
           )
         ],
       ),
@@ -219,7 +249,6 @@ class _HomeState extends State<Home> {
                                     ),
                                     Icon(MaterialIcons.arrow_forward,size: 20,)
                               ],)
-
                             ],
                           ),
                         ),
@@ -246,7 +275,7 @@ class _HomeState extends State<Home> {
                        HelperFunctions.navigate(context, MyOrders());
                       //  openBottomSheet();
                      },
-                      child:Icon(MaterialCommunityIcons.hamburger)
+                      child:Image(image: Image.asset("lib/assets/Images/ham_burger.png").image,height: 25,)
                   ),
                   SizedBox(height:15),
                   Text("Let's eat",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w700,fontFamily: AppFonts.textFonts),),
@@ -287,34 +316,114 @@ class _HomeState extends State<Home> {
 
    }
 
-  //  openBottomSheet(){
-  //    showModalBottomSheet(
-  //        isDismissible: false,
-  //        elevation: 10,
-  //        barrierColor: Colors.transparent,
-  //        context: context,
-  //        builder: (context){
-  //          return Container(
-  //            color: AppColors.backgroundColor,
-  //            child: Column(
-  //              crossAxisAlignment: CrossAxisAlignment.start,
-  //              children: [
-  //                Padding(
-  //                  padding: const EdgeInsets.only(top:20,left: 20,bottom: 20),
-  //                  child: Column(
-  //                    crossAxisAlignment: CrossAxisAlignment.start,
-  //                    children: [
-  //                      // Text("Pending",style: TextStyle(fontSize: 35,fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w500),),
-  //                      // Text("Orders",style: TextStyle(fontSize: 25,fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w500),),
 
-  //                    ],
-  //                  ),
-  //                ),
-  //               MyOrdersState.orderTile(context)
+  Widget customGridView(List items,context,{extraTile}){
+    List<Widget> leftSide  = [];
+    List<Widget> rightSide = [];
 
-  //              ],),
-  //          );
-  //        });
-  //  }
+    for(var i =0;i<items.length;i++){
+      if(i%2==0){
+        leftSide.add(
+            Padding(
+              padding: const EdgeInsets.only(left:20.0),
+              child:getTile(items[i]),
+            )
+        );
+      }else{
+        rightSide.add(
+            Padding(
+              padding: const EdgeInsets.only(right:20.0),
+              child: getTile(items[i]),
+            )
+        );
+      }
+    }
+
+    if(extraTile!=null && items.length>0){
+      List<Widget> space = [extraTile];
+      rightSide = space + rightSide;
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width/2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: leftSide,
+          ),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width/2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: rightSide,
+          ),
+        )
+      ],);
+    }
+
+
+   Widget getTile(heading){
+    var products = ProductContext.categoricalProducts[heading];
+    return  GestureDetector(
+      onTap: (){
+        HelperFunctions.navigate(context, Products(heading: heading,products: products,));
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom:25.0),
+        child: Material(
+              elevation: 0.5,
+              color: AppColors.backgroundColor,
+              borderRadius:BorderRadius.circular(20),
+              child: Stack(
+                children: [
+                  Container(
+                    height: 250,
+                    width: MediaQuery.of(context).size.width/2-30,
+                    decoration: BoxDecoration(
+                        borderRadius:BorderRadius.circular(20) ,
+                        border: Border.all(color: Colors.grey.withAlpha(90),width: 0.3)
+                    ),
+                    child:Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 15,),
+                        Text(heading,style: TextStyle(fontWeight: FontWeight.bold),),
+                        Expanded(child: Container()),
+                        Image(image: Image.asset("lib/assets/Images/Categories/$heading.png").image,width: MediaQuery.of(context).size.width/2-80,),
+                        Expanded(child: Container()),
+                        Expanded(child: Container()),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 250,
+                    width: MediaQuery.of(context).size.width/2-30,
+                    child:Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: Container()),
+                        Material(
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                                color: AppColors.accentColor.withAlpha(20),
+                          child: Container(height: 30,width: 70,
+                            child: Center(
+                              child: Text("${products.length} Items",style: TextStyle(color: AppColors.accentColor,fontSize: 10,fontWeight: FontWeight.bold),),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+      ),
+    );
+  }
+
 
 }

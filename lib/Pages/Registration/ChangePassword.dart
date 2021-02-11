@@ -48,7 +48,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
                             child: Column(
                               children: [
-                              HelperWidgets.getHeader("", (){Navigator.pop(context);}),
+                              HelperWidgets.getHeader(context,"", (){Navigator.pop(context);}),
                               SizedBox(height:20),
                               getGreetings(),
                               getTextField(),

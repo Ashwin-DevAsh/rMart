@@ -1,3 +1,4 @@
+import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Pages/Products.dart';
@@ -29,9 +30,9 @@ class _ExploreState extends State<Explore> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                HelperWidgets.getHeader("", (){
+                HelperWidgets.getHeader(context,"", (){
                   Navigator.pop(context);
-                }),
+                },showShoppingCart: true),
 
                 SizedBox(height: 20,),
 
@@ -162,7 +163,7 @@ class _ExploreState extends State<Explore> {
                         SizedBox(height: 15,),
                         Text(heading,style: TextStyle(fontWeight: FontWeight.bold),),
                         Expanded(child: Container()),
-                        Image(image: Image.asset("$imagePath$heading.png").image,width: MediaQuery.of(context).size.width/2-80,),
+                        Image(image: Image.asset("${ApiContext.imagePath}$heading.png").image,width: MediaQuery.of(context).size.width/2-80,),
                         Expanded(child: Container()),
                         Expanded(child: Container()),
                       ],

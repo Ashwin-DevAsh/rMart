@@ -1,4 +1,7 @@
+import 'package:RMart/Models/CartListModel.dart';
+import 'package:RMart/Models/CartProduct.dart';
 import 'package:RMart/Pages/Merchant.dart';
+import 'package:RMart/Widgets/AlertHelper.dart';
 import 'package:RMart/Widgets/ScaleRoute.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,23 +17,33 @@ class HelperFunctions{
   }
 
 
-  static bool isSameCategory(cart,object){
-        for(var i in cart){
-                            if(i.product.category!=object.category){
-                              return false;
-                            }
-                          }
-
-                return true;
+  static Future<bool> isSameCategory(context, CartListModel cart ,object,count)async{
+    var lock = ["breakfast","lunch","snacks"];
+    if(!lock.contains(object.category)){
+      return true;
+    }
+    for(var i in cart.cart){
+            if(lock.contains(i.product.category) && i.product.category!=object.category){
+                if(await HelperFunctions.showWarning(context,object,i.product.category,object.category)){
+                          Future.delayed(Duration(milliseconds: 500),()async{
+                            await cart.clear();
+                            await cart.addItem(CartProduct( object, count, object.price)); 
+                            AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
+                          });
+                        }
+              return false;
+            }
+        }
+       return true;
   }
 
-  static showWarning(context,cart,object){
+  static showWarning(context,object,from,to){
        return showDialog(
               context: context,
               builder: (context) {
                 return AlertDialog(
                   title: Text('Oops !'),
-                  content: Text("""You have choosed item from another category are you sure thet you want remove the existing item from the cart"""),
+                  content: Text("""Your cart contains dishes from $from section. Do you want to discard the selection and add dishes from $to section ?"""),
                   actions: <Widget>[
                     new FlatButton(
                       onPressed: () {

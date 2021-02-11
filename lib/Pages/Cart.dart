@@ -16,8 +16,9 @@ import 'Checkout.dart';
 class Cart extends StatefulWidget {
 
   var callBack;
+  var isFromCartHolder;
 
-  Cart({this.callBack});
+  Cart({this.callBack,this.isFromCartHolder=false});
 
   @override
   _CartState createState() => _CartState();
@@ -35,7 +36,7 @@ class _CartState extends State<Cart> {
               physics: BouncingScrollPhysics(),
               child: Column(
                   children: [
-                    HelperWidgets.getHeader("My Cart",widget.callBack),
+                    HelperWidgets.getHeader(context,"My Cart",widget.callBack),
                     SizedBox(height: 20,),
                     Consumer<CartListModel>(
                       builder: (context,cart,child){
@@ -84,10 +85,10 @@ class _CartState extends State<Cart> {
               color: AppColors.backgroundColor,
               elevation: 5,
               child: Container(
-                height: 160,
+                height: widget.isFromCartHolder?90:160,
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
-                  padding: const EdgeInsets.only(left:20.0,right: 20,bottom: 65),
+                  padding:  EdgeInsets.only(left:20.0,right: 20,bottom: widget.isFromCartHolder?0: 65),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

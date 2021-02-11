@@ -28,9 +28,9 @@ class _ProductsState extends State<Products> {
               children: [
                 Stack(
                   children: [
-                    HelperWidgets.getHeader(widget.heading, (){
+                    HelperWidgets.getHeader(context,widget.heading, (){
                         Navigator.pop(context);
-                    }),
+                    },showShoppingCart: true),
                   ],
                 ),
                 SizedBox(height: 20,),

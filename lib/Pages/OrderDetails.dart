@@ -80,7 +80,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
               
-                HelperWidgets.getHeader("Order ${widget.order["orederid"]}", (){Navigator.pop(context);}),
+                HelperWidgets.getHeader(context,"Order ${widget.order["orederid"]}", (){Navigator.pop(context);},showShoppingCart: true),
 
                 Padding(
                   padding:  EdgeInsets.only(bottom:0 ),

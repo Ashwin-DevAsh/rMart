@@ -28,13 +28,13 @@ class _MerchantState extends State<Merchant> {
   var selectedCategory = 0;
   Map<String,List<Product>> allProducts = {};
   var isLoaded = true;
-  var categories = ["All"];
+  var categories = [];
 
   @override
   void initState() {
     ProductContext.allProducts.forEach((element) {
      if(element.productOwner==widget.merchant){
-         allProducts["All"] = allProducts["All"]==null?[element]:allProducts["All"]+[element];
+        //  allProducts["All"] = allProducts["All"]==null?[element]:allProducts["All"]+[element];
        try{
          allProducts[element.category].add(element);
        }catch(e){
@@ -57,9 +57,9 @@ class _MerchantState extends State<Merchant> {
            child: Column(
              crossAxisAlignment: CrossAxisAlignment.start,
              children: [
-               HelperWidgets.getHeader("", (){
+               HelperWidgets.getHeader(context,"", (){
                  Navigator.of(context).pop();
-               }),
+               },showShoppingCart: true),
                SizedBox(height:5),
                Padding(
                  padding: const EdgeInsets.only(left:20.0),

@@ -41,7 +41,7 @@ class _FavouriteState extends State<Favourite> {
               physics: BouncingScrollPhysics(),
               child: Column(
                   children: [
-                    HelperWidgets.getHeader("Favourites",widget.callBack),
+                    HelperWidgets.getHeader(context,"Favourites",widget.callBack),
                     HelperWidgets.getCategory(context,ProductContext.categories,selectedCategory,(index){
                       setState(() {
                         selectedCategory = index;

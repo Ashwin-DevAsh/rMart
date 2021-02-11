@@ -29,7 +29,7 @@ class _ProfileState extends State<Profile> {
            physics: BouncingScrollPhysics(),
            child: Column(
              children: [
-               HelperWidgets.getHeader("", (){Navigator.pop(context);}),
+               HelperWidgets.getHeader(context,"", (){Navigator.pop(context);}),
 
                getProfile(),
                SizedBox(height: 20,),

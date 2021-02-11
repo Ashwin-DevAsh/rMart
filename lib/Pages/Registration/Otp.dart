@@ -70,7 +70,7 @@ class _OtpState extends State<Otp> {
                   SingleChildScrollView(
                        child: Column(
                          children: [
-                           HelperWidgets.getHeader("", (){}),
+                           HelperWidgets.getHeader(context,"", Navigator.of(context).pop),
 
                              SizedBox(height: 30),
 

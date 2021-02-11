@@ -3,9 +3,13 @@ import 'dart:convert';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
 import 'package:RMart/Context/UserContext.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http ;
 
 class ProductsApi{
+
+  static var categories = ['breakfast','lunch','snacks'];
+  
   static Future<List> getProducts() async{
     var client = http.Client();
      var uriResponse = await client.get(ApiContext.martURL+"/getAllProducts");
@@ -14,7 +18,7 @@ class ProductsApi{
        return [];
      }
      List allProduscts = result["allProducts"];
-     print(result);
+     print("All Produscts = "+result.toString());
      return allProduscts;
   }
 
@@ -47,25 +51,23 @@ class ProductsApi{
       ProductContext.merchantIDMap[ element["id"]]=element;
       ProductContext.merchants.add(element["id"]);
       data[element["id"]]={};
+      categories.forEach((category) {
+           data[element["id"]][category]=[];
+      });
     });
 
-    print("data"+data.toString());
 
 
     products.forEach((element) {
-      try{
-        print("Owenr id"+ element["ownerid"].toString());
-        data[element["ownerid"]][element["category"]].add(element);
-      }catch(e){
-        try{
-           data[element["ownerid"]][element["category"]]=[element];
-        }catch(e){}
-
-      }
+        if(categories.contains(element["category"])){
+            data[element["ownerid"]][element["category"]].add(element);
+        }else{
+          categories.forEach((category) {
+             data[element["ownerid"]][category].add(element);
+          });
+        }
     });
-
     ProductContext.data = data;
     ProductContext.init();
-    print(data);    
   }
 }

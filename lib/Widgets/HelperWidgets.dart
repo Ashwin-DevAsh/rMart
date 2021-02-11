@@ -3,9 +3,12 @@ import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/CartProduct.dart';
 import 'package:RMart/Models/Product.dart';
+import 'package:RMart/Pages/Cart.dart';
+import 'package:RMart/Pages/CartHolder.dart';
 import 'package:RMart/Pages/ProductDetails.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -15,36 +18,89 @@ import 'AlertHelper.dart';
 import 'ProductTile.dart';
 
 class HelperWidgets{
-  static Widget getHeader(heading,callBack){
+  static Widget getHeader(context,heading,callBack,{showShoppingCart=false}){
     return Material(
       color: Colors.transparent,
           child: Padding(
-        padding: const EdgeInsets.only(top: 20,bottom: 20,right: 20),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        padding: const EdgeInsets.only(top: 20,bottom: 20,right: 15),
+        child: Stack(
           children: [
-            GestureDetector(
-              onTap: (){
-                callBack();
-              },
-              child: Material(
-                elevation: 1,
-                color: AppColors.backgroundColor,
-                borderRadius:BorderRadius.only(topRight: Radius.circular(15),bottomRight: Radius.circular(15)),
-                child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius:BorderRadius.only(topRight: Radius.circular(15),bottomRight: Radius.circular(15)) ,
-                        border: Border.all(color: Colors.grey.withAlpha(90),width: 0.3)
+            Container(
+              width: MediaQuery.of(context).size.width,
+                          child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: (){
+                      callBack();
+                    },
+                    child: Material(
+                      elevation: 1,
+                      color: AppColors.backgroundColor,
+                      borderRadius:BorderRadius.only(topRight: Radius.circular(15),bottomRight: Radius.circular(15)),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius:BorderRadius.only(topRight: Radius.circular(15),bottomRight: Radius.circular(15)) ,
+                              border: Border.all(color: Colors.grey.withAlpha(90),width: 0.3)
+                          ),
+                          height:40,
+                          width: 60,
+                          child: Icon(CupertinoIcons.back,size: 20,)),
                     ),
-                    height:40,
-                    width: 60,
-                    child: Icon(CupertinoIcons.back,size: 20,)),
-              ),
+                  ),
+                Text(heading,style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500,fontFamily: AppFonts.textFonts),),
+                SizedBox(width:40),
+                // Expanded(child: Center()),
+    
+              ],),
             ),
-          Text(heading,style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500,fontFamily: AppFonts.textFonts),),
-          SizedBox(width:40),
-        ],),
+        !showShoppingCart?Center():    GestureDetector(
+          onTap:(){
+                                  HelperFunctions.navigate(context, CartHolder());
+
+          },
+
+                  child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+           Expanded(child: Center()),
+                      Consumer<CartListModel>(
+                            builder:(context,cart,_)=>
+
+                       Padding(
+                         padding: const EdgeInsets.only(),
+                         child: Stack(
+                           children: [
+                             Container(
+                               width: 40,
+                               child: Row(
+                                 children: [
+                                   Expanded(child: Center()),
+                                   Material(
+                                     color: Colors.red,
+                                     borderRadius: BorderRadius.circular(7.5),
+                                     child: Container(
+                                       height: 15,width: 15,
+                                       child: Center(child:Text("${cart.cart.length}",style: TextStyle(color: Colors.white,fontSize: 6),)),
+                                       
+                                     ),
+                                   ),
+                                 ],
+                               ),
+                             ),
+                            Padding(
+                              padding: const EdgeInsets.only(top:8.0),
+                              child: Icon(Entypo.shopping_cart, size: 25),
+                            ),
+                           ],
+                         ),
+                       ))
+              ],),
+        )
+         
+          ],
+        ),
       ),
     );
   }
@@ -154,7 +210,12 @@ class HelperWidgets{
                 padding: const EdgeInsets.only(left:10.0,right: 10),
                 child: Row(
                   children: [
-                    Image(image: Image.network(object.imageURL).image,height: 100,width: 120,),
+                    CachedNetworkImage(
+                             fit: BoxFit.scaleDown,
+                              imageUrl:object.imageURL,
+                              height: 100,width: 120,
+                          ),
+                    // Image(image: Image.network(object.imageURL).image,height: 100,width: 120,),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Container(
@@ -204,19 +265,11 @@ class HelperWidgets{
                     children: [
                       GestureDetector(
                         onTap: ()async{
-                          if(HelperFunctions.isSameCategory(cart.cart, object)){
-                             cart.addItem(CartProduct( object, 1, object.price));
-                             AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
-                          }else{
-                             if(await HelperFunctions.showWarning(context, cart,object)){
-                               Future.delayed(Duration(milliseconds: 500),(){
-                                 cart.clear();
-                                 cart.addItem(CartProduct( object, 1, object.price)); 
-                                 AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
-                               });
+                 
+                             if(await HelperFunctions.isSameCategory(context,cart,object,1)){
+                                    cart.addItem(CartProduct(object, 1, object.price));
+                                    AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
                              }
-                          }
-
 
                         },
                         child: Material(

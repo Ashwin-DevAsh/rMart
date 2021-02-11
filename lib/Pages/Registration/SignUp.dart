@@ -53,7 +53,7 @@ class _SignUpState extends State<SignUp> {
 
                             child: Column(
                               children: [
-                              HelperWidgets.getHeader("", (){Navigator.pop(context);}),
+                              HelperWidgets.getHeader(context,"", (){Navigator.pop(context);}),
                               SizedBox(height:20),
                               getGreetings(),
                               getTextField(),
@@ -92,9 +92,8 @@ class _SignUpState extends State<SignUp> {
           
 
             TextField(
-              keyboardType: TextInputType.number,
               cursorColor: AppColors.accentColor,
-              decoration: new InputDecoration(hintText: "College ID (180701038)"),
+              decoration: new InputDecoration(hintText: "Roll No. / Staff ID"),
               controller: collegeID,
             ),
             SizedBox(height: 30),
@@ -234,7 +233,7 @@ class _SignUpState extends State<SignUp> {
       return false;
     }
 
-     if(collegeID.text.length<3){
+     if(collegeID.text.length<2){
        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid College ID"),));
       return false;
     }
@@ -250,11 +249,11 @@ class _SignUpState extends State<SignUp> {
        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
     }
 
-    try{
-      int.parse(collegeID.text);
-    }catch(e){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
-    }
+    // try{
+    //   int.parse(collegeID.text);
+    // }catch(e){
+    //    Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
+    // }
 
     if(password.text.length<8){
        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Password must be atleast 8 character"),));

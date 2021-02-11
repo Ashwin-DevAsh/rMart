@@ -48,7 +48,7 @@ class _CheckOutState extends State<CheckOut> {
           child:  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HelperWidgets.getHeader("Checkout", (){Navigator.pop(context);}),
+              HelperWidgets.getHeader(context,"Checkout", (){Navigator.pop(context);},showShoppingCart: true),
               Padding(
                 padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
                 child: Column(

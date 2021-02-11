@@ -106,6 +106,8 @@ flutter:
     - lib/assets/Images/Categories/snacks.png
     - lib/assets/Images/Categories/soft drinks.png
     - lib/assets/Images/razorpay.png
+    - lib/assets/Images/order_now_logo.png
+    - lib/assets/Images/ham_burger.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
