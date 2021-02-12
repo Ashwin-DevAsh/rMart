@@ -104,13 +104,29 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(child: Container(
-                  height:MediaQuery.of(context).size.height*0.6,
-                  width: MediaQuery.of(context).size.width*0.6,
-                  child: Image(image: Image.asset("lib/assets/Images/martLogo.png").image)),),
+              Expanded(child: Center()),
+              Expanded(child: Center()),
+              Expanded(child: Center()),
+              Expanded(child: Center()),
+              Center(child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                              child: Container(
+                    height: 100,
+                    width: 100,
+                    child: Image(image: Image.asset("lib/assets/Images/mart2.png").image)),
+              ),),
               //
               // Text("from",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,fontSize: 16),),
               // Text("INITIATORS",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w600,fontSize: 18),),
+              Expanded(child: Center()),
+              Expanded(child: Center()),
+              Expanded(child: Center()),
+              Expanded(child: Center()),
+              Expanded(child: Center()),
+              Expanded(child: Center()),
+              Image(image: Image.asset("lib/assets/Images/initiators1.png").image,width: 140,),
+              SizedBox(height:40)
+
 
             ],
 
