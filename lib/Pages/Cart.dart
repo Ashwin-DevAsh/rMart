@@ -152,8 +152,8 @@ class _CartState extends State<Cart> {
               Text("Your basket is empty",
                 style: TextStyle(fontSize: 18,color: AppColors.accentColor,fontWeight: FontWeight.bold),),
               SizedBox(height: 20,),
-              Text("Make your basket happy and",style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey),),
-              Text("add foods to it",style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey))
+              Text("Make your basket happy by",style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey),),
+              Text("adding foods to it",style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey))
 
             ],
           )
