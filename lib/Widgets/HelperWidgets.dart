@@ -211,6 +211,7 @@ class HelperWidgets{
                 child: Row(
                   children: [
                     CachedNetworkImage(
+                       placeholder: (context, url) => Image.asset("lib/assets/Images/image_loading.png"),
                              fit: BoxFit.scaleDown,
                               imageUrl:object.imageURL,
                               height: 100,width: 120,
@@ -225,7 +226,7 @@ class HelperWidgets{
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(object.productName,
-                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,fontFamily: AppFonts.textFonts),),
+                              style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,),),
                             showStoreName?  Text("from ${ProductContext.getOwnerName(object.productOwner)}",
                               style: TextStyle(fontSize: 10,fontWeight: FontWeight.w600,fontFamily: AppFonts.textFonts,color: Colors.grey),):
                             Text( "⭐ ⭐ ⭐ ⭐ ⭐",
@@ -265,12 +266,10 @@ class HelperWidgets{
                     children: [
                       GestureDetector(
                         onTap: ()async{
-                 
                              if(await HelperFunctions.isSameCategory(context,cart,object,1)){
                                     cart.addItem(CartProduct(object, 1, object.price));
                                     AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
                              }
-
                         },
                         child: Material(
                           borderRadius: BorderRadius.only(bottomRight: Radius.circular(20),topLeft: Radius.circular(20)),

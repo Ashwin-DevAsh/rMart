@@ -57,7 +57,13 @@ class _ExploreState extends State<Explore> {
 
                 customGridView(categories, context,extraTile: GestureDetector(
                   onTap: (){
-                    HelperFunctions.navigate(context, Products(heading: "All Products",products: ProductContext.allProducts,));
+                    var filteredProducts = [];
+                    ProductContext.allProducts.forEach((element) { 
+                      if(!filteredProducts.contains(element)){
+                          filteredProducts.add(element);
+                      }
+                    });
+                    HelperFunctions.navigate(context, Products(heading: "All Products",products: filteredProducts,));
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(bottom:20.0,),

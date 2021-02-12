@@ -9,6 +9,11 @@ import 'package:http/http.dart' as http ;
 class ProductsApi{
 
   static var categories = ['breakfast','lunch','snacks'];
+  static var categoryTime = {
+    "breakfast":"Collect from 7:30 AM to 9:50 AM",
+    "lunch":"Collect from 1:30 AM to 2:05 PM",
+    "snacks":"Collect from 9:30 AM - 2:05 PM"
+  };
   
   static Future<List> getProducts() async{
     var client = http.Client();
@@ -48,7 +53,7 @@ class ProductsApi{
     var merchants = await getMerchants();
 
     merchants.forEach((element) { 
-      ProductContext.merchantIDMap[ element["id"]]=element;
+      ProductContext.merchantIDMap[element["id"]]=element;
       ProductContext.merchants.add(element["id"]);
       data[element["id"]]={};
       categories.forEach((category) {
@@ -60,7 +65,8 @@ class ProductsApi{
 
     products.forEach((element) {
         if(categories.contains(element["category"])){
-            data[element["ownerid"]][element["category"]].add(element);
+            data[element["ownerid"]][element["category"]] 
+            .insert(0,element);
         }else{
           categories.forEach((category) {
              data[element["ownerid"]][category].add(element);

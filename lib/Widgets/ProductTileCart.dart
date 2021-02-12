@@ -50,6 +50,7 @@ class _ProductTileCartState extends State<ProductTileCart> {
               children: [
                 CachedNetworkImage(
                   height: 100,width: 120,
+                   placeholder: (context, url) => Image.asset("lib/assets/Images/image_loading.png"),
                    imageUrl:widget.cartProduct.product.imageURL,
                              fit: BoxFit.scaleDown,),
                 // Image(image: Image.network(widget.cartProduct.product.imageURL).image,height: 100,width: 120,),
@@ -63,7 +64,7 @@ class _ProductTileCartState extends State<ProductTileCart> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(widget.cartProduct.product.productName,
-                            style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,fontFamily: AppFonts.textFonts),),
+                            style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
                           Text("from ${ProductContext.getOwnerName(widget.cartProduct.product.productOwner)}",
                             style: TextStyle(fontSize: 10,fontWeight: FontWeight.w600,fontFamily: AppFonts.textFonts,color: Colors.grey),),
                           Padding(

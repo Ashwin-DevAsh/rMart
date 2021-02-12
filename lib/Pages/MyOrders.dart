@@ -15,7 +15,7 @@ class MyOrders extends StatefulWidget {
 }
 
 class MyOrdersState extends State<MyOrders> {
-  var categories = ["All","Pending","Delivered"];
+  var categories = ["Pending","Delivered","Expaired","All"];
   var selectedCategory = 0;
   var isLoaded = true;
 
@@ -86,9 +86,12 @@ class MyOrdersState extends State<MyOrders> {
       }else if(categories[selectedCategory]=="Pending"){
         var pendingOrders =orders.where((o)=>o["status"]=="pending").toList();
         return List.generate(pendingOrders.length, (index) => orderTile(context,pendingOrders[index],orderNotifier));  
-      }else{
-        var expOrders =orders.where((o)=>o["status"]!="pending").toList();
+      }else if(categories[selectedCategory]=="Delivered"){
+        var expOrders =orders.where((o)=>o["status"]!="delivered").toList();
         return List.generate(expOrders.length, (index) => orderTile(context,expOrders[index],orderNotifier)); 
+      }else{
+        var expOrders =orders.where((o)=>o["status"]!="expaired").toList();
+        return List.generate(expOrders.length, (index) => orderTile(context,expOrders[index],orderNotifier));  
       }
 
     }else{

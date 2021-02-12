@@ -375,7 +375,7 @@ class _HomeState extends State<Home> {
         HelperFunctions.navigate(context, Products(heading: heading,products: products,));
       },
       child: Padding(
-      padding: const EdgeInsets.only(bottom:20.0),
+      padding: const EdgeInsets.only(bottom:25.0),
       child: Material(
         color: AppColors.backgroundColor,
         // shadowColor: AppColors.accentColor,
@@ -418,7 +418,7 @@ class _HomeState extends State<Home> {
                         SizedBox(height:5),
                         Container(
                           width: 120,
-                          child: Text("Delivery from 1 am to 7pm",style: TextStyle(fontSize: 10,fontFamily: AppFonts.textFonts,),)),
+                          child: Text(ProductsApi.categoryTime[heading],style: TextStyle(fontSize: 10,fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w500,color: Colors.black.withOpacity(0.7)),)),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: Row(

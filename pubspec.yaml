@@ -112,6 +112,7 @@ flutter:
     - lib/assets/Images/favorites.png
     - lib/assets/Images/bookmark.png
     - lib/assets/Images/favorite_new.png
+    - lib/assets/Images/image_loading.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
