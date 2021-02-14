@@ -1,3 +1,7 @@
+
+
+import 'package:RMart/assets/AppCololrs.dart';
+import 'package:flutter/material.dart';
 import 'package:RMart/Api/RegistrationApi.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Pages/Registration/Otp.dart';
@@ -8,14 +12,12 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-class SignUp extends StatefulWidget {
+class Disclimer extends StatefulWidget {
   @override
-  _SignUpState createState() => _SignUpState();
+  _DisclimerState createState() => _DisclimerState();
 }
 
-class _SignUpState extends State<SignUp> {
-
-
+class _DisclimerState extends State<Disclimer> {
   var shouldHidePassword = true;
 
   var name = TextEditingController();
@@ -156,8 +158,7 @@ class _SignUpState extends State<SignUp> {
         GestureDetector(
           onTap: (){
             try{
-                                                launch("mailto:rpay.support@rajalakshmi.edu.in?subject=rMart Support");
-
+                  launch("mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Help");
             }catch(e){}
           },
                   child: Text(

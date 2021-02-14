@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:sembast/sembast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -88,6 +89,17 @@ class _ProfileState extends State<Profile> {
                          });
                        }
                    ),
+
+                   Divider(),
+
+                    getNormalListTile(
+                       title: "Support",
+                       icon: FontAwesome.support,
+                       onClick: ()async{
+                         launch("mailto:rpay.support@rajalakshmi.edu.in?subject=rMart Support");
+                       }
+                   ),
+
                  ],
                )
              ],

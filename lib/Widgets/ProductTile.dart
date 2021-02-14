@@ -78,7 +78,7 @@ class _ProductTileState extends State<ProductTile> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("Rc ${widget.product.price}",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            Text("Rs ${widget.product.price}",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                             Consumer<CartListModel>(
 
                               builder:(context,cart,_)=> GestureDetector(

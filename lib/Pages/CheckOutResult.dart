@@ -16,9 +16,10 @@ class CheckOutResult extends StatefulWidget {
 
 
   PaymentSuccessResponse response;
+  String category;
 
 
-  CheckOutResult({this.response});
+  CheckOutResult({this.response,this.category});
 
   @override
   _CheckOutResultState createState() => _CheckOutResultState();
@@ -77,7 +78,7 @@ class _CheckOutResultState extends State<CheckOutResult> {
           imagePath: "lib/assets/Images/done.png",
           titleFirstLine: "Thank you for",
           titleSecondLine: "your order",
-          subtitle: "You can get further details in\n the orders section",
+          subtitle: getSubTitle(),
           buttonText: "Visit my orders",
           onButtonTap: (){
             HelperFunctions.navigateReplace(context, MyOrders());
@@ -152,6 +153,30 @@ class _CheckOutResultState extends State<CheckOutResult> {
     );
   }
 
+
+  String getSubTitle(){
+    try{
+      print("category "+widget.category.toString());
+      switch(widget.category){
+        case 'breakfast':{
+          return "You may collect your order during breakfast\n or morning break.";
+        }
+        case 'lunch':{
+          return "You may collect your order during lunch\n or afternoon break.";
+        }
+        case 'snacks':{
+          return "You may collect your order during morning\n break or lunch or afternoon break";
+        }
+        default:{
+          return "You can get further details in\n the orders section";
+        }
+      }
+    }catch(e){
+          print(e);
+          return "You can get further details in\n the orders section";
+    }
+
+  }
 
 
 

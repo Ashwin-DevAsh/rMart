@@ -237,7 +237,7 @@ class HelperWidgets{
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Rc ${object.price}",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 15),)
+                                  Text("Rs ${object.price}",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 15),)
                                 ],
                               ),
                             )

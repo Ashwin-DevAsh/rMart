@@ -193,7 +193,7 @@ class _OtpState extends State<Otp> {
      await StoreRef.main().record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
         Future.delayed(Duration(seconds: 1),(){
    
-      HelperFunctions.navigateReplace(context,MainPage());
+      HelperFunctions.navigateReplace(context,MainPage(shouldShowDisclimer: true,));
     });
   }
 

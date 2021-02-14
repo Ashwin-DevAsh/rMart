@@ -103,7 +103,7 @@ class _CartState extends State<Cart> {
                     ),
                      Padding(
                        padding: const EdgeInsets.only(left:20.0),
-                       child: Text("$totalPrice Rc",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600,fontFamily: AppFonts.textFonts),),
+                       child: Text("$totalPrice Rs",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600,fontFamily: AppFonts.textFonts),),
                      ),
                      Expanded(child: Container(),),
                        GestureDetector(

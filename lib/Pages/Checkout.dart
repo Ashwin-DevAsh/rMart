@@ -11,6 +11,7 @@ import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -115,20 +116,30 @@ class _CheckOutState extends State<CheckOut> {
     if(result["message"]=="done"){    
          var orderID = result["orderID"]; 
          var signature = result["signature"];
-         razorpayCheckout(widget.totalAmount,orderID,signature);
+         var key = result["key_id"];
+         razorpayCheckout(widget.totalAmount,orderID,signature,key);
     }else{
       print(result);
       setState(() {
         isLoading = false;
       });
       if(result["message"]=="closed"){
-        HelperFunctions.showAlertDialog(context,"Oops !","Sorry! Unfortunately we couldn't place this order. You can place order(s) between 12:00 PM to 9:00 PM for the next day.Kindly cooperate with us. We will be improvising our services soon!");
+        HelperFunctions.showAlertDialog(context,"Oops !","Sorry! Unfortunately we couldn't place this order. You can place order(s) between 12:00 PM to 9:00 PM for the next day.Looking forward to your patronage. We will be improvising on our services soon!");
       }
 
     }
   }
 
-  razorpayCheckout(amount,orderID,signature){
+  var options = {
+    'name': 'rMart',
+    'description': 'by team initators',
+    'prefill': {
+      'contact': UserContext.user.number,
+      'email': UserContext.user.email
+    }
+  };
+
+  razorpayCheckout(amount,orderID,signature,key){
       var razorpay = Razorpay();
       razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
       razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -137,6 +148,7 @@ class _CheckOutState extends State<CheckOut> {
       try{
          options["amount"] = amount*100;
          options["order_id"] = orderID;
+         options["key"]=key;
         //  options["signature"] = signature;
          razorpay.open(options);
       }catch(e){
@@ -146,17 +158,21 @@ class _CheckOutState extends State<CheckOut> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-      print("\n\n success = "+response.orderId+response.paymentId);
+        print("\n\n success = "+response.orderId+response.paymentId);
          setState(() {
               isLoading = false;
          });
-
          try{
-           widget.cart.clear();
-         }catch(e){}
-
+            var productMap =  widget.products[0]["product"];
+            try{
+              widget.cart.clear();
+            }catch(e){}
+            HelperFunctions.navigateReplace(context, CheckOutResult(response: response,category:productMap['category']));
          
-      HelperFunctions.navigateReplace(context, CheckOutResult(response: response,));
+         }catch(e){
+           print(e);
+           HelperFunctions.navigateReplace(context, CheckOutResult(response: response,category:null));
+         }
          
   }
 
@@ -176,15 +192,6 @@ class _CheckOutState extends State<CheckOut> {
   }
 
 
-  var options = {
-    'key': 'rzp_live_oO8buRtgSKWLK3',
-    'name': 'rMart',
-    'description': 'by team initators',
-    'prefill': {
-      'contact': UserContext.user.number,
-      'email': UserContext.user.email
-    }
-  };
 
 
  
@@ -221,7 +228,7 @@ class _CheckOutState extends State<CheckOut> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Tax",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                  Text("Discount",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
                   Text("0%",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,),),
                 ],
               ),
@@ -232,8 +239,18 @@ class _CheckOutState extends State<CheckOut> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Subtotal",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
-                  Text("${widget.totalAmount} Rc",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text("Subtotal",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom:2.5,left:5),
+                        child: Text("( inc. of all taxes )",style: TextStyle(fontSize: 10,fontWeight: FontWeight.w600),),
+                      ),
+
+                    ],
+                  ),
+                  Text("${widget.totalAmount} Rs",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
                 ],
               ),
             ),
@@ -247,7 +264,7 @@ class _CheckOutState extends State<CheckOut> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Total",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                  Text("${widget.totalAmount} Rc",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                  Text("${widget.totalAmount} Rs",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                 ],
               ),
             ),
@@ -268,7 +285,7 @@ class _CheckOutState extends State<CheckOut> {
                       height: 60,
                       width: MediaQuery.of(context).size.width,
                       child: Center(
-                        child: Text("Pay Now - Rc ${widget.totalAmount}.00",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+                        child: Text("Pay Now - Rs ${widget.totalAmount}.00",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
                       ),
                     )
                 ),
@@ -375,7 +392,7 @@ class _CheckOutState extends State<CheckOut> {
                         ),
                       ),
                       Expanded(child: Container()),
-                      Text("${cartProduct.totalPrice} Rc",style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text("${cartProduct.totalPrice} Rs",style: TextStyle(fontWeight: FontWeight.bold),),
                       SizedBox(width: 10,)
 
                     ],

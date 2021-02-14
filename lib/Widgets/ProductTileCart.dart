@@ -73,7 +73,7 @@ class _ProductTileCartState extends State<ProductTileCart> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 counterButton(cart),
-                                Text("Rc ${widget.cartProduct.totalPrice}",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 18),)
+                                Text("Rs ${widget.cartProduct.totalPrice}",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 18),)
                               ],
                             ),
                           )

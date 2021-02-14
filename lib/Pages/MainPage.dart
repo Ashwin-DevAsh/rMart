@@ -1,3 +1,4 @@
+import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Pages/Favourite.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -11,11 +12,32 @@ import 'Home.dart';
 
 
 class MainPage extends StatefulWidget {
+  var shouldShowDisclimer;
+
+  MainPage({this.shouldShowDisclimer=false});
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
+
+  @override
+  void initState() {
+    if(widget.shouldShowDisclimer){
+      Future.delayed(Duration(seconds: 2),(){
+        HelperFunctions.showAlertDialog(context, "Disclaimer","The product images shown are for illustration purposes only and may not be an exact representation of the product.\n\n"+
+                                                              "Orders will have to be placed before 9 PM for delivery, the next day.\n\n"+
+                                                              "Orders which are not collected within the scheduled time will expire automatically.\n\n"+
+                                                              "No refund will be issued if the customer fails to collect the product before the token expires.\n\n"+
+                                                              "Orders cannot be cancelled once the order is placed and token is generated.\n\n"+
+                                                              "Exchange of product with different item is not applicable.\n\n"
+
+                      );
+      });
+    }
+
+    super.initState();
+  }
 
 
   var pageIndex = 0;

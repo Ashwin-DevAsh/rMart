@@ -23,6 +23,11 @@ import 'SearchResult.dart';
 
 
 class Home extends StatefulWidget {
+
+  var shouldShowDisclimer = false;
+
+  Home({this.shouldShowDisclimer});
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -388,7 +393,7 @@ class _HomeState extends State<Home> {
                   borderRadius:BorderRadius.circular(20) ,
                   border: Border.all(color: Colors.grey.withAlpha(90),width: 0.3)
               ),
-              height: 250,
+              height: 260,
               width: MediaQuery.of(context).size.width/2-30,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -417,7 +422,7 @@ class _HomeState extends State<Home> {
                         Text(heading.toString().capitalize(),style: TextStyle(fontWeight: FontWeight.bold),),
                         SizedBox(height:5),
                         Container(
-                          width: 120,
+                          width: 130,
                           child: Text(ProductsApi.categoryTime[heading],style: TextStyle(fontSize: 10,fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w500,color: Colors.black.withOpacity(0.7)),)),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
@@ -439,7 +444,7 @@ class _HomeState extends State<Home> {
             ),
 
             Container(
-                    height: 250,
+                    height: 260,
                     width: MediaQuery.of(context).size.width/2-30,
                     child:Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

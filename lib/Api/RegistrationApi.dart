@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:RMart/Context/ApiContext.dart';
+import 'package:RMart/RemoteConfig/FirebaseRemoteConfig.dart';
 import 'package:http/http.dart' as http ;
 
 class RegistrationApi{
@@ -9,10 +10,10 @@ class RegistrationApi{
    static Future<Map> signUp(data) async{
     var body = json.encode(data);
       var uriResponse = await client.post(ApiContext.profileURL+"/signup",
-          headers: {
+        headers: {
+            "key": await FirebaseRempteConfig.getServerKey(),
             "Content-Type": "application/json",
-            
-          },
+        },
           body:body
       );
       Map result = json.decode(uriResponse.body);
@@ -24,7 +25,8 @@ class RegistrationApi{
     print(data);
     var body = json.encode(data);
       var uriResponse = await client.post(ApiContext.profileURL+"/getOtp",
-          headers: {
+         headers: {
+            "key": await FirebaseRempteConfig.getServerKey(),
             "Content-Type": "application/json",
           },
           body:body
@@ -40,6 +42,7 @@ class RegistrationApi{
     var body = json.encode(data);
       var uriResponse = await client.post(ApiContext.profileURL+"/getRecoveryOtp",
           headers: {
+            "key": await FirebaseRempteConfig.getServerKey(),
             "Content-Type": "application/json",
           },
           body:body
@@ -54,6 +57,7 @@ class RegistrationApi{
     var body = json.encode(data);
       var uriResponse = await client.post(ApiContext.profileURL+"/login",
           headers: {
+            "key": await FirebaseRempteConfig.getServerKey(),
             "Content-Type": "application/json",
           },
           body:body
@@ -67,7 +71,8 @@ class RegistrationApi{
     print(data);
     var body = json.encode(data);
       var uriResponse = await client.post(ApiContext.profileURL+"/canLogin",
-          headers: {
+        headers: {
+            "key": await FirebaseRempteConfig.getServerKey(),
             "Content-Type": "application/json",
           },
           body:body

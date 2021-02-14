@@ -84,7 +84,7 @@ class _LoginState extends State<Login> {
        cart: [],favourite: []);
       await StoreRef.main().record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
           Future.delayed(Duration(seconds: 1),(){
-        HelperFunctions.navigateReplace(context,MainPage());
+        HelperFunctions.navigateReplace(context,MainPage(shouldShowDisclimer: true,));
     });
   }
 

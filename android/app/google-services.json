@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "763565690214",
+    "project_id": "rmart-devash",
+    "storage_bucket": "rmart-devash.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763565690214:android:84278a3854179182f38ca7",
+        "android_client_info": {
+          "package_name": "com.DevAsh.RMart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "763565690214-7nnb9g0kh2d4gknc4v95ft01abmfsdut.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.DevAsh.RMart",
+            "certificate_hash": "f1def949bc1d1e15438007c6497f24f7b45c1af3"
+          }
+        },
+        {
+          "client_id": "763565690214-dopb58b8rsbrisand805ih1jf5kq2609.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYShs6JTanzgwkQ5qEQ-dIcWYdDgJRDbU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "763565690214-dopb58b8rsbrisand805ih1jf5kq2609.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

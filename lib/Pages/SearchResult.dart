@@ -19,7 +19,7 @@ class _SearchResultState extends State<SearchResult> {
   var selectedCategory = 0;
   Map<String,List<Product>> allProducts = {};
   var isLoaded = true;
-  var categories = ["All"];
+  var categories = [];
 
   @override
   void initState() {

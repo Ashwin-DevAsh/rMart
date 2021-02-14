@@ -1,4 +1,6 @@
+import 'package:RMart/Api/OrderApi.dart';
 import 'package:RMart/Api/ProductsApi.dart';
+import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/OrdersListModel.dart';
 import 'package:RMart/Models/Product.dart';
@@ -81,16 +83,15 @@ class MyOrdersState extends State<MyOrders> {
   List<Widget> getOrderList(orders,orderNotifier){
     if(isLoaded){
       if(categories[selectedCategory]=="All"){
-      return  List.generate(orders.length, (index) => orderTile(context,orders[index],orderNotifier));  
-
+         return  List.generate(orders.length, (index) => orderTile(context,orders[index],orderNotifier));  
       }else if(categories[selectedCategory]=="Pending"){
         var pendingOrders =orders.where((o)=>o["status"]=="pending").toList();
         return List.generate(pendingOrders.length, (index) => orderTile(context,pendingOrders[index],orderNotifier));  
       }else if(categories[selectedCategory]=="Delivered"){
-        var expOrders =orders.where((o)=>o["status"]!="delivered").toList();
+        var expOrders =orders.where((o)=>o["status"]=="delivered").toList();
         return List.generate(expOrders.length, (index) => orderTile(context,expOrders[index],orderNotifier)); 
       }else{
-        var expOrders =orders.where((o)=>o["status"]!="expired").toList();
+        var expOrders =orders.where((o)=>o["status"]=="expired").toList();
         return List.generate(expOrders.length, (index) => orderTile(context,expOrders[index],orderNotifier));  
       }
 
@@ -117,7 +118,11 @@ class MyOrdersState extends State<MyOrders> {
       padding: const EdgeInsets.only(left:20,right: 20,bottom: 20),
       child: GestureDetector(
         onTap: (){
-          HelperFunctions.navigate(context,OrderDetails(order:order,orderNotifier:orderNotifier));
+          // HelperFunctions.navigate(context,OrderDetails(order:order,orderNotifier:orderNotifier));
+          Navigator.push(context, CupertinoPageRoute(builder: (ctx)=>OrderDetails(order:order,orderNotifier:orderNotifier))).then((value) {
+             orderNotifier.refresh();}
+             );
+
         },
         child: Material(
           color: AppColors.backgroundColor,
@@ -180,7 +185,7 @@ class MyOrdersState extends State<MyOrders> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Time",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.grey),),
-                              Text(order["timestamp"],style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),)
+                              Text(OrderApi.getDate(order["timestamp"]),style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),)
                             ],
                           ),
                         ),

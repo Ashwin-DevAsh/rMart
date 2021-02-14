@@ -163,7 +163,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(top:10),
-                                child: Text("Rc ${widget.product.price * count}",
+                                child: Text("Rs ${widget.product.price * count}",
                                   style:TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.red),),
                               ),
                               Text("⭐ ⭐ ⭐ ⭐ ⭐",

@@ -11,6 +11,7 @@ import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/Widgets/ProductTileCart.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
@@ -41,25 +42,25 @@ class OrderDetails extends StatefulWidget {
 class _OrderDetailsState extends State<OrderDetails> {
 
 
-  connectSocket() async{
-  IO.Socket socket = IO.io('http://${ApiContext.syncURL}/');
+  // connectSocket() async{
+  // IO.Socket socket = IO.io('http://${ApiContext.syncURL}/');
 
-  print(socket.connected);
+  // print(socket.connected);
   
-  socket.onConnect((io) {
-      print('connect ');
-          socket.emit("getInformation",{
-            "id":UserContext.getId
-          });
-      });
+  // socket.onConnect((io) {
+  //     print('connect ');
+  //         socket.emit("getInformation",{
+  //           "id":UserContext.getId
+  //         });
+  //     });
 
-    socket.on('event', (data) => print(data));
-    socket.onDisconnect((_) => print('disconnect'));
-  }
+  //   socket.on('event', (data) => print(data));
+  //   socket.onDisconnect((_) => print('disconnect'));
+  // }
 
   @override
   void initState() {
-    connectSocket();
+    // connectSocket();
     super.initState();
   }
 
@@ -92,7 +93,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         // children: [
                       child: QrImage(
-                            data: (widget.order["orederid"]),
+                            data:(widget.order["orederid"]),
                             version: QrVersions.auto,
                             size: 250.0,
                           ),
@@ -155,7 +156,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Subtotal",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
-                  Text("${widget.totalAmount} Rc",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                  Text("${widget.totalAmount} Rs",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
                 ],
               ),
             ),
@@ -169,7 +170,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Total",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                  Text("${widget.totalAmount} Rc",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                  Text("${widget.totalAmount} Rs",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                 ],
               ),
             ),
@@ -289,7 +290,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         ),
                       ),
                       Expanded(child: Container()),
-                      Text("${cartProduct.totalPrice} Rc",style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text("${cartProduct.totalPrice} Rs",style: TextStyle(fontWeight: FontWeight.bold),),
                       SizedBox(width: 10,)
 
                     ],
@@ -307,14 +308,27 @@ class _OrderDetailsState extends State<OrderDetails> {
 
 
   String getJwt(orderID){
-      final key = 'DevAsh9551574355';
-  final claimSet = new JwtClaim(
-      otherClaims: <String,dynamic>{
-        'orderID': orderID,
-        },
-    );
 
-  String token = issueJwtHS256(claimSet, key);
+    // Create a json web token
+  final jwt = JWT(
+    {
+       'orderID': orderID,
+    },
+    issuer: 'https://github.com/jonasroussel/jsonwebtoken',
+  );
+  var token = jwt.sign(SecretKey('secret passphrase'));
+
+// Sign it (default with HS256 algorithm)
+// var token = jwt.sign(SecretKey('secret passphrase'));
+
+//       final key = 'DevAsh9551574355';
+//     final claimSet = new JwtClaim(
+//       otherClaims: <String,dynamic>{
+//         'orderID': orderID,
+//         },
+//     );
+
+//   String token = issueJwtHS256(claimSet, key);
   return (token);
   }
 }

@@ -3,33 +3,47 @@ import 'dart:convert';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
 import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/RemoteConfig/FirebaseRemoteConfig.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http ;
+import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
 class ProductsApi{
 
   static var categories = ['breakfast','lunch','snacks'];
   static var categoryTime = {
-    "breakfast":"Collect from 7:30 AM to 9:50 AM",
-    "lunch":"Collect from 1:30 AM to 2:05 PM",
-    "snacks":"Collect from 9:30 AM - 2:05 PM"
+    "breakfast":"collect during breakfast or morning break",
+    "lunch":"collect  during lunch or afternoon break.",
+    "snacks":"collect  during morning break or lunch or afternoon break."
   };
   
   static Future<List> getProducts() async{
+     String signature = await SmsRetrieved.getAppSignature();
+     print("App id = "+signature);
     var client = http.Client();
-     var uriResponse = await client.get(ApiContext.martURL+"/getAllProducts");
+     var uriResponse = await client.get(ApiContext.martURL+"/getAllProducts",    
+         headers: {
+            "key": await FirebaseRempteConfig.getServerKey(),
+            "Content-Type": "application/json",
+          },
+          );
      Map result = json.decode(uriResponse.body);
      if(result["message"]!="success"){
        return [];
      }
      List allProduscts = result["allProducts"];
      print("All Produscts = "+result.toString());
+     print("ServerKey = ${await FirebaseRempteConfig.getServerKey()}\n\n");
      return allProduscts;
   }
 
   static Future<List> getMerchants() async{
      var client = http.Client();
-     var uriResponse = await client.get(ApiContext.profileURL+"/getMerchants");
+     var uriResponse = await client.get(ApiContext.profileURL+"/getMerchants",
+        headers: {
+            "key": await FirebaseRempteConfig.getServerKey(),
+            "Content-Type": "application/json",
+          },);
      var result = json.decode(uriResponse.body);  
      print(result);
      return result;
@@ -37,7 +51,10 @@ class ProductsApi{
 
   static getMyOrders() async{
      var client = http.Client();
-     var uriResponse = await client.get(ApiContext.martURL+"/getMyOrders/rMart@"+UserContext.user.number);
+     var uriResponse = await client.get(ApiContext.martURL+"/getMyOrders/rMart@"+UserContext.user.number, headers: {
+            "key": await FirebaseRempteConfig.getServerKey(),
+            "Content-Type": "application/json",
+          },);
      Map result = json.decode(uriResponse.body);
      if(result["message"]!="success"){
        return [];
