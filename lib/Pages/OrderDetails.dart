@@ -37,6 +37,8 @@ class OrderDetails extends StatefulWidget {
       totalAmount+= element["totalPrice"];
       totalItems +=element["count"];
     });
+
+    print(order);
   }
 }
 
@@ -100,7 +102,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         // children: [
                       child: QrImage(
-                            data:(widget.order["orederid"]),
+                            data:(widget.order["qrtoken"]),
                             version: QrVersions.auto,
                             size: 250.0,
                           ),

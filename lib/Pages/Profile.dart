@@ -146,7 +146,7 @@ class _ProfileState extends State<Profile> {
               borderRadius: BorderRadius.circular(30),
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                imageUrl: ApiContext.profileURL+"rMart@"+UserContext.user.number+".jpg",
+                imageUrl: "https://www.google.com/"+"rMart@"+UserContext.user.number+".jpg",
                 placeholder: (context, url) => Image.asset("lib/assets/Images/avatar.webp"),
                 errorWidget: (context, url, error) => Image.asset("lib/assets/Images/avatar.webp"),
               ),

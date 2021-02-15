@@ -158,6 +158,9 @@ class HelperWidgets{
   }
 
   static Widget getCategory(context,categories,selectedCategory,callBack){
+    if(categories.length==0){
+      return Container(height:50);
+    }
     return Container(
       width: MediaQuery.of(context).size.width,
       child: SingleChildScrollView(

@@ -124,7 +124,8 @@ class _CheckOutState extends State<CheckOut> {
         isLoading = false;
       });
       if(result["message"]=="closed"){
-        HelperFunctions.showAlertDialog(context,"Oops !","Sorry! Unfortunately we couldn't place this order. You can place order(s) between 12:00 PM to 9:00 PM for the next day.Looking forward to your patronage. We will be improvising on our services soon!");
+        HelperFunctions.showAlertDialog(context,"Oops !","Sorry! Unfortunately we couldn't place this order.\n\n"+
+                                  "You can place order(s) between 12:00 PM to 9:00 PM for the next day.Looking forward to your patronage. We will be improvising on our services soon!");
       }
 
     }

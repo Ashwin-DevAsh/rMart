@@ -25,7 +25,6 @@ class _SearchResultState extends State<SearchResult> {
   void initState() {
     ProductContext.allProducts.forEach((element) {
      if(element.productName.toLowerCase().replaceAll(" ", "").contains(widget.keyword.toLowerCase().replaceAll(" ", ""))){
-         allProducts["All"] = allProducts["All"]==null?[element]:allProducts["All"]+[element];
        try{
          allProducts[element.category].add(element);
        }catch(e){
@@ -90,6 +89,9 @@ class _SearchResultState extends State<SearchResult> {
 
 
   List<Widget> getProductWidgets(){
+    if(categories.length==0){
+      return [Center()];
+    }
     List products = allProducts[categories[selectedCategory]];
     return isLoaded?
       List.generate(
