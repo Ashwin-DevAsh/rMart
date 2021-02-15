@@ -46,6 +46,7 @@ dependencies:
   firebase_remote_config: "^0.6.0"
   dart_jsonwebtoken: ^1.6.2
   sms_otp_auto_verify: ^1.2.2
+  flutter_windowmanager: ^0.0.2
 
 dev_dependencies:
   flutter_test:

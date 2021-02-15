@@ -24,9 +24,7 @@ import 'SearchResult.dart';
 
 class Home extends StatefulWidget {
 
-  var shouldShowDisclimer = false;
 
-  Home({this.shouldShowDisclimer});
 
   @override
   _HomeState createState() => _HomeState();

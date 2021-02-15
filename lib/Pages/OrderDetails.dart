@@ -14,6 +14,7 @@ import 'package:RMart/assets/AppFonts.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -57,6 +58,12 @@ class _OrderDetailsState extends State<OrderDetails> {
   //   socket.on('event', (data) => print(data));
   //   socket.onDisconnect((_) => print('disconnect'));
   // }
+  Future<void> secureScreen() async {
+      secureScreen();
+      await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE); 
+  }
+
+  
 
   @override
   void initState() {
