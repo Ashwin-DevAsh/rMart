@@ -124,9 +124,11 @@ class _ChangePasswordState extends State<ChangePassword> {
         borderRadius: BorderRadius.only(topLeft:Radius.circular(20)),
               child: Row(children: [
                  SizedBox(width: 20),
-        Text(
-          "Need help?",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        GestureDetector(
+                  child: Text(
+            "Need help?",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
         ),
           Expanded(child: Center()),
           GestureDetector(

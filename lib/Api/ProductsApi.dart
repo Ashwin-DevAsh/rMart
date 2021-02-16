@@ -13,8 +13,8 @@ class ProductsApi{
   static var categories = ['breakfast','lunch','snacks'];
   static var categoryTime = {
     "breakfast":"collect during breakfast or morning break",
-    "lunch":"collect  during lunch or afternoon break.",
-    "snacks":"collect  during morning break or lunch or afternoon break."
+    "lunch":"collect during lunch or afternoon break.",
+    "snacks":"collect during lunch or break."
   };
   
   static Future<List> getProducts() async{

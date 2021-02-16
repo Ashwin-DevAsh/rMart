@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
         isButtonLoading=true;
       });
 
-      var canLogin = await RegistrationApi.canLogin({"phoneNumber":email.text.trim(),"email":email.text.trim()});
+      var canLogin = await RegistrationApi.canLogin({"phoneNumber":email.text.trim().toLowerCase(),"email":email.text.trim()});
 
       if(canLogin["message"]!="done"){
         Scaffold.of(context).showSnackBar(SnackBar(content:Text(canLogin["message"])));
@@ -54,7 +54,7 @@ class _LoginState extends State<Login> {
 
 
       var logindata = {
-        "email":email.text.trim(),
+        "email":email.text.trim().toLowerCase(),
         "phoneNumber":email.text.trim(),
         "password":password.text.trim()
       };    

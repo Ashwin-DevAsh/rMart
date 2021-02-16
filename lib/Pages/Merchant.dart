@@ -1,3 +1,4 @@
+import 'package:RMart/Api/ProductsApi.dart';
 import 'package:RMart/Context/ProductsContext.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/CartListModel.dart';
@@ -9,6 +10,7 @@ import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -28,18 +30,22 @@ class _MerchantState extends State<Merchant> {
   var selectedCategory = 0;
   Map<String,List<Product>> allProducts = {};
   var isLoaded = true;
-  var categories = [];
+  var categories = ProductsApi.categories;
 
   @override
   void initState() {
+    categories.forEach((element) { 
+      allProducts[element]=[];
+    });
     ProductContext.allProducts.forEach((element) {
      if(element.productOwner==widget.merchant){
-        //  allProducts["All"] = allProducts["All"]==null?[element]:allProducts["All"]+[element];
        try{
-         allProducts[element.category].add(element);
+         allProducts[element.category].insert(0,element);
        }catch(e){
-         categories.add(element.category);
-         allProducts[element.category]=[element];
+         categories.forEach((category) {
+           if(!allProducts[category].contains(element))
+            allProducts[category].add(element);           
+         });
        }
 
       }

@@ -96,7 +96,9 @@ class _ProfileState extends State<Profile> {
                        title: "Support",
                        icon: FontAwesome.support,
                        onClick: ()async{
-                         launch("mailto:rpay.support@rajalakshmi.edu.in?subject=rMart Support");
+                         try{
+                         launch("mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Support");
+                         }catch(e){}
                        }
                    ),
 

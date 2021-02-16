@@ -133,7 +133,7 @@ class _CheckOutState extends State<CheckOut> {
 
   var options = {
     'name': 'rMart',
-    'description': 'by team initators',
+    'description': 'by team initiators',
     'prefill': {
       'contact': UserContext.user.number,
       'email': UserContext.user.email

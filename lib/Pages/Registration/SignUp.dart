@@ -154,12 +154,11 @@ class _SignUpState extends State<SignUp> {
               child: Row(children: [
                  SizedBox(width: 20),
         GestureDetector(
-          onTap: (){
-            try{
-                                                launch("mailto:rpay.support@rajalakshmi.edu.in?subject=rMart Support");
-
-            }catch(e){}
-          },
+                onTap: ()async{
+                  try{
+                         launch("mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Support");
+                  }catch(e){}
+                       },
                   child: Text(
             "Need help?",
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -201,13 +200,13 @@ class _SignUpState extends State<SignUp> {
      });
 
       var dataGetOtp = {
-        "email":email.text.trim(),
+        "email":email.text.trim().toLowerCase(),
         "number":phoneNumber.text.trim()
       };
 
 
       var signUpData = {
-        "email":email.text.trim(),
+        "email":email.text.trim().toLowerCase(),
         "phoneNumber":phoneNumber.text.trim(),
         "name":name.text.trim(),
         "collegeID":collegeID.text.trim(),
@@ -216,7 +215,7 @@ class _SignUpState extends State<SignUp> {
 
       var result = await RegistrationApi.getOtp(dataGetOtp);
       if(result["message"]=="done"){
-          HelperFunctions.navigate(context, Otp(signUpdata:signUpData,email: email.text.trim(),number: phoneNumber.text.trim(),isRecoveryOtp: false,));
+          HelperFunctions.navigate(context, Otp(signUpdata:signUpData,email: email.text.trim().toLowerCase(),number: phoneNumber.text.trim(),isRecoveryOtp: false,));
       }else{
         setState(() {
           isLoading=false;

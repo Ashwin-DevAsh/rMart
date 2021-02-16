@@ -32,7 +32,7 @@ class ProductContext{
             }
             for(var i in products){
               print(i);
-              var product = Product( i["productid"], i["productname"],int.parse(i["price"]),ApiContext.productImageURL+i["imageurl"], store, category);
+              var product = Product( i["productid"], i["productname"],int.parse(i["price"]),ApiContext.productImageURL+i["imageurl"], store, i["category"]);
               try{
                 categoricalProducts[category].add(product);
               }catch(e){
