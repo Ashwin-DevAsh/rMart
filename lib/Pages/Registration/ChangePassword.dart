@@ -4,6 +4,7 @@ import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChangePassword extends StatefulWidget {
   var number;
@@ -125,6 +126,11 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Row(children: [
                  SizedBox(width: 20),
         GestureDetector(
+            onTap: ()async{
+              try{
+                         launch("mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Support");
+              }catch(e){}
+                       },
                   child: Text(
             "Need help?",
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
