@@ -123,6 +123,7 @@ flutter:
     - lib/assets/Images/image_loading.png
     - lib/assets/Images/initiators1.png
     - lib/assets/Images/mart2.png
+    - lib/assets/Images/favourits.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

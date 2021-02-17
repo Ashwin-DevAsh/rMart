@@ -139,9 +139,9 @@ class _FavouriteState extends State<Favourite> {
       child: Center(
           child: Column(
             children: [
-              SizedBox(height: 20,),
-              Image(image: Image.asset("lib/assets/Images/favorites.png").image,width: MediaQuery.of(context).size.width*0.60,),
-              SizedBox(height: 20,),
+              SizedBox(height: 40,),
+              Image(image: Image.asset("lib/assets/Images/favourits.png").image,width: MediaQuery.of(context).size.width*0.60,),
+              SizedBox(height: 40,),
               Text("Your list is empty",
                 style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey),),
               Text("Add something from the menu",
