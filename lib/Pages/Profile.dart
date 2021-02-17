@@ -81,7 +81,7 @@ class _ProfileState extends State<Profile> {
 
                    getNormalListTile(
                        title: "Logout",
-                       icon: Feather.log_out,
+                       icon: MaterialIcons.exit_to_app,
                        onClick: ()async{
                          await StoreRef.main().record("User").delete(DataBaseHelper.db);
                          Future.delayed(Duration(seconds: 1),(){
@@ -94,7 +94,7 @@ class _ProfileState extends State<Profile> {
 
                     getNormalListTile(
                        title: "Support",
-                       icon: FontAwesome.support,
+                       icon: MaterialIcons.help_outline,
                        onClick: ()async{
                          try{
                          launch("mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Support");
