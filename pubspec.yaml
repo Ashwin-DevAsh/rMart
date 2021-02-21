@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 3.0.0+3
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -76,31 +76,6 @@ flutter:
     - lib/assets/Images/icon.png
     - lib/assets/Images/avatar.webp
     - lib/assets/Images/pizza.png
-    - lib/assets/Images/Products/burger.png
-    - lib/assets/Images/Products/cappuccino.png
-    - lib/assets/Images/Products/Chappathi.png
-    - lib/assets/Images/Products/chocolate-coffee.png
-    - lib/assets/Images/Products/cold-coffee.png
-    - lib/assets/Images/Products/cup-noodles.png
-    - lib/assets/Images/Products/dosa.png
-    - lib/assets/Images/Products/fried-rice.png
-    - lib/assets/Images/Products/idly.png
-    - lib/assets/Images/Products/lays.png
-    - lib/assets/Images/Products/manchurian.png
-    - lib/assets/Images/Products/mango-juice.png
-    - lib/assets/Images/Products/mint-lime.png
-    - lib/assets/Images/Products/noodles.png
-    - lib/assets/Images/Products/oreo.png
-    - lib/assets/Images/Products/paratha.png
-    #    - lib/assets/Images/Products/Pasta.png
-    - lib/assets/Images/Products/pepsi-can.png
-    - lib/assets/Images/Products/pizza.png
-    - lib/assets/Images/Products/pongal.png
-    - lib/assets/Images/Products/poori.png
-    - lib/assets/Images/Products/puff.png
-    - lib/assets/Images/Products/samosa.png
-    - lib/assets/Images/Products/strawberry-juice.png
-    - lib/assets/Images/Products/veg-sandwich.png
     - lib/assets/Images/martLogo.png
     - lib/assets/Images/burger.png
     - lib/assets/Images/foods.png
@@ -124,6 +99,10 @@ flutter:
     - lib/assets/Images/initiators1.png
     - lib/assets/Images/mart2.png
     - lib/assets/Images/favourits.png
+    - lib/assets/Images/cart2.png
+    - lib/assets/Images/Developers/ashwin.png
+    - lib/assets/Images/Developers/bv.png
+    - lib/assets/Images/Developers/vbrk.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

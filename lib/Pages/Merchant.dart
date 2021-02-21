@@ -40,7 +40,7 @@ class _MerchantState extends State<Merchant> {
     ProductContext.allProducts.forEach((element) {
      if(element.productOwner==widget.merchant){
        try{
-         allProducts[element.category].insert(0,element);
+         allProducts[element.category].add(element);
        }catch(e){
          categories.forEach((category) {
            if(!allProducts[category].contains(element))

@@ -49,6 +49,7 @@ class _OtpState extends State<Otp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       body: WillPopScope(
         onWillPop: (){
           if(widget.isRecoveryOtp){

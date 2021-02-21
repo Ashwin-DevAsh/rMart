@@ -46,14 +46,8 @@ class _ProductsState extends State<Products> {
                   ],
                 ),
                 SizedBox(height: 20,),
-
                 ...getProducts(context)
-                
-                // ...List.generate(
-                //     widget.products.length,
-                //         (index) =>HelperWidgets.productListTile(
-                //             context, widget.products[index],showStoreName: true)
-                // )
+              
               ],
             ),
           ),
@@ -64,36 +58,38 @@ class _ProductsState extends State<Products> {
   List<Widget> getProducts(context){
     print(widget.categoricalProducts);
     List<Widget> widgets = [];
-    widget.categoricalProducts.forEach((key, value) {
-       if(widget.heading!=key) 
-       widgets.add(Row(
-         children: [
-           Padding(
-             padding: const EdgeInsets.only(bottom:30),
-             child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: AppColors.accentColor,width: 3)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left:20,right: 20),
-                        child: Center(
-                          child: Text(key.toString().capitalize(),
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-           ),
-         ],
-       ),);
-
-       value.forEach((element) {
+      widget.products.forEach((element) {
           widgets.add(HelperWidgets.productListTile(
                    context,  element,showStoreName: true));
        });
-
-    });
+    // widget.categoricalProducts.forEach((key, value) {
+      //  if(widget.heading!=key) 
+      //  widgets.add(Row(
+      //    children: [
+      //      Padding(
+      //        padding: const EdgeInsets.only(bottom:30),
+      //        child: Container(
+      //                 height: 50,
+      //                 decoration: BoxDecoration(
+      //                   border: Border(bottom: BorderSide(color: AppColors.accentColor,width: 3)),
+      //                 ),
+      //                 child: Padding(
+      //                   padding: const EdgeInsets.only(left:20,right: 20),
+      //                   child: Center(
+      //                     child: Text(key.toString().capitalize(),
+      //                       style: TextStyle(fontWeight: FontWeight.bold),
+      //                     ),
+      //                   ),
+      //                 ),
+      //               ),
+      //      ),
+      //    ],
+      //  ),);
+    //    value.forEach((element) {
+    //       widgets.add(HelperWidgets.productListTile(
+    //                context,  element,showStoreName: true));
+    //    });
+    // });
 
     return widgets;
 

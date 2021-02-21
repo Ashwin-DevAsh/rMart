@@ -277,7 +277,7 @@ class _HomeState extends State<Home> {
                  SizedBox(height:5),
                   GestureDetector(
                      onTap: (){
-                       HelperFunctions.navigate(context, MyOrders());
+                       HelperFunctions.navigate(context, Explore());
                       //  openBottomSheet();
                      },
                       child:Image(image: Image.asset("lib/assets/Images/ham_burger.png").image,height: 25,)

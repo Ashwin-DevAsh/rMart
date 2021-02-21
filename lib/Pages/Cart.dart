@@ -145,8 +145,8 @@ class _CartState extends State<Cart> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(right:20.0),
-                child: Image(image: Image.asset("lib/assets/Images/cart.png").image,width: MediaQuery.of(context).size.width*0.70,),
+                padding: const EdgeInsets.only(right:20.0,top: 50,bottom: 40),
+                child: Image(image: Image.asset("lib/assets/Images/cart2.png").image,width: MediaQuery.of(context).size.width*0.60,),
               ),
               SizedBox(height: 10,),
               Text("Your basket is empty",

@@ -3,6 +3,7 @@ import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/User.dart';
+import 'package:RMart/Pages/Developers.dart';
 import 'package:RMart/Pages/MyOrders.dart';
 import 'package:RMart/Pages/Registration/Otp.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
@@ -60,15 +61,15 @@ class _ProfileState extends State<Profile> {
 
                    Divider(),
 
-                   getNormalListTile(
-                       title: "My Orders",
-                       icon:MaterialCommunityIcons.history,
-                       onClick: (){
-                         HelperFunctions.navigate(context, MyOrders());
-                       }),
+                  //  getNormalListTile(
+                  //      title: "My Orders",
+                  //      icon:MaterialCommunityIcons.history,
+                  //      onClick: (){
+                  //        HelperFunctions.navigate(context, MyOrders());
+                  //      }),
             
 
-                   Divider(),
+                  //  Divider(),
                   getNormalListTile(
                        title: "Password Recovery",
                        icon:MaterialCommunityIcons.lock_outline,
@@ -91,6 +92,18 @@ class _ProfileState extends State<Profile> {
                    ),
 
                    Divider(),
+
+                  getNormalListTile(
+                       title: "Developers",
+                       icon: MaterialIcons.developer_mode,
+                       onClick: ()async{
+                         try{
+                           HelperFunctions.navigate(context, Developers());
+                         }catch(e){}
+                       }
+                   ),
+
+                   
 
                     getNormalListTile(
                        title: "Support",
@@ -166,7 +179,6 @@ class _ProfileState extends State<Profile> {
         ],
       ),
     );
-
   }
 
 }
