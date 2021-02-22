@@ -44,7 +44,11 @@ class ProductsApi{
             "key": await FirebaseRempteConfig.getServerKey(),
             "Content-Type": "application/json",
           },);
-     var result = json.decode(uriResponse.body);  
+     var result = json.decode(uriResponse.body);
+     try{
+       result["message"];
+       return [];
+     }  catch(e){}
      print(result);
      return result;
   }

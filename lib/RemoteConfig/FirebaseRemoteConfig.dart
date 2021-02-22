@@ -12,17 +12,8 @@ class FirebaseRempteConfig{
       server_key = await storage.read(key: "server_key");
       print("From aes "+server_key.toString());
       if(server_key==null || server_key=="null"){
-        // final RemoteConfig remoteConfig = await RemoteConfig.instance;
-        // final defaults = <String, dynamic>{'server_key': "null"};
-        // await remoteConfig.setDefaults(defaults);
-        // await remoteConfig.fetch(expiration: const Duration(hours: 1));
-        // await remoteConfig.activateFetched();
-        // server_key = remoteConfig.getString('server_key');
-
-        // FirebaseApp secondaryApp = Firebase.app('core/RrMart');
-        // FirebaseFirestore firestore = FirebaseFirestore.instanceFor(app: secondaryApp);
         var keys = await FirebaseFirestore.instance.collection('keys').doc("zIVwOruoZVGecJhlSdc5").get();
-        var server_key = keys["server_key"];
+        server_key = keys["server_key"];
         await storage.write(key: "server_key", value: server_key);
         return server_key;
       }else{
@@ -31,4 +22,13 @@ class FirebaseRempteConfig{
 
      }
   
+    static reloadKeys()async{
+        print("reloaded");
+        final storage = new FlutterSecureStorage();
+        var keys = await FirebaseFirestore.instance.collection('keys').doc("zIVwOruoZVGecJhlSdc5").get();
+        server_key = keys["server_key"];
+        await storage.delete(key: "server_key");
+        await storage.write(key: "server_key", value: server_key);
+        return server_key;
+     }
 }

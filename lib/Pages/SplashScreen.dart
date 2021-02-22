@@ -1,4 +1,6 @@
 import 'package:RMart/Api/ProductsApi.dart';
+import 'package:RMart/Api/RegistrationApi.dart';
+import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
 import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Database/Appdatabase.dart';
@@ -8,7 +10,9 @@ import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/FavouriteListModel.dart';
 import 'package:RMart/Models/User.dart';
 import 'package:RMart/Pages/Registration/Login.dart';
+import 'package:RMart/RemoteConfig/FirebaseRemoteConfig.dart';
 import 'package:RMart/assets/AppCololrs.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen> {
     await ProductsApi.loadDatas();
     await getDatabaseInstance();
     await isUserExist();
-
   }
 
   void openHomePage(BuildContext context){
@@ -55,12 +58,25 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void isUserExist() async {
+    
     bool userExist = await DataBaseHelper.store.record("User").exists(DataBaseHelper.db);
+  
+
     if(userExist){
        UserContext.user =  User.fromMap(await DataBaseHelper.store.record("User").get(DataBaseHelper.db));
-       openHomePage(context);
-      
+       bool isValidKeys = (await RegistrationApi.checkKeys())["message"]=="success";
+       if(isValidKeys){
+           openHomePage(context);
+       }else{
+          await DataBaseHelper.store.record("User").delete(DataBaseHelper.db);
+          await FirebaseRempteConfig.reloadKeys();
+          Future.delayed(Duration(seconds: 1),(){
+            HelperFunctions.navigateReplace(context, Login());
+          }); 
+       }
     }else{
+        await DataBaseHelper.store.record("User").delete(DataBaseHelper.db);
+        await FirebaseRempteConfig.reloadKeys();
         Future.delayed(Duration(seconds: 1),(){
            HelperFunctions.navigateReplace(context, Login());
         });
