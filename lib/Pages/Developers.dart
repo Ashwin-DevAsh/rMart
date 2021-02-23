@@ -26,17 +26,17 @@ class _DevelopersState extends State<Developers> {
           'website':'https://www.devash.tech'
         },
         {
-          'name':'Bharat version',
+          'name':'Bharat varshan',
           'description':'CSE A 2018 - 2022',
           'image':'lib/assets/Images/Developers/bv.png',
-          'website':'https://www.bharatversion.me'
+          'website':'https://www.bharatvarshan.me'
 
         },
         {
           'name':'Barath raj kumaran',
           'description':'CSE A 2018 - 2022',
           'image':'lib/assets/Images/Developers/vbrk.png',
-          'website':'https://www.vbrk.me'
+          'website':'https://www.vbrk.tech'
 
         }
   ];

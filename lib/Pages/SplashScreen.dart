@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void openHomePage(BuildContext context){
     loadContextData();
-    Future.delayed(Duration(seconds: 1),(){
+    Future.delayed(Duration(seconds: 0),(){
       HelperFunctions.navigateReplace(context,MainPage());
     });
   }
@@ -70,14 +70,14 @@ class _SplashScreenState extends State<SplashScreen> {
        }else{
           await DataBaseHelper.store.record("User").delete(DataBaseHelper.db);
           await FirebaseRempteConfig.reloadKeys();
-          Future.delayed(Duration(seconds: 1),(){
+          Future.delayed(Duration(seconds: 0),(){
             HelperFunctions.navigateReplace(context, Login());
           }); 
        }
     }else{
         await DataBaseHelper.store.record("User").delete(DataBaseHelper.db);
         await FirebaseRempteConfig.reloadKeys();
-        Future.delayed(Duration(seconds: 1),(){
+        Future.delayed(Duration(seconds: 0),(){
            HelperFunctions.navigateReplace(context, Login());
         });
     }

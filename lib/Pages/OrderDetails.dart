@@ -153,7 +153,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Tax",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                  Text("Discount",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
                   Text("0%",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,),),
                 ],
               ),
@@ -164,7 +164,17 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Subtotal",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                      Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text("Subtotal",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom:2.5,left:5),
+                        child: Text("( inc. of all taxes )",style: TextStyle(fontSize: 10,fontWeight: FontWeight.w600),),
+                      ),
+
+                    ],
+                  ),
                   Text("${widget.totalAmount} Rs",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
                 ],
               ),

@@ -8,8 +8,12 @@ class DeveloperProfile extends StatefulWidget {
 class _DeveloperProfileState extends State<DeveloperProfile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Scaffold(
+        body: SafeArea(
+                  child: SingleChildScrollView(
+              
+          ),
+        ),
     );
   }
 }

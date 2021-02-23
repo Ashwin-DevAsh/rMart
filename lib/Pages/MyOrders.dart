@@ -120,7 +120,8 @@ class MyOrdersState extends State<MyOrders> {
         onTap: (){
           // HelperFunctions.navigate(context,OrderDetails(order:order,orderNotifier:orderNotifier));
           Navigator.push(context, CupertinoPageRoute(builder: (ctx)=>OrderDetails(order:order,orderNotifier:orderNotifier))).then((value) {
-             orderNotifier.refresh();}
+             orderNotifier.refresh();
+             }
              );
 
         },
