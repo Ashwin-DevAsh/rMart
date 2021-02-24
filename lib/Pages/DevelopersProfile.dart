@@ -67,10 +67,8 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
                 getNormalListTile(title:"Instagram",icon:MaterialCommunityIcons.instagram,subtitle: widget.developer["instagram"],onClick:(){
                   launch(widget.developer["instagram"]);
                 }),
-         
-
-
-
+                
+                SizedBox(height:50)
             ],),    
           ),
         ),
@@ -90,16 +88,22 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
             width: MediaQuery.of(context).size.width,
             height:MediaQuery.of(context).size.height/2,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                IconButton(icon: Icon(CupertinoIcons.back,color: Colors.white.withOpacity(0.9),), onPressed: Navigator.of(context).pop),
+                Expanded(child: Center(),),
                 Padding(
                   padding: const EdgeInsets.only(left:15.0),
-                  child: Text(widget.developer["name"],style: TextStyle(color: Colors.white.withOpacity(1),fontSize: 45),),
+                  child: Text(widget.developer["name"].trim(),style: TextStyle(color: Colors.white.withOpacity(1),fontSize: 45,),),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left:15,bottom:8),
-                  child: Text(widget.developer["description"],style: TextStyle(color: Colors.white.withOpacity(1),fontSize: 10),),
+                Row(
+                  children: [
+                    Expanded(child: Center(),),
+                    Padding(
+                      padding: const EdgeInsets.only(left:15,bottom:8,right: 15),
+                      child: Text("~ "+widget.developer["description"].trim(),style: TextStyle(color: Colors.white.withOpacity(1),fontSize: 10),),
+                    ),
+                  ],
                 )
             ],)
         ),
