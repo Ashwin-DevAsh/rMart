@@ -203,16 +203,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                ),
                                Consumer<CartListModel>(
                                  builder:(context,cart,_)=> IconButton(
-                                   icon:Image(image: Image.asset("lib/assets/Images/order_now_logo.png").image,height: 30),
-                                  //  Icon(Entypo.shopping_bag,size: 25,color: Colors.grey,), //Image(image: Image.asset("lib/assets/Images/order_now_logo.png").image,height: 30),
+                                  //  icon:Image(image: Image.asset("lib/assets/Images/order_now_logo.png").image,height: 30),
+                                  icon: Icon(Entypo.shopping_cart,size: 22.5,color: Colors.grey,), //Image(image: Image.asset("lib/assets/Images/order_now_logo.png").image,height: 30),
                                    onPressed: () async{
-                                          HelperFunctions.navigate(context,CheckOut(
-                                  [CartProduct(widget.product, count,widget.product.price*count).toJson()],
-                                  widget.product.price*count,
-                                  count
-                              ));
-                                      //  cart.addItem(CartProduct( widget.product, count, widget.product.price*count));
-                                      //  AlertHelper.showSuccessSnackBar(context, "Added Successfully");
+                                        if(await HelperFunctions.isSameCategory(context,cart,widget.product,count)){
+                                                cart.addItem(CartProduct( widget.product, count, widget.product.price*count));
+                                                AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
+                                        }
                                    },
                                  ),
                                ),
@@ -224,11 +221,12 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                           GestureDetector(
                             onTap: ()async{
-                              
-                             if(await HelperFunctions.isSameCategory(context,cart,widget.product,count)){
-                                    cart.addItem(CartProduct( widget.product, count, widget.product.price*count));
-                                    AlertHelper.showSuccessSnackBar(context, "Added Successfully !");
-                             }
+
+                                HelperFunctions.navigate(context,CheckOut(
+                                    [CartProduct(widget.product, count,widget.product.price*count).toJson()],
+                                    widget.product.price*count,
+                                    count
+                                ));
                             },
                             child: Material(
                               elevation: 5,
@@ -237,7 +235,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               borderRadius: BorderRadius.circular(20),
                               child: Container(
                                 height:40,
-                                child: Center(child: Text("Add to cart",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: AppColors.backgroundColor),)),
+                                child: Center(child: Text("Order Now",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: AppColors.backgroundColor),)),
                                 width: MediaQuery.of(context).size.width/2-50,
                               ),
                             ),

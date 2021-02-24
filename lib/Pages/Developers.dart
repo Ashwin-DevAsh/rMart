@@ -1,8 +1,11 @@
 import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'DevelopersProfile.dart';
 
 class Developers extends StatefulWidget {
   @override
@@ -23,20 +26,35 @@ class _DevelopersState extends State<Developers> {
           'name':'Ashwin',
           'description':'CSE A 2018 - 2022',
           'image':'lib/assets/Images/Developers/ashwin.png',
-          'website':'https://www.devash.tech'
+          'website':'https://www.DevAsh.tech/',
+          'github':'https://www.github.com/Ashwin-DevAsh',
+          'instagram':'https://www.instagram.com/_ash_win___/',
+          'whatsapp':'9551574355',
+          'linkedin':'https://www.linkedin.com/in/ashwin-r-a7234017a/'
+
         },
         {
           'name':'Bharat varshan',
           'description':'CSE A 2018 - 2022',
           'image':'lib/assets/Images/Developers/bv.png',
-          'website':'https://www.bharatvarshan.me'
+          'website':'https://www.bharatvarshan.me',
+          'github':'https://github.com/bharatvarshan/',
+          'instagram':'https://www.instagram.com/happy._._.pixels_/',
+          'whatsapp':'9703681102',
+          'linkedin':'https://www.linkedin.com/in/bharatvarshan/'
+
 
         },
         {
           'name':'Barath raj kumaran',
           'description':'CSE A 2018 - 2022',
           'image':'lib/assets/Images/Developers/vbrk.png',
-          'website':'https://www.vbrk.tech'
+          'website':'https://www.vbrk.tech',
+          'github':'https://github.com/barathraj2612',
+          'instagram':'https://www.instagram.com/_rath_raj_/',
+          'whatsapp':'9840176511',
+          'linkedin':'https://www.linkedin.com/in/barath-raj-kumaran-vijayakumar-212844177'
+
 
         }
   ];
@@ -64,7 +82,7 @@ class _DevelopersState extends State<Developers> {
                      getTitle("Developers"),
                      ...List.generate(developers.length, (index){
 
-                       return getProfile(developers[index]['name'], developers[index]['description'],developers[index]['image'],developers[index]['website']);
+                       return getProfile(developers[index]['name'], developers[index]['description'],developers[index]['image'],developers[index]['website'],developers[index]);
 
                      })
 
@@ -132,12 +150,13 @@ class _DevelopersState extends State<Developers> {
   }
 
 
-  Widget getProfile(title,subtitle,imagePath,website){
+  Widget getProfile(title,subtitle,imagePath,website,devObject){
     return Padding(
       padding: const EdgeInsets.only(left:20,right: 20,top: 10,bottom: 15),
       child: GestureDetector(
         onTap: (){
-          launch(website);
+          HelperFunctions.navigate(context, DeveloperProfile(developer: devObject,));
+          // launch(website);
         },
               child: Material(
            color: AppColors.backgroundColor,
@@ -163,8 +182,8 @@ class _DevelopersState extends State<Developers> {
                       borderRadius: BorderRadius.circular(30),
                       child: Image(
                         
-                        fit: BoxFit.cover,
-                        image:  Image.asset(imagePath).image,
+                        fit:BoxFit.scaleDown,
+                        image:Image.asset(imagePath).image,
                       ),
                     ) ,
               ),
@@ -185,4 +204,6 @@ class _DevelopersState extends State<Developers> {
       ),
     );
   }
+
+  
 }

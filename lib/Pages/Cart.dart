@@ -8,8 +8,10 @@ import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 
+import 'CartHolder.dart';
 import 'Checkout.dart';
 
 
@@ -36,7 +38,7 @@ class _CartState extends State<Cart> {
               physics: BouncingScrollPhysics(),
               child: Column(
                   children: [
-                    HelperWidgets.getHeader(context,"My Cart",widget.callBack),
+                    getHeader(context,"My Cart",widget.callBack),
                     SizedBox(height: 20,),
                     Consumer<CartListModel>(
                       builder: (context,cart,child){
@@ -159,6 +161,113 @@ class _CartState extends State<Cart> {
           )
       ),
     );
+  }
+
+
+   Widget getHeader(context,heading,callBack,{showShoppingCart=false}){
+    return Consumer<CartListModel>(
+      builder: (context, cart,_) {
+        return Material(
+          color: Colors.transparent,
+              child: Padding(
+            padding: const EdgeInsets.only(top: 20,bottom: 20,right: 15),
+            child: Stack(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                              child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          callBack();
+                        },
+                        child: Material(
+                          elevation: 1,
+                          color: AppColors.backgroundColor,
+                          borderRadius:BorderRadius.only(topRight: Radius.circular(15),bottomRight: Radius.circular(15)),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:BorderRadius.only(topRight: Radius.circular(15),bottomRight: Radius.circular(15)) ,
+                                  border: Border.all(color: Colors.grey.withAlpha(90),width: 0.3)
+                              ),
+                              height:40,
+                              width: 60,
+                              child: Icon(CupertinoIcons.back,size: 20,)),
+                        ),
+                      ),
+                    Text(heading,style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500,fontFamily: AppFonts.textFonts),),
+                    SizedBox(width:40),
+                    // Expanded(child: Center()),
+        
+                  ],),
+                ),
+              cart.cart.length==0?Center():  Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [Expanded(child: Center()),
+               
+
+                    GestureDetector(
+                      onTap: (){
+                        clearCart(cart,context);
+                      },
+                                      child: Padding(
+                        padding: const EdgeInsets.only(),
+                        child: Stack(
+                          children: [
+                       
+                           Padding(
+                             padding: const EdgeInsets.only(top:5),
+                             child: Icon(MaterialIcons.delete, size: 27.5),
+                           ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],)
+             
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  clearCart(CartListModel cart,context){
+       showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Delete cart"),
+                  content: Text("All the items in the cart will be removed. Are you sure you want to delete the cart?"),
+                  actions: <Widget>[
+                         FlatButton(
+                      onPressed: () {
+                           Navigator.of(context).pop(true);
+                                       
+                      },
+
+                      child: Text('NO',style: TextStyle(color: AppColors.accentColor)),
+                    ),
+                  
+                    FlatButton(
+                      onPressed: () {
+                         Future.delayed(Duration(milliseconds: 500),(){
+                                                      cart.clear();
+
+                         });
+                            Navigator.of(context).pop(true);
+                                       
+                      },
+
+                      child: Text('YES',style: TextStyle(color: AppColors.accentColor)),
+                    ),
+                  ],
+                );
+              },
+      );
   }
 
 }

@@ -84,10 +84,7 @@ class _ProfileState extends State<Profile> {
                        title: "Logout",
                        icon: MaterialIcons.exit_to_app,
                        onClick: ()async{
-                         await StoreRef.main().record("User").delete(DataBaseHelper.db);
-                         Future.delayed(Duration(seconds: 1),(){
-                           SystemNavigator.pop(animated: true);
-                         });
+                             logout(context);
                        }
                    ),
 
@@ -95,7 +92,7 @@ class _ProfileState extends State<Profile> {
 
                   getNormalListTile(
                        title: "Developers",
-                       icon: MaterialIcons.developer_mode,
+                       icon: Entypo.code,
                        onClick: ()async{
                          try{
                            HelperFunctions.navigate(context, Developers());
@@ -179,6 +176,42 @@ class _ProfileState extends State<Profile> {
         ],
       ),
     );
+  }
+
+
+    logout(context){
+       showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Logout"),
+                  content: Text("Are you sure you want to logout?"),
+                  actions: <Widget>[
+                         FlatButton(
+                      onPressed: () {
+                           Navigator.of(context).pop(true);
+                                       
+                      },
+
+                      child: Text('NO',style: TextStyle(color: AppColors.accentColor)),
+                    ),
+                  
+                    FlatButton(
+                      onPressed: () async{
+                          await StoreRef.main().record("User").delete(DataBaseHelper.db);
+                         Future.delayed(Duration(milliseconds: 500),(){
+                           SystemNavigator.pop(animated: true);
+                         });
+                         Navigator.of(context).pop(true);
+                                       
+                      },
+
+                      child: Text('YES',style: TextStyle(color: AppColors.accentColor)),
+                    ),
+                  ],
+                );
+              },
+      );
   }
 
 }

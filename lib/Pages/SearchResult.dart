@@ -1,9 +1,12 @@
 import 'package:RMart/Context/ProductsContext.dart';
+import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
 import 'package:flutter/material.dart';
+
+import 'Explore.dart';
 
 class SearchResult extends StatefulWidget {
 
@@ -80,7 +83,7 @@ class _SearchResultState extends State<SearchResult> {
                  });
                }),
                SizedBox(height:30),
-             ]+getProductWidgets(),
+             ]+ (categories.isEmpty?[getEmptyWidget()]: getProductWidgets()),
            ),
         ),
       ),
@@ -107,4 +110,48 @@ class _SearchResultState extends State<SearchResult> {
     ];
 
   }
+
+
+    Widget getEmptyWidget(){
+    return  Padding(
+      padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.02),
+      child: Center(
+          child: Column(
+            children: [
+              Image(image: Image.asset("lib/assets/Images/search_result.png").image,width: MediaQuery.of(context).size.width*0.60,),
+              SizedBox(height: 40,),
+              Text("No results found",
+                style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey),),
+              Text("Tap explore to find more items",
+                  style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey)),
+              SizedBox(height: 10,),
+              Material(
+                // shadowColor: AppColors.accentColor,
+                // elevation: 0.1,
+                // color: AppColors.backgroundColor,
+                borderRadius: BorderRadius.circular(5),
+                child: GestureDetector(
+                  onTap: (){
+                    HelperFunctions.navigate(context, Explore());
+
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: AppColors.backgroundColor,
+                        // borderRadius:BorderRadius.circular(5),
+                        // border: Border.all(color: AppColors.accentColor.withAlpha(90),width: 0.3)
+                    ),
+                    height:40,
+                    width: MediaQuery.of(context).size.width/2,
+                    child: Center(child: Text("Explore",
+                      style: TextStyle(fontSize: 18,color: AppColors.accentColor,fontWeight: FontWeight.bold),)),
+                  ),
+                ),
+              )
+            ],
+          )
+      ),
+    );
+  }
+
 }
