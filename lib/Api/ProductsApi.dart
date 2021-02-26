@@ -46,7 +46,7 @@ class ProductsApi{
           },);
      var result = json.decode(uriResponse.body);
      try{
-       result["message"];
+       var _ = result["message"];
        return [];
      }  catch(e){}
      print(result);
@@ -57,6 +57,7 @@ class ProductsApi{
      var client = http.Client();
      var uriResponse = await client.get(ApiContext.martURL+"/getMyOrders/rMart@"+UserContext.user.number, headers: {
             "key": await FirebaseRempteConfig.getServerKey(),
+            "token":UserContext.user.token,
             "Content-Type": "application/json",
           },);
      Map result = json.decode(uriResponse.body);
