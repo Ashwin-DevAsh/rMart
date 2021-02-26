@@ -3,6 +3,7 @@ import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'DevelopersProfile.dart';
@@ -82,7 +83,20 @@ class _DevelopersState extends State<Developers> {
 
                        return getProfile(developers[index]['name'], developers[index]['description'],developers[index]['image'],developers[index]['website'],developers[index]);
 
-                     })
+                     }),
+                    //  SizedBox(height:50),
+                    //  Padding(
+                    //    padding: const EdgeInsets.only(left:75,right:75),
+                    //    child: Row(
+                    //      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //      children: [
+                    //      IconButton(icon: Icon(MaterialCommunityIcons.instagram,color: Colors.grey),onPressed: (){},),
+                    //      IconButton(icon: Icon(MaterialCommunityIcons.gmail,color: Colors.grey,),onPressed: (){},),
+
+                    //      IconButton(icon: Icon(MaterialCommunityIcons.github_circle,color: Colors.grey),onPressed: (){},),
+
+                    //    ],),
+                    //  )
 
                    ],
                  ),
