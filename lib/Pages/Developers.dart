@@ -37,13 +37,11 @@ class _DevelopersState extends State<Developers> {
           'name':'Bharat varshan',
           'description':'CSE A 2018 - 2022',
           'image':'lib/assets/Images/Developers/bv.png',
-          'website':'https://www.bharatvarshan.me',
+          'website':'https://www.bharatvarshan.tech',
           'github':'https://github.com/bharatvarshan/',
           'instagram':'https://www.instagram.com/happy._._.pixels_/',
           'whatsapp':'9703681102',
           'linkedin':'https://www.linkedin.com/in/bharatvarshan/'
-
-
         },
         {
           'name':'Barath raj kumaran',
@@ -182,7 +180,7 @@ class _DevelopersState extends State<Developers> {
                       borderRadius: BorderRadius.circular(30),
                       child: Image(
                         
-                        fit:BoxFit.scaleDown,
+                        fit:BoxFit.cover,
                         image:Image.asset(imagePath).image,
                       ),
                     ) ,
