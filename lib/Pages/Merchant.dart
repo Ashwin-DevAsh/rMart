@@ -74,10 +74,13 @@ class _MerchantState extends State<Merchant> {
                    children: [
                      Row(
                        children: [
-                         Text(ProductContext.getOwnerName(widget.merchant),style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500,fontFamily: AppFonts.textFonts),),
+                         Padding(
+                           padding: const EdgeInsets.only(top:4.0),
+                           child: Text(ProductContext.getOwnerName(widget.merchant),style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500,fontFamily: AppFonts.textFonts),),
+                         ),
                        Padding(
                          padding: const EdgeInsets.only(left:15.0,bottom: 15,top: 15),
-                         child: Icon(MaterialIcons.location_on),
+                         child: Icon(Entypo.shop),
                        )
                        ],
                      ),

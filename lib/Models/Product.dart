@@ -5,9 +5,10 @@ class Product{
   String productOwner;
   String category;
   int price;
+  int discount; 
 
   Product(this.productID, this.productName,this.price,this.imageURL,
-      this.productOwner, this.category);
+      this.productOwner, this.category,this.discount);
 
   Product.fromMap(object){
     this.productID=object["productID"];
@@ -16,7 +17,7 @@ class Product{
     this.productOwner=object["productOwner"];
     this.category=object["category"];
     this.price=object["price"];
-
+    this.discount = object["discount"];
   }
 
   Map toMap(){
@@ -26,7 +27,8 @@ class Product{
       "imageURL":imageURL,
       "productOwner":productOwner,
       "category":category,
-      "price":price
+      "price":price,
+      "discount":discount
     };
 
   }

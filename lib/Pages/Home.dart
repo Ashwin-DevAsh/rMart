@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import '../Extensions/StringExtensions.dart';
 
@@ -24,7 +25,13 @@ import 'SearchResult.dart';
 
 class Home extends StatefulWidget {
 
-
+  // Home(){
+  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //     statusBarColor: Colors.transparent,
+  //     statusBarBrightness: Brightness.dark,
+  //     statusBarIconBrightness: Brightness.dark,
+  //   ));
+  // }
 
   @override
   _HomeState createState() => _HomeState();
@@ -38,6 +45,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+
 
     return SafeArea(
             child:SingleChildScrollView(

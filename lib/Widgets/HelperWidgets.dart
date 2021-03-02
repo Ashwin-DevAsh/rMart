@@ -238,9 +238,16 @@ class HelperWidgets{
                             Padding(
                               padding: const EdgeInsets.only(top:20.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text("Rs ${object.price}",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 15),)
+                                  
+                                 object.discount==0?Center(): Text("Rs ${object.price+object.discount} ",style: TextStyle(fontSize: 15,color: Colors.grey,decoration: TextDecoration.lineThrough),),
+                                  Padding(
+                                    padding: EdgeInsets.only(left:object.discount!=0?8.0:0),
+                                    child:  Text("Rs ${object.price}",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 15),),
+
+                                  )
+
                                 ],
                               ),
                             )

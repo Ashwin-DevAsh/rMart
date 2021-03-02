@@ -29,6 +29,7 @@ class OrderDetails extends StatefulWidget {
   int totalAmount = 0;
   int totalItems = 0;
   var products = [];
+  int totalDiscount = 0;
   OrderListModel orderNotifier;
 
   OrderDetails({this.order,this.orderNotifier}){
@@ -36,6 +37,9 @@ class OrderDetails extends StatefulWidget {
     this.products.forEach((element) { 
       totalAmount+= element["totalPrice"];
       totalItems +=element["count"];
+      try{
+       totalDiscount += element["product"]["discount"] * element["count"];
+       }catch(e){}
     });
 
     print(order);
@@ -148,23 +152,12 @@ class _OrderDetailsState extends State<OrderDetails> {
               ),
             ),
 
-            Padding(
+                  Padding(
               padding: const EdgeInsets.only(left:40,right: 40,bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Discount",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
-                  Text("0%",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,),),
-                ],
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(left:40,right: 40,bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                      Row(
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text("Subtotal",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
@@ -175,7 +168,18 @@ class _OrderDetailsState extends State<OrderDetails> {
 
                     ],
                   ),
-                  Text("${widget.totalAmount} Rs",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                  Text("${widget.totalAmount+widget.totalDiscount} Rs",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                ],
+              ),
+            ),
+
+               Padding(
+              padding: const EdgeInsets.only(left:40,right: 40,bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("You saved",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                  Text("${widget.totalDiscount} Rs",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,),),
                 ],
               ),
             ),
@@ -240,7 +244,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                     productMap["price"],
                     productMap["imageURL"],
                     productMap["productOwner"],
-                    productMap["category"]);
+                    productMap["category"],
+                    productMap["discount"]
+                    );
                 return productTile(CartProduct(product,
                     widget.products[index]["count"],
                     widget.products[index]["totalPrice"]));

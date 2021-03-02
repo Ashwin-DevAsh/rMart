@@ -21,6 +21,15 @@ import 'package:sembast/sembast.dart';
 import 'MainPage.dart';
 
 class SplashScreen extends StatefulWidget {
+  SplashScreen(){
+    
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
+    ));
+  
+  }
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }

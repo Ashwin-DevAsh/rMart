@@ -288,7 +288,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                         int.parse(productMap["price"]),
                         ApiContext.productImageURL+ productMap["imageurl"],
                         widget.product.productOwner,
-                        widget.product.category);
+                        widget.product.category,
+                        productMap["discount"]
+                        );
                     return product.productName!=widget.product.productName? suggestionTile(product):Center();
                   }
               )+[SizedBox(width: 30,)],

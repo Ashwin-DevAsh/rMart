@@ -22,9 +22,14 @@ class CheckOut extends StatefulWidget {
   int totalAmount = 0;
   int totalItems = 0;
   CartListModel cart;
+  int totalDiscount = 0;
 
 
-  CheckOut(this.products, this.totalAmount, this.totalItems,{this.cart});
+  CheckOut(this.products, this.totalAmount, this.totalItems,{this.cart}){
+   this.products.forEach((e)=>{
+      totalDiscount += e["product"]["discount"] * e["count"]
+    });
+  }
 
   @override
   _CheckOutState createState() => _CheckOutState();
@@ -49,7 +54,7 @@ class _CheckOutState extends State<CheckOut> {
           child:  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HelperWidgets.getHeader(context,"Checkout", (){Navigator.pop(context);},showShoppingCart: true),
+              HelperWidgets.getHeader(context,"Checkout", (){Navigator.pop(context);},showShoppingCart: false),
               Padding(
                 padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
                 child: Column(
@@ -224,19 +229,10 @@ class _CheckOutState extends State<CheckOut> {
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(left:40,right: 40,bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Discount",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
-                  Text("0%",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,),),
-                ],
-              ),
-            ),
+         
 
             Padding(
-              padding: const EdgeInsets.only(left:40,right: 40,bottom: 10),
+              padding: const EdgeInsets.only(left:40,right: 40,bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -251,7 +247,18 @@ class _CheckOutState extends State<CheckOut> {
 
                     ],
                   ),
-                  Text("${widget.totalAmount} Rs",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                  Text("${widget.totalAmount+widget.totalDiscount} Rs",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                ],
+              ),
+            ),
+
+               Padding(
+              padding: const EdgeInsets.only(left:40,right: 40,bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("You saved",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),),
+                  Text("${widget.totalDiscount} Rs",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600,),),
                 ],
               ),
             ),
@@ -319,7 +326,10 @@ class _CheckOutState extends State<CheckOut> {
                     productMap["price"],
                     productMap["imageURL"],
                     productMap["productOwner"],
-                    productMap["category"]);
+                    productMap["category"],
+                    productMap["discount"]
+
+                    );
                 return productTile(CartProduct(product,
                     widget.products[index]["count"],
                     widget.products[index]["totalPrice"]));
