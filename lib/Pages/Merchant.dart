@@ -55,6 +55,7 @@ class _MerchantState extends State<Merchant> {
 
   @override
   Widget build(BuildContext context) {
+    var productsWidget = getProductWidgets();
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
@@ -100,7 +101,7 @@ class _MerchantState extends State<Merchant> {
                  });
                }),
                SizedBox(height:30),
-             ]+getProductWidgets(),
+             ]+(productsWidget.length==0?[getEmptyWidget()]:getProductWidgets()),
            ),
         ),
       ),
@@ -123,6 +124,29 @@ class _MerchantState extends State<Merchant> {
       )
     ];
 
+  }
+
+    Widget getEmptyWidget(){
+    return  Padding(
+      padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025),
+      child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right:20.0,top: 50,bottom: 40),
+                child: Image(image: Image.asset("lib/assets/Images/coming_soon.png").image,width: MediaQuery.of(context).size.width*0.60,),
+              ),
+                     SizedBox(height: 10,),
+              Text("Oops!",
+                style: TextStyle(fontSize: 18,color: AppColors.accentColor,fontWeight: FontWeight.bold),),
+              SizedBox(height: 10,),
+              Text("Currently we dont have any",style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey),),
+              Text("items to display",style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey))
+
+            ],
+          )
+      ),
+    );
   }
 
 }

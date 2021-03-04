@@ -104,6 +104,10 @@ flutter:
     - lib/assets/Images/Developers/bv.png
     - lib/assets/Images/Developers/vbrk.png
     - lib/assets/Images/search_result.png
+    - lib/assets/Images/empty_orders.png
+    - lib/assets/Images/Categories/others.png
+    - lib/assets/Images/coming_soon.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

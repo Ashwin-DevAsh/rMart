@@ -7,9 +7,12 @@ import 'package:RMart/Models/Product.dart';
 import 'package:RMart/Pages/OrderDetails.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
+import 'package:RMart/assets/AppFonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'Explore.dart';
 
 class MyOrders extends StatefulWidget {
   @override
@@ -43,6 +46,7 @@ class MyOrdersState extends State<MyOrders> {
             print("My Orders = "+snapshot.data.toString());
 
             var orders = snapshot.data;
+            var ordersList = getOrderList(orders,orderNotifier);
 
             return SafeArea(
               child: SingleChildScrollView(
@@ -59,7 +63,6 @@ class MyOrdersState extends State<MyOrders> {
                     HelperWidgets.getCategory(context, categories, selectedCategory, (index){
                       setState(() {
                         selectedCategory = index;
-
                         isLoaded = false;
                         Future.delayed(Duration(seconds: 1),(){
                           setState(() {
@@ -69,8 +72,8 @@ class MyOrdersState extends State<MyOrders> {
                       });
                     }),
                     SizedBox(height:30),
-                    ...getOrderList(orders,orderNotifier)
-                  ],
+                    
+                  ] + (ordersList.length==0? [getEmptyWidget()]:ordersList),
                 ),
               ),
             );
@@ -105,6 +108,54 @@ class MyOrdersState extends State<MyOrders> {
       )];
     }
   }
+
+    Widget getEmptyWidget(){
+    return  Padding(
+      padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.025),
+      child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right:20.0,top: 50,bottom: 40),
+                child: Image(image: Image.asset("lib/assets/Images/empty_orders.png").image,width: MediaQuery.of(context).size.width*0.60,),
+              ),
+               SizedBox(height: 10,),
+              Text("Your list is empty",
+                style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey),),
+              Text("Order something from the menu",
+                  style: TextStyle(fontFamily: AppFonts.textFonts,fontWeight: FontWeight.w600,color: Colors.grey)),
+              SizedBox(height: 10,),
+              Material(
+                // shadowColor: AppColors.accentColor,
+                // elevation: 0.1,
+                // color: AppColors.backgroundColor,
+                borderRadius: BorderRadius.circular(5),
+                child: GestureDetector(
+                  onTap: (){
+                    HelperFunctions.navigate(context, Explore());
+
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: AppColors.backgroundColor,
+                        // borderRadius:BorderRadius.circular(5),
+                        // border: Border.all(color: AppColors.accentColor.withAlpha(90),width: 0.3)
+                    ),
+                    height:40,
+                    width: MediaQuery.of(context).size.width/2,
+                    child: Center(child: Text("Explore",
+                      style: TextStyle(fontSize: 18,color: AppColors.accentColor,fontWeight: FontWeight.bold),)),
+                  ),
+                ),
+              )
+            ],
+          )
+      ),
+    );
+  }
+
+
+
 
   static Widget orderTile(context,order,orderNotifier){
 
@@ -173,7 +224,9 @@ class MyOrdersState extends State<MyOrders> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Status",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.grey),),
-                              Text(order["status"].toString().toUpperCase(),style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),)
+                              Text(order["status"].toString().toUpperCase(),style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold
+                                  
+                              ),)
                             ],
                           ),
                         ),

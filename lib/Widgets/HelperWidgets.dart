@@ -241,7 +241,7 @@ class HelperWidgets{
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   
-                                 object.discount==0?Center(): Text("Rs ${object.price+object.discount} ",style: TextStyle(fontSize: 15,color: Colors.grey,decoration: TextDecoration.lineThrough),),
+                                 object.discount==0?Center(): Text("Rs ${object.price+object.discount}",style: TextStyle(fontSize: 15,color: Colors.grey,decoration: TextDecoration.lineThrough),),
                                   Padding(
                                     padding: EdgeInsets.only(left:object.discount!=0?8.0:0),
                                     child:  Text("Rs ${object.price}",style: TextStyle(fontWeight:FontWeight.bold,fontSize: 15),),

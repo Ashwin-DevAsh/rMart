@@ -1,3 +1,4 @@
+import 'package:RMart/Api/ProductsApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Models/Product.dart';
 
@@ -25,6 +26,10 @@ class ProductContext{
   }
 
   static init(){
+     for(var i in ProductsApi.categories){
+       categories.add(i);
+        categoricalProducts[i]=[];
+     }
      data.forEach((store, categoryMap) {
         categoryMap.forEach((category, products) {
             if(!categories.contains(category)){
