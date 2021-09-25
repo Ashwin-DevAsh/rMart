@@ -130,7 +130,7 @@ class _CheckOutState extends State<CheckOut> {
       });
       if(result["message"]=="closed"){
         HelperFunctions.showAlertDialog(context,"Oops !","Sorry! Unfortunately we couldn't place this order.\n\n"+
-                                  "You can place order(s) between 12:00 PM to 9:00 PM for the next day.Looking forward to your patronage. We will be improvising on our services soon!");
+                                  "You can place order(s) between 12:00 PM to 11:00 PM for the next day.Looking forward to your patronage. We will be improvising on our services soon!");
       }
 
     }

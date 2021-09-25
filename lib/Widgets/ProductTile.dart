@@ -53,8 +53,9 @@ class _ProductTileState extends State<ProductTile> {
                       color: AppColors.backgroundColor,
                       height: 100,
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          // borderRadius: BorderRadius.circular(20),
                           child:CachedNetworkImage(
+                             placeholder: (context, url) => Image.asset("lib/assets/Images/image_loading.png"),
                              fit: BoxFit.scaleDown,
                               imageUrl:widget.product.imageURL
                           ),
@@ -70,7 +71,7 @@ class _ProductTileState extends State<ProductTile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.product.productName,style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(widget.product.productName,style: TextStyle(fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,maxLines: 1,),
                       Text("From ${ProductContext.getOwnerName(widget.product.productOwner)}",style: TextStyle(fontSize: 10,fontFamily: AppFonts.textFonts,),),
                       Padding(
                         padding: const EdgeInsets.only(top: 10),

@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name="com.DevAsh.RMart.Application"
         android:label="rMart"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">

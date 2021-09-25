@@ -31,7 +31,8 @@ class _DevelopersState extends State<Developers> {
           'github':'https://www.github.com/Ashwin-DevAsh',
           'instagram':'https://www.instagram.com/_ash_win___/',
           'whatsapp':'9551574355',
-          'linkedin':'https://www.linkedin.com/in/ashwin-r-a7234017a/'
+          'linkedin':'https://www.linkedin.com/in/ashwin-r-a7234017a/',
+          'playstore':'https://play.google.com/store/apps/developer?id=DevAsh'
 
         },
         {
@@ -42,7 +43,8 @@ class _DevelopersState extends State<Developers> {
           'github':'https://github.com/bharatvarshan/',
           'instagram':'https://www.instagram.com/happy._._.pixels_/',
           'whatsapp':'9703681102',
-          'linkedin':'https://www.linkedin.com/in/bharatvarshan/'
+          'linkedin':'https://www.linkedin.com/in/bharatvarshan/',
+          'playstore':null
         },
         {
           'name':'Barath raj kumaran',
@@ -52,9 +54,8 @@ class _DevelopersState extends State<Developers> {
           'github':'https://github.com/barathraj2612',
           'instagram':'https://www.instagram.com/_rath_raj_/',
           'whatsapp':'9840176511',
-          'linkedin':'https://www.linkedin.com/in/barath-raj-kumaran-vijayakumar-212844177'
-
-
+          'linkedin':'https://www.linkedin.com/in/barath-raj-kumaran-vijayakumar-212844177',
+          'playstore':null
         }
   ];
 

@@ -55,7 +55,11 @@ class _ExploreState extends State<Explore> {
 
                 SizedBox(height: 30,),
 
-                customGridView(categories, context,extraTile: GestureDetector(
+                HelperWidgets.customGridView(
+                               ProductContext.allProducts.length>=10?
+                               ProductContext.allProducts.sublist(0,10):
+                               ProductContext.allProducts.sublist(0,ProductContext.allProducts.length) ,
+                               context,extraTile:    GestureDetector(
                   onTap: (){
                     var filteredProducts = [];
                     ProductContext.allProducts.forEach((element) { 
@@ -85,7 +89,40 @@ class _ExploreState extends State<Explore> {
                       ),
                     ),
                   ),
-                ))
+                )
+                            ),
+
+                // customGridView(categories, context,extraTile: GestureDetector(
+                //   onTap: (){
+                //     var filteredProducts = [];
+                //     ProductContext.allProducts.forEach((element) { 
+                //       if(!filteredProducts.contains(element)){
+                //           filteredProducts.add(element);
+                //       }
+                //     });
+                //     HelperFunctions.navigate(context, Products(heading: "All Products",products: filteredProducts,));
+                //   },
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(bottom:20.0,),
+                //     child: Material(
+                //       shadowColor: AppColors.accentColor,
+                //       elevation: 0.1,
+                //       color: AppColors.backgroundColor,
+                //       borderRadius:  BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //             color: AppColors.accentColor.withAlpha(20),
+                //             borderRadius: BorderRadius.only(topLeft: Radius.circular(20),bottomLeft: Radius.circular(20)),
+                //             border: Border.all(color: AppColors.accentColor.withAlpha(90),width: 0.3)
+                //         ),
+                //         height:50,
+                //         child: Center(child: Text("View all",
+                //           style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: AppColors.accentColor),)),
+                //         width: MediaQuery.of(context).size.width/2-10,
+                //       ),
+                //     ),
+                //   ),
+                // ))
               ],
           ),
         ),

@@ -23,7 +23,7 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
       backgroundColor: AppColors.backgroundColor,
         body: SafeArea(
           child: SingleChildScrollView(
-            // physics: BouncingScrollPhysics(),
+            physics: BouncingScrollPhysics(),
             child: Column(children: [
                 // SizedBox(height: 10),
                 getProfileImage(),
@@ -40,6 +40,16 @@ class _DeveloperProfileState extends State<DeveloperProfile> {
                   padding: const EdgeInsets.only(left:60),
                   child: Divider(),
                 ),
+
+                ...(widget.developer['playstore']==null?[]:[
+                    getNormalListTile(title:"Playstore",icon:MaterialCommunityIcons.google_play,subtitle: "https://play.google.com/store/apps/developer?id=DevAsh",onClick:(){
+                      launch("https://play.google.com/store/apps/developer?id=DevAsh");
+                    }),
+                    Padding(
+                      padding: const EdgeInsets.only(left:60),
+                      child: Divider(),
+                    ),
+                ]),
 
                 getNormalListTile(title:"Whatsapp",icon:MaterialCommunityIcons.whatsapp,subtitle: "+91"+widget.developer["whatsapp"],onClick:(){
                   launch("https://api.whatsapp.com/send?phone=91"+widget.developer["whatsapp"]);

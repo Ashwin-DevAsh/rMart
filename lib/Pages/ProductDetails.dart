@@ -53,6 +53,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       child: CachedNetworkImage(
                       height: (MediaQuery.of(context).size.height-300)*0.5,width:(MediaQuery.of(context).size.width)*0.7,
                       imageUrl:widget.product.imageURL,
+                       placeholder: (context, url) => Image.asset("lib/assets/Images/image_loading.png"),
                       colorBlendMode: BlendMode.color,
                         fit: BoxFit.scaleDown,
                     ),
@@ -329,6 +330,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 padding: const EdgeInsets.all(8.0),
                 child: CachedNetworkImage(
                       height: (MediaQuery.of(context).size.height-300)*0.5,width:(MediaQuery.of(context).size.width)*0.7,
+                       placeholder: (context, url) => Image.asset("lib/assets/Images/image_loading.png"),
                       imageUrl:product.imageURL,
                       fit: BoxFit.scaleDown
                       )

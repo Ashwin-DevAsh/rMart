@@ -4,23 +4,20 @@ import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
 import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/RemoteConfig/FirebaseRemoteConfig.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http ;
-import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
+
 
 class ProductsApi{
 
   static var categories = ['breakfast','lunch','snacks','others'];
   static var categoryTime = {
-    "breakfast":"collect during breakfast or morning break",
-    "lunch":"collect during lunch or afternoon break.",
-    "snacks":"collect during lunch or break.",
-    "others":"collect during breakfast, lunch or break"
+    "breakfast":"Collect during breakfast or morning break.",
+    "lunch":"Collect during lunch or afternoon break.",
+    "snacks":"Collect during lunch or any break.",
+    "others":"Collect during breakfast, lunch or any break."
   };
   
   static Future<List> getProducts() async{
-     String signature = await SmsRetrieved.getAppSignature();
-     print("App id = "+signature);
     var client = http.Client();
      var uriResponse = await client.get(ApiContext.martURL+"/getAllProducts",    
          headers: {

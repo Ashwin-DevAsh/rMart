@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http ;
 class OrderApi{
 
 
-  static var client = http.Client();
+   static var client = http.Client();
    static Future<Map> makeOrder(data) async{
     var body = json.encode(data);
       var uriResponse = await client.post(ApiContext.martURL+"/makeOrder",
