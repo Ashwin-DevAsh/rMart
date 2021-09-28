@@ -2,6 +2,7 @@ name: RMart
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
+# demo check
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: "playstore" # Remove this line if you wish to publish to pub.dev
 
