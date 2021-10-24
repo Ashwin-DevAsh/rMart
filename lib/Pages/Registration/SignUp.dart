@@ -86,7 +86,11 @@ class _SignUpState extends State<SignUp> {
         children: [
             TextField(
               cursorColor: AppColors.accentColor,
-              decoration: new InputDecoration(hintText: "Name"),
+              decoration: new InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                  ),
+                  hintText: "Name"),
               controller: name,
               
             ),
@@ -95,7 +99,11 @@ class _SignUpState extends State<SignUp> {
 
             TextField(
               cursorColor: AppColors.accentColor,
-              decoration: new InputDecoration(hintText: "Student ID / Staff ID"),
+              decoration: new InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                  ),
+                  hintText: "Student ID / Staff ID"),
               controller: collegeID,
             ),
             SizedBox(height: 30),
@@ -103,7 +111,11 @@ class _SignUpState extends State<SignUp> {
             TextField(
               cursorColor: AppColors.accentColor,
               keyboardType: TextInputType.emailAddress,
-              decoration: new InputDecoration(hintText: "Email Address"),
+              decoration: new InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                  ),
+                  hintText: "Email Address"),
               controller: email,
             ),
             SizedBox(height: 30),
@@ -111,7 +123,11 @@ class _SignUpState extends State<SignUp> {
 
               keyboardType: TextInputType.number,
               cursorColor: AppColors.accentColor,
-              decoration: new InputDecoration(hintText: "Phone number"),
+              decoration: new InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                  ),
+                  hintText: "Phone number"),
               controller: phoneNumber,
             ),
             SizedBox(height: 30),
@@ -121,7 +137,11 @@ class _SignUpState extends State<SignUp> {
               keyboardType: TextInputType.visiblePassword,
               cursorColor: AppColors.accentColor,
               decoration: 
-              new InputDecoration(hintText: "Password",
+              new InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                  ),
+                  hintText: "Password",
               suffixIcon: IconButton(icon:Icon(shouldHidePassword?Icons.visibility_off:Icons.visibility),onPressed: (){
                 setState(() {    
                   shouldHidePassword= !shouldHidePassword;

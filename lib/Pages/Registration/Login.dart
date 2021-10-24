@@ -1,4 +1,4 @@
-
+import 'package:RMart/Api/ProfileApi.dart';
 import 'package:RMart/Api/RegistrationApi.dart';
 import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Database/Databasehelper.dart';
@@ -19,7 +19,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   var isLoding = false;
   var isButtonLoading = false;
 
@@ -29,95 +28,99 @@ class _LoginState extends State<Login> {
   }
 
   void login(context) async {
-    if(isValidInput(context)){
-
+    if (isValidInput(context)) {
       setState(() {
-        isButtonLoading=true;
+        isButtonLoading = true;
       });
 
-      var canLogin = await RegistrationApi.canLogin({"phoneNumber":email.text.trim().toLowerCase(),"email":email.text.trim()});
-
-      if(canLogin["message"]!="done"){
-        Scaffold.of(context).showSnackBar(SnackBar(content:Text(canLogin["message"])));
-           setState(() {
-             isButtonLoading=false;
-           });
-        return;
-      } 
-
-
-      setState(() {
-        isButtonLoading=false;
-
-        isLoading=true;
+      var canLogin = await RegistrationApi.canLogin({
+        "phoneNumber": email.text.trim().toLowerCase(),
+        "email": email.text.trim()
       });
 
-
-      var logindata = {
-        "email":email.text.trim().toLowerCase(),
-        "phoneNumber":email.text.trim(),
-        "password":password.text.trim()
-      };    
-
-
-      var result = await RegistrationApi.login(logindata);
-      if(result["message"]=="done"){
-          openHomePage(result["user"], result["token"]);
-      }else{
+      if (canLogin["message"] != "done") {
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text(canLogin["message"])));
         setState(() {
-          isLoading=false;
+          isButtonLoading = false;
         });
-        Scaffold.of(context).showSnackBar(SnackBar(content:Text("Failed")));
+        return;
       }
 
- 
-    }    
+      setState(() {
+        isButtonLoading = false;
+
+        isLoading = true;
+      });
+
+      var logindata = {
+        "email": email.text.trim().toLowerCase(),
+        "phoneNumber": email.text.trim(),
+        "password": password.text.trim()
+      };
+
+      var result = await RegistrationApi.login(logindata);
+      if (result["message"] == "done") {
+        openHomePage(result["user"], result["token"]);
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Failed")));
+      }
+    }
   }
 
-
-    openHomePage(result,token)async{
-     UserContext.user = User(
-       name:result["name"],
-       number:result["number"],
-       email: result["email"],
-       token:token,
-       cart: [],favourite: []);
-      await StoreRef.main().record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
-          Future.delayed(Duration(seconds: 1),(){
-        HelperFunctions.navigateReplace(context,MainPage(shouldShowDisclimer: true,));
+  openHomePage(result, token) async {
+    UserContext.user = User(
+        name: result["name"],
+        number: result["number"],
+        email: result["email"],
+        token: token,
+        cart: [],
+        favourite: []);
+    UserContext.user.balance = (await ProfileApi.getBalance(
+        {"id": UserContext.getId}))["balance"];
+    await StoreRef.main()
+        .record("User")
+        .add(DataBaseHelper.db, UserContext.user.toMap());
+    Future.delayed(Duration(seconds: 1), () {
+      HelperFunctions.navigateReplace(
+          context,
+          MainPage(
+            shouldShowDisclimer: true,
+          ));
     });
   }
 
-
-
-
-  isValidInput(context){
-   try{
+  isValidInput(context) {
+    try {
       int.parse(email.text.toLowerCase().trim());
-      if(email.text.trim().length!=10 ){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
-      return false;
-    }
-
-    }catch(e){
-      if(email.text.trim().length<5){
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid credientials"),));
+      if (email.text.trim().length != 10) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("Invalid Phone Number"),
+        ));
+        return false;
+      }
+    } catch (e) {
+      if (email.text.trim().length < 5) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("Invalid credientials"),
+        ));
         return false;
       }
     }
 
-    if(password.text.length<8){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Password"),));
-       return false;
+    if (password.text.length < 8) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Invalid Password"),
+      ));
+      return false;
     }
     return true;
-
   }
-      
 
-  void loginSuccess(admin, token) async {
- 
-  }
+  void loginSuccess(admin, token) async {}
 
   TextEditingController email = new TextEditingController();
   TextEditingController password = new TextEditingController();
@@ -128,51 +131,61 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: WillPopScope(
         onWillPop: () {
           SystemNavigator.pop();
         },
         child: SafeArea(
           child: Builder(builder: (context) {
-            return isLoading?
-            Column(
-                children: [
-                  Expanded(child: Center(child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),)
-                ],
-              ): Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  getHeader(),
-                  Expanded(child: Center()),
-                  getLoginComponents(),
-                  Expanded(child: Center()),
-                  Expanded(child: Center()),
-                  getFooter(context)
-                ],
-              ),
-            );
+            return isLoading
+                ? Column(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.accentColor),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                : Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        getHeader(),
+                        Expanded(child: Center()),
+                        getLoginComponents(),
+                        Expanded(child: Center()),
+                        Expanded(child: Center()),
+                        getFooter(context)
+                      ],
+                    ),
+                  );
           }),
         ),
       ),
     );
   }
 
-  bool isValidNumberOrEmail(context){
-    try{
+  bool isValidNumberOrEmail(context) {
+    try {
       int.parse(email.text.toLowerCase());
-      if(email.text.length!=10 ){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter valid email or phone number"),));
-      return false;
-    }
-
-    }catch(e){
-      if(email.text.length<5){
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter valid email or phone number"),));
+      if (email.text.length != 10) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("Please enter valid email or phone number"),
+        ));
+        return false;
+      }
+    } catch (e) {
+      if (email.text.length < 5) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("Please enter valid email or phone number"),
+        ));
         return false;
       }
     }
@@ -187,25 +200,35 @@ class _LoginState extends State<Login> {
       child: Row(children: [
         SizedBox(width: 20),
         GestureDetector(
-          onTap: ()async{
-            if(isValidNumberOrEmail(context)){
-                setState(() {
-                  isButtonLoading = true;
-                });
-                var canLogin = await RegistrationApi.canLogin({"phoneNumber":email.text.trim(),"email":email.text.trim()});
+          onTap: () async {
+            if (isValidNumberOrEmail(context)) {
+              setState(() {
+                isButtonLoading = true;
+              });
+              var canLogin = await RegistrationApi.canLogin({
+                "phoneNumber": email.text.trim(),
+                "email": email.text.trim()
+              });
 
-                if(canLogin["message"]!="done"){
-                  Scaffold.of(context).showSnackBar(SnackBar(content:Text(canLogin["message"])));
-                       setState(() {
-                  isButtonLoading = false;
-                });
-                  return;
-                } 
-
+              if (canLogin["message"] != "done") {
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text(canLogin["message"])));
                 setState(() {
                   isButtonLoading = false;
                 });
-                HelperFunctions.navigate(context, Otp(isRecoveryOtp: true,number: email.text.trim(),email: email.text.trim(),));
+                return;
+              }
+
+              setState(() {
+                isButtonLoading = false;
+              });
+              HelperFunctions.navigate(
+                  context,
+                  Otp(
+                    isRecoveryOtp: true,
+                    number: email.text.trim(),
+                    email: email.text.trim(),
+                  ));
             }
           },
           child: Text(
@@ -216,7 +239,7 @@ class _LoginState extends State<Login> {
         Expanded(child: Center()),
         GestureDetector(
           onTap: () {
-            login( context);
+            login(context);
           },
           child: Material(
             color: AppColors.accentColor,
@@ -225,17 +248,21 @@ class _LoginState extends State<Login> {
             child: Container(
               height: 50,
               width: 80,
-              child: isButtonLoading? Center(
-          child: SizedBox(
-            height: 25,
-            width: 25,
-                      child: CircularProgressIndicator(
-              
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),),
-          ),): Icon(
-                Icons.arrow_forward,
-                color: Colors.white,
-              ),
+              child: isButtonLoading
+                  ? Center(
+                      child: SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      ),
+                    )
+                  : Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
             ),
           ),
         ),
@@ -271,10 +298,10 @@ class _LoginState extends State<Login> {
             ),
             SizedBox(width: 40),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 HelperFunctions.navigate(context, SignUp());
               },
-               child: Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -325,16 +352,26 @@ class _LoginState extends State<Login> {
                   TextField(
                     controller: email,
                     cursorColor: AppColors.accentColor,
-                    decoration: new InputDecoration(hintText: "Email or phone number"),
+                    decoration:
+                        new InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                            ),
+                            hintText: "Email or phone number"
+
+                        ),
                   ),
                   SizedBox(height: 30),
                   TextField(
-                    
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
                     controller: password,
                     cursorColor: AppColors.accentColor,
-                    decoration: new InputDecoration(hintText: "Password"),
+                    decoration: new InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                        ),
+                        hintText: "Password"),
                   ),
                 ],
               ),

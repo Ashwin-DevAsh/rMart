@@ -27,7 +27,7 @@ class _DevelopersState extends State<Developers> {
           'name':'Ashwin',
           'description':'CSE A 2018 - 2022',
           'image':'lib/assets/Images/Developers/ashwin.png',
-          'website':'https://www.DevAsh.tech/',
+          'website':'https://www.DevAsh.in/',
           'github':'https://www.github.com/Ashwin-DevAsh',
           'instagram':'https://www.instagram.com/_ash_win___/',
           'whatsapp':'9551574355',

@@ -1,4 +1,5 @@
 import 'package:RMart/Api/ProductsApi.dart';
+import 'package:RMart/Api/ProfileApi.dart';
 import 'package:RMart/Api/RegistrationApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
@@ -21,21 +22,18 @@ import 'package:sembast/sembast.dart';
 import 'MainPage.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen(){
-    
+  SplashScreen() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarBrightness: Brightness.dark,
       statusBarIconBrightness: Brightness.dark,
     ));
-  
   }
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   void getDatabaseInstance() async {
     DataBaseHelper.db = await AppDatabase.instance.database;
     DataBaseHelper.store = StoreRef.main();
@@ -47,65 +45,71 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  void init() async{
+  void init() async {
     await ProductsApi.loadDatas();
     await getDatabaseInstance();
     await isUserExist();
   }
 
-  void openHomePage(BuildContext context){
+  void openHomePage(BuildContext context) {
     loadContextData();
-    Future.delayed(Duration(seconds: 0),(){
-      HelperFunctions.navigateReplace(context,MainPage());
+    Future.delayed(Duration(seconds: 0), () {
+      HelperFunctions.navigateReplace(context, MainPage());
     });
   }
 
-  void loadMerchants(){
+  void loadMerchants() {
     ProductContext.data.forEach((key, value) {
-         ProductContext.merchants.add(key);
+      ProductContext.merchants.add(key);
     });
   }
 
   void isUserExist() async {
-    
-    bool userExist = await DataBaseHelper.store.record("User").exists(DataBaseHelper.db);
-  
+    bool userExist =
+        await DataBaseHelper.store.record("User").exists(DataBaseHelper.db);
 
-    if(userExist){
-       UserContext.user =  User.fromMap(await DataBaseHelper.store.record("User").get(DataBaseHelper.db));
-       bool isValidKeys = (await RegistrationApi.checkKeys())["message"]=="success";
-       if(isValidKeys){
-           openHomePage(context);
-       }else{
-          await DataBaseHelper.store.record("User").delete(DataBaseHelper.db);
-          await FirebaseRempteConfig.reloadKeys();
-          Future.delayed(Duration(seconds: 0),(){
-            HelperFunctions.navigateReplace(context, Login());
-          }); 
-       }
-    }else{
+    if (userExist) {
+      UserContext.user = User.fromMap(
+          await DataBaseHelper.store.record("User").get(DataBaseHelper.db));
+      bool isValidKeys =
+          (await RegistrationApi.checkKeys())["message"] == "success";
+
+      if (isValidKeys) {
+        UserContext.user.balance =  (await ProfileApi.getBalance(
+            {"id": UserContext.getId}))["balance"];
+        print("balance = ${ UserContext.user.balance}");
+        openHomePage(context);
+      } else {
         await DataBaseHelper.store.record("User").delete(DataBaseHelper.db);
         await FirebaseRempteConfig.reloadKeys();
-        Future.delayed(Duration(seconds: 0),(){
-           HelperFunctions.navigateReplace(context, Login());
+        Future.delayed(Duration(seconds: 0), () {
+          HelperFunctions.navigateReplace(context, Login());
         });
+      }
+    } else {
+      await DataBaseHelper.store.record("User").delete(DataBaseHelper.db);
+      await FirebaseRempteConfig.reloadKeys();
+      Future.delayed(Duration(seconds: 0), () {
+        HelperFunctions.navigateReplace(context, Login());
+      });
     }
   }
 
-  loadContextData(){
+  loadContextData() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<CartListModel>(context,listen: false).init(UserContext.user.cart);
-      Provider.of<FavouriteListModel>(context,listen: false).init(UserContext.user.favourite);
+      Provider.of<CartListModel>(context, listen: false)
+          .init(UserContext.user.cart);
+      Provider.of<FavouriteListModel>(context, listen: false)
+          .init(UserContext.user.favourite);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor  : AppColors.backgroundColor,
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
-          child: Container(
+        child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -115,13 +119,17 @@ class _SplashScreenState extends State<SplashScreen> {
               Expanded(child: Center()),
               Expanded(child: Center()),
               Expanded(child: Center()),
-              Center(child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                              child: Container(
-                    height: 100,
-                    width: 100,
-                    child: Image(image: Image.asset("lib/assets/Images/mart2.png").image)),
-              ),),
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                      height: 100,
+                      width: 100,
+                      child: Image(
+                          image: Image.asset("lib/assets/Images/mart2.png")
+                              .image)),
+                ),
+              ),
               //
               // Text("from",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500,fontSize: 16),),
               // Text("INITIATORS",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w600,fontSize: 18),),
@@ -131,13 +139,12 @@ class _SplashScreenState extends State<SplashScreen> {
               Expanded(child: Center()),
               Expanded(child: Center()),
               Expanded(child: Center()),
-              Image(image: Image.asset("lib/assets/Images/initiators1.png").image,width: 140,),
-              SizedBox(height:40)
-
-
+              Image(
+                image: Image.asset("lib/assets/Images/initiators1.png").image,
+                width: 140,
+              ),
+              SizedBox(height: 40)
             ],
-
-
           ),
         ),
       ),

@@ -58,6 +58,13 @@ class _ProfileState extends State<Profile> {
                        subtitle: UserContext.user.email,
                        icon:Icons.mail_outline
                    ),
+                   Divider(),
+
+                   getBigListTile(
+                       title: "My Wallet",
+                       subtitle: "₹ ${UserContext.user.balance}",
+                       icon:Icons.account_balance_wallet_outlined
+                   ),
 
                    Divider(),
 
@@ -111,6 +118,10 @@ class _ProfileState extends State<Profile> {
                          }catch(e){}
                        }
                    ),
+
+                   SizedBox(
+                     height: 100,
+                   )
 
                  ],
                )

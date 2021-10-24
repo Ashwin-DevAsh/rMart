@@ -1,3 +1,4 @@
+import 'package:RMart/Api/ProfileApi.dart';
 import 'package:RMart/Api/RecoveryApi.dart';
 import 'package:RMart/Api/RegistrationApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
@@ -102,7 +103,11 @@ class _OtpState extends State<Otp> {
                              TextField(
                                controller: otp,
                               cursorColor: AppColors.accentColor,
-                              decoration: new InputDecoration(hintText: "0 0 0 0"),
+                              decoration: new InputDecoration(
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                                  ),
+                                  hintText: "0 0 0 0"),
                             ),
                       ],
                     ),
@@ -190,6 +195,8 @@ class _OtpState extends State<Otp> {
        email: result["email"],
        token:token,
        cart: [],favourite: []);
+       UserContext.user.balance = (await ProfileApi.getBalance(
+         {"id": UserContext.getId}))["balance"];
        print(UserContext.user.toMap());
      await StoreRef.main().record("User").add(DataBaseHelper.db,  UserContext.user.toMap());
         Future.delayed(Duration(seconds: 1),(){

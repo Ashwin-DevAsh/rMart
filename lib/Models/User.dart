@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/CartProduct.dart';
@@ -12,31 +14,36 @@ class User {
   String collegeID;
   List cart;
   List favourite;
+  String balance;
 
+  User(
+      {this.name,
+      this.number,
+      this.email,
+      this.cart,
+      this.favourite,
+      this.token,
+      this.balance}) {}
 
-  User({this.name,this.number,this.email,this.cart,this.favourite,this.token}){
-   
+  User.fromMap(Map map) {
+    this.name = map["name"];
+    this.number = map["number"];
+    this.email = map["email"];
+    this.token = map["token"];
+    this.collegeID = map["collegeID"];
+    this.cart = List.from(map["cart"]);
+    this.favourite = List.from(map["favourite"]);
   }
 
-  User.fromMap(Map map){
-     this.name = map["name"];
-     this.number = map["number"];
-     this.email = map["email"];
-     this.token = map["token"];
-     this.collegeID = map["collegeID"];
-     this.cart = List.from(map["cart"]);
-     this.favourite = List.from(map["favourite"]);
-  }
-
-  Map toMap(){
+  Map toMap() {
     return {
-        "name":name,
-        "number":number,
-        "email":email,
-        "token":token,
-        "collegeID":collegeID,
-        "cart":cart,
-        "favourite":favourite
+      "name": name,
+      "number": number,
+      "email": email,
+      "token": token,
+      "collegeID": collegeID,
+      "cart": cart,
+      "favourite": favourite
     };
   }
 
@@ -45,6 +52,4 @@ class User {
     this.favourite = FavouriteListModel.favouriteMap;
     StoreRef.main().record("User").update(DataBaseHelper.db, this.toMap());
   }
-
-
 }
