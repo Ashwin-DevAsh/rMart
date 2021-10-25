@@ -6,7 +6,7 @@ import 'dart:convert';
 
 class ProfileApi {
   static var client = http.Client();
-  static Future<Map> getBalance(data) async {
+  static getBalance(data) async {
     var body = json.encode(data);
     var uriResponse = await client.post(ApiContext.profileURL + "/getBalance",
         headers: {
@@ -17,6 +17,6 @@ class ProfileApi {
         body: body);
     Map result = json.decode(uriResponse.body);
     print("balance result = ${data} ${result}");
-    return result;
+    return result["balance"];
   }
 }

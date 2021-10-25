@@ -75,9 +75,9 @@ class _SplashScreenState extends State<SplashScreen> {
           (await RegistrationApi.checkKeys())["message"] == "success";
 
       if (isValidKeys) {
-        UserContext.user.balance =  (await ProfileApi.getBalance(
-            {"id": UserContext.getId}))["balance"];
-        print("balance = ${ UserContext.user.balance}");
+        UserContext.user.balance =
+            (await ProfileApi.getBalance({"id": UserContext.getId})).toString();
+        print("balance = ${UserContext.user.balance}");
         openHomePage(context);
       } else {
         await DataBaseHelper.store.record("User").delete(DataBaseHelper.db);

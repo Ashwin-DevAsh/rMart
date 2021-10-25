@@ -79,8 +79,8 @@ class _LoginState extends State<Login> {
         token: token,
         cart: [],
         favourite: []);
-    UserContext.user.balance = (await ProfileApi.getBalance(
-        {"id": UserContext.getId}))["balance"];
+    UserContext.user.balance =
+        (await ProfileApi.getBalance({"id": UserContext.getId})).toString();
     await StoreRef.main()
         .record("User")
         .add(DataBaseHelper.db, UserContext.user.toMap());
@@ -352,14 +352,12 @@ class _LoginState extends State<Login> {
                   TextField(
                     controller: email,
                     cursorColor: AppColors.accentColor,
-                    decoration:
-                        new InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: AppColors.accentColor,width: 2),
-                            ),
-                            hintText: "Email or phone number"
-
+                    decoration: new InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.accentColor, width: 2),
                         ),
+                        hintText: "Email or phone number"),
                   ),
                   SizedBox(height: 30),
                   TextField(
@@ -369,7 +367,8 @@ class _LoginState extends State<Login> {
                     cursorColor: AppColors.accentColor,
                     decoration: new InputDecoration(
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                          borderSide: BorderSide(
+                              color: AppColors.accentColor, width: 2),
                         ),
                         hintText: "Password"),
                   ),

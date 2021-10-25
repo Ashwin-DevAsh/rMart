@@ -37,6 +37,7 @@ class _SignUpState extends State<SignUp> {
           }else{
             Navigator.of(context).pop();
           }
+          return;
         },
               child: Builder(
           builder: (context) {

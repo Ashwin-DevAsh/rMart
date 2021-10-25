@@ -1,10 +1,13 @@
 import 'package:RMart/Models/User.dart';
 
-class UserContext{
+class UserContext {
   static User user;
 
-  static String get getId{
-    return "rMart@"+user.number;
+  static String get getId {
+    return "rMart@" + user.number;
   }
-  
+
+  static int get getBalance {
+    return int.parse(user.balance);
+  }
 }
