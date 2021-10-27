@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:RMart/Api/OrderApi.dart';
+import 'package:RMart/Api/ProfileApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
@@ -29,7 +30,7 @@ class _CheckOutResultState extends State<CheckOutResult> {
   var isLoading = true;
   var isSuccess = false;
 
-  Future<bool> verifyPayment() async {
+  Future<bool> verifyRazorpayPayment() async {
     var orderID = widget.response.orderId;
     var paymentID = widget.response.paymentId;
 
@@ -40,7 +41,8 @@ class _CheckOutResultState extends State<CheckOutResult> {
 
     var result = await OrderApi.verifyPayment(data);
     print(result);
-
+    UserContext.user.balance =
+        (await ProfileApi.getBalance({"id": UserContext.getId})).toString();
     if (result["message"] == "success") {
       setState(() {
         isLoading = false;
@@ -72,15 +74,19 @@ class _CheckOutResultState extends State<CheckOutResult> {
     }
   }
 
-  @override
-  void initState() {
+  verifyPayment() {
     Future.delayed(Duration(seconds: 1), () {
       if (widget.paymentMethod == 'RAZZORPAY') {
-        verifyPayment();
+        verifyRazorpayPayment();
       } else if (widget.paymentMethod == 'RMART_WALLET') {
         verifyRmartPayment();
       }
     });
+  }
+
+  @override
+  void initState() {
+    verifyPayment();
     super.initState();
   }
 
@@ -109,9 +115,7 @@ class _CheckOutResultState extends State<CheckOutResult> {
             setState(() {
               isLoading = true;
             });
-            Future.delayed(Duration(seconds: 1), () {
-              verifyPayment();
-            });
+            verifyPayment();
           });
     }
   }

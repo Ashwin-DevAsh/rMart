@@ -124,7 +124,7 @@ class _CheckOutState extends State<CheckOut> {
           );
   }
 
-  makeOrderUsingRazorpay(context) async {
+  makeOrderUsingRazorpay(context, walletAmount) async {
     if (isLoading) {
       return;
     }
@@ -136,8 +136,9 @@ class _CheckOutState extends State<CheckOut> {
     Map data = {
       "products": widget.products,
       "amount": widget.totalAmount.toString(),
+      "walletAmount": walletAmount,
       "orderBy": {
-        "id": "rMart@" + UserContext.user.number,
+        "id": UserContext.getId,
         "name": UserContext.user.name,
         "number": UserContext.user.number,
         "email": UserContext.user.email
@@ -238,7 +239,6 @@ class _CheckOutState extends State<CheckOut> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    print("\n\n success = " + response.orderId + response.paymentId);
     setState(() {
       isLoading = false;
     });
@@ -453,9 +453,11 @@ class _CheckOutState extends State<CheckOut> {
               child: GestureDetector(
                 onTap: () async {
                   if (!isWalletPaymntEnabled) {
-                    makeOrderUsingRazorpay(context);
+                    makeOrderUsingRazorpay(context, 0);
                   } else if (finalAmount <= 0) {
                     placeOrderUsingWallet(context);
+                  } else {
+                    makeOrderUsingRazorpay(context, UserContext.getBalance);
                   }
                 },
                 child: Material(
