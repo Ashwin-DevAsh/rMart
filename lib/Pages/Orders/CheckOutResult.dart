@@ -6,7 +6,7 @@ import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Pages/Explore.dart';
-import 'package:RMart/Pages/MyOrders.dart';
+import 'package:RMart/Pages/Orders/MyOrders.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
 import 'package:flutter/material.dart';

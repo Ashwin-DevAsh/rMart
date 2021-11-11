@@ -4,7 +4,7 @@ import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/OrdersListModel.dart';
 import 'package:RMart/Models/Product.dart';
-import 'package:RMart/Pages/OrderDetails.dart';
+import 'package:RMart/Pages/Orders/OrderDetails.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'Explore.dart';
+import '../Explore.dart';
 
 class MyOrders extends StatefulWidget {
   @override

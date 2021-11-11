@@ -3,9 +3,10 @@ import 'package:RMart/Context/UserContext.dart';
 import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/User.dart';
-import 'package:RMart/Pages/Developers.dart';
-import 'package:RMart/Pages/MyOrders.dart';
+import 'package:RMart/Pages/Developers/Developers.dart';
+import 'package:RMart/Pages/Orders/MyOrders.dart';
 import 'package:RMart/Pages/Registration/Otp.dart';
+import 'package:RMart/Pages/Transactions/AddMoney.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -61,9 +62,16 @@ class _ProfileState extends State<Profile> {
                   Divider(),
 
                   getBigListTile(
-                      title: "My Wallet",
-                      subtitle: "₹ ${UserContext.user.balance}",
-                      icon: Icons.account_balance_wallet_outlined),
+                    title: "My Wallet",
+                    subtitle: "₹ ${UserContext.user.balance}",
+                    icon: Icons.account_balance_wallet_outlined,
+                    trailing: Icon(CupertinoIcons.forward),
+                    onTap: () async {
+                      try {
+                        HelperFunctions.navigate(context, AddMoney());
+                      } catch (e) {}
+                    },
+                  ),
 
                   Divider(),
 
@@ -142,15 +150,16 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget getBigListTile({title, subtitle, icon}) {
+  Widget getBigListTile({title, subtitle, icon, onTap, trailing}) {
     return ListTile(
-      onTap: () {},
+      onTap: onTap,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon),
         ],
       ),
+      trailing: trailing,
       title: Text(
         title,
         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),

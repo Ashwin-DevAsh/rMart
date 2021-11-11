@@ -6,7 +6,7 @@ import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/CartProduct.dart';
 import 'package:RMart/Models/OrdersListModel.dart';
 import 'package:RMart/Models/Product.dart';
-import 'package:RMart/Pages/Checkout.dart';
+import 'package:RMart/Pages/Orders/Checkout.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/Widgets/ProductTileCart.dart';
 import 'package:RMart/assets/AppCololrs.dart';

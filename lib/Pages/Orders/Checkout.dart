@@ -7,7 +7,7 @@ import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/CartProduct.dart';
 import 'package:RMart/Models/Product.dart';
-import 'package:RMart/Pages/CheckOutResult.dart';
+import 'package:RMart/Pages/Orders/CheckOutResult.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:cached_network_image/cached_network_image.dart';

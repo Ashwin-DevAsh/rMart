@@ -1,4 +1,4 @@
-import 'package:RMart/Pages/Cart.dart';
+import 'package:RMart/Pages/Cart/Cart.dart';
 import 'package:RMart/assets/AppCololrs.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,10 @@ class _CartHolderState extends State<CartHolder> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: Cart(isFromCartHolder: true,callBack: Navigator.of(context).pop,),
+      body: Cart(
+        isFromCartHolder: true,
+        callBack: Navigator.of(context).pop,
+      ),
     );
   }
 }
