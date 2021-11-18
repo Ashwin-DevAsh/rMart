@@ -1,5 +1,5 @@
 import 'package:RMart/Context/ApiContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/User.dart';
@@ -14,6 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,109 +31,111 @@ class _ProfileState extends State<Profile> {
       body: SafeArea(
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              HelperWidgets.getHeader(context, "", () {
-                Navigator.pop(context);
-              }),
-              getProfile(),
-              SizedBox(
-                height: 20,
-              ),
-              Divider(),
-              SizedBox(
-                height: 10,
-              ),
-              Column(
-                children: [
-                  getBigListTile(
-                      title: "Name",
-                      subtitle: UserContext.user.name,
-                      icon: Icons.person_outline),
+          child: Consumer<UserModel>(builder: (context, user, _) {
+            return Column(
+              children: [
+                HelperWidgets.getHeader(context, "", () {
+                  Navigator.pop(context);
+                }),
+                getProfile(),
+                SizedBox(
+                  height: 20,
+                ),
+                Divider(),
+                SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: [
+                    getBigListTile(
+                        title: "Name",
+                        subtitle: UserModel.user.name,
+                        icon: Icons.person_outline),
 
-                  getBigListTile(
-                      title: "Number",
-                      subtitle: "+91" + UserContext.user.number,
-                      icon: Icons.call_outlined),
+                    getBigListTile(
+                        title: "Number",
+                        subtitle: "+91" + UserModel.user.number,
+                        icon: Icons.call_outlined),
 
-                  getBigListTile(
-                      title: "Email",
-                      subtitle: UserContext.user.email,
-                      icon: Icons.mail_outline),
-                  Divider(),
+                    getBigListTile(
+                        title: "Email",
+                        subtitle: UserModel.user.email,
+                        icon: Icons.mail_outline),
+                    Divider(),
 
-                  getBigListTile(
-                    title: "My Wallet",
-                    subtitle: "₹ ${UserContext.user.balance}",
-                    icon: Icons.account_balance_wallet_outlined,
-                    trailing: Icon(CupertinoIcons.forward),
-                    onTap: () async {
-                      try {
-                        HelperFunctions.navigate(context, AddMoney());
-                      } catch (e) {}
-                    },
-                  ),
-
-                  Divider(),
-
-                  //  getNormalListTile(
-                  //      title: "My Orders",
-                  //      icon:MaterialCommunityIcons.history,
-                  //      onClick: (){
-                  //        HelperFunctions.navigate(context, MyOrders());
-                  //      }),
-
-                  //  Divider(),
-                  getNormalListTile(
-                      title: "Password Recovery",
-                      icon: MaterialCommunityIcons.lock_outline,
-                      onClick: () {
-                        HelperFunctions.navigate(
-                            context,
-                            Otp(
-                              isRecoveryOtp: true,
-                              number: UserContext.user.number,
-                              email: UserContext.user.email,
-                            ));
-                      }),
-
-                  //  Divider(),
-
-                  getNormalListTile(
-                      title: "Logout",
-                      icon: MaterialIcons.exit_to_app,
-                      onClick: () async {
-                        logout(context);
-                      }),
-
-                  Divider(),
-
-                  getNormalListTile(
-                      title: "Developers",
-                      icon: Entypo.code,
-                      onClick: () async {
+                    getBigListTile(
+                      title: "My Wallet",
+                      subtitle: "₹ ${UserModel.user.balance}",
+                      icon: Icons.account_balance_wallet_outlined,
+                      trailing: Icon(CupertinoIcons.forward),
+                      onTap: () async {
                         try {
-                          HelperFunctions.navigate(context, Developers());
+                          HelperFunctions.navigate(context, AddMoney());
                         } catch (e) {}
-                      }),
+                      },
+                    ),
 
-                  getNormalListTile(
-                      title: "Support",
-                      icon: MaterialIcons.help_outline,
-                      onClick: () async {
-                        try {
-                          launch(
-                              "mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Support");
-                        } catch (e) {}
-                      }),
+                    Divider(),
 
-                  SizedBox(
-                    height: 100,
-                  )
-                ],
-              )
-            ],
-          ),
+                    //  getNormalListTile(
+                    //      title: "My Orders",
+                    //      icon:MaterialCommunityIcons.history,
+                    //      onClick: (){
+                    //        HelperFunctions.navigate(context, MyOrders());
+                    //      }),
+
+                    //  Divider(),
+                    getNormalListTile(
+                        title: "Password Recovery",
+                        icon: MaterialCommunityIcons.lock_outline,
+                        onClick: () {
+                          HelperFunctions.navigate(
+                              context,
+                              Otp(
+                                isRecoveryOtp: true,
+                                number: UserModel.user.number,
+                                email: UserModel.user.email,
+                              ));
+                        }),
+
+                    //  Divider(),
+
+                    getNormalListTile(
+                        title: "Logout",
+                        icon: MaterialIcons.exit_to_app,
+                        onClick: () async {
+                          logout(context);
+                        }),
+
+                    Divider(),
+
+                    getNormalListTile(
+                        title: "Developers",
+                        icon: Entypo.code,
+                        onClick: () async {
+                          try {
+                            HelperFunctions.navigate(context, Developers());
+                          } catch (e) {}
+                        }),
+
+                    getNormalListTile(
+                        title: "Support",
+                        icon: MaterialIcons.help_outline,
+                        onClick: () async {
+                          try {
+                            launch(
+                                "mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Support");
+                          } catch (e) {}
+                        }),
+
+                    SizedBox(
+                      height: 100,
+                    )
+                  ],
+                )
+              ],
+            );
+          }),
         ),
       ),
     );
@@ -180,8 +183,7 @@ class _ProfileState extends State<Profile> {
               borderRadius: BorderRadius.circular(30),
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                imageUrl:
-                    "https://www.google.com/" + UserContext.getId + ".jpg",
+                imageUrl: "https://www.google.com/" + UserModel.getId + ".jpg",
                 placeholder: (context, url) =>
                     Image.asset("lib/assets/Images/avatar.webp"),
                 errorWidget: (context, url, error) =>
@@ -196,14 +198,14 @@ class _ProfileState extends State<Profile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                UserContext.user.name,
+                UserModel.user.name,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 5,
               ),
               Text(
-                "rMart@" + UserContext.user.number,
+                "rMart@" + UserModel.user.number,
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

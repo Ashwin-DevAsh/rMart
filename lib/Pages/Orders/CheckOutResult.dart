@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:RMart/Api/OrderApi.dart';
 import 'package:RMart/Api/ProfileApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Pages/Explore.dart';
 import 'package:RMart/Pages/Orders/MyOrders.dart';
@@ -41,8 +41,8 @@ class _CheckOutResultState extends State<CheckOutResult> {
 
     var result = await OrderApi.verifyPayment(data);
     print(result);
-    UserContext.user.balance =
-        (await ProfileApi.getBalance({"id": UserContext.getId})).toString();
+    UserModel.user.balance =
+        (await ProfileApi.getBalance({"id": UserModel.getId})).toString();
     if (result["message"] == "success") {
       setState(() {
         isLoading = false;
@@ -179,13 +179,16 @@ class _CheckOutResultState extends State<CheckOutResult> {
                   SizedBox(
                     height: 30,
                   ),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontFamily: AppFonts.textFonts,
-                        fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25, right: 25),
+                    child: Text(
+                      subtitle,
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontFamily: AppFonts.textFonts,
+                          fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               )
@@ -197,6 +200,7 @@ class _CheckOutResultState extends State<CheckOutResult> {
   }
 
   String getSubTitle() {
+    return "You may collect your order at the respective delivery section.";
     try {
       print("category " + widget.category.toString());
       switch (widget.category) {

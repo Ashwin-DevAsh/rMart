@@ -1,6 +1,6 @@
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/CartProduct.dart';

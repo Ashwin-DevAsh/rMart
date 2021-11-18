@@ -7,15 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-
-
   var shouldHidePassword = true;
 
   var name = TextEditingController();
@@ -31,132 +28,135 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: WillPopScope(
-        onWillPop: (){
-          if(isLoading){
+        onWillPop: () {
+          if (isLoading) {
             SystemNavigator.pop();
-          }else{
+          } else {
             Navigator.of(context).pop();
           }
           return;
         },
-              child: Builder(
-          builder: (context) {
-            return SafeArea(
-                child: isLoading?Column(
-                  children: [
-                    Expanded(child: Center(child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(AppColors.accentColor),),),)
-                  ],
-                ):
-                    Column(
-                      children: [
-                        Expanded(
-                                                child: SingleChildScrollView(
-                                                  physics: BouncingScrollPhysics(),
-
-                            child: Column(
-                              children: [
-                              HelperWidgets.getHeader(context,"", (){Navigator.pop(context);}),
-                              SizedBox(height:20),
+        child: Builder(builder: (context) {
+          return SafeArea(
+            child: isLoading
+                ? Column(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.accentColor),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                : Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Column(
+                            children: [
+                              HelperWidgets.getHeader(context, "", () {
+                                Navigator.pop(context);
+                              }),
+                              SizedBox(height: 20),
                               getGreetings(),
                               getTextField(),
                               SizedBox(height: 30),
-
-                            ],),
-
+                            ],
                           ),
                         ),
-                              getFooter(context)
-
-                      ],
-                    ),
-
-                 
-            );
-          }
-        ),
+                      ),
+                      getFooter(context)
+                    ],
+                  ),
+          );
+        }),
       ),
     );
   }
 
-
-  Widget getTextField(){
+  Widget getTextField() {
     return Padding(
-      padding: const EdgeInsets.only(left:20,right:20,top:40),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
       child: Column(
         children: [
-            TextField(
-              cursorColor: AppColors.accentColor,
-              decoration: new InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+          TextField(
+            cursorColor: AppColors.accentColor,
+            decoration: new InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: AppColors.accentColor, width: 2),
+                ),
+                hintText: "Name"),
+            controller: name,
+          ),
+          SizedBox(height: 30),
+          // TextField(
+          //   cursorColor: AppColors.accentColor,
+          //   decoration: new InputDecoration(
+          //       focusedBorder: UnderlineInputBorder(
+          //         borderSide:
+          //             BorderSide(color: AppColors.accentColor, width: 2),
+          //       ),
+          //       hintText: "Student ID / Staff ID"),
+          //   controller: collegeID,
+          // ),
+          // SizedBox(height: 30),
+          TextField(
+            cursorColor: AppColors.accentColor,
+            keyboardType: TextInputType.emailAddress,
+            decoration: new InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: AppColors.accentColor, width: 2),
+                ),
+                hintText: "Email Address"),
+            controller: email,
+          ),
+          SizedBox(height: 30),
+          TextField(
+            keyboardType: TextInputType.number,
+            cursorColor: AppColors.accentColor,
+            decoration: new InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: AppColors.accentColor, width: 2),
+                ),
+                hintText: "Phone number"),
+            controller: phoneNumber,
+          ),
+          SizedBox(height: 30),
+          TextField(
+            controller: password,
+            obscureText: shouldHidePassword,
+            keyboardType: TextInputType.visiblePassword,
+            cursorColor: AppColors.accentColor,
+            decoration: new InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide:
+                      BorderSide(color: AppColors.accentColor, width: 2),
+                ),
+                hintText: "Password",
+                suffixIcon: IconButton(
+                  icon: Icon(shouldHidePassword
+                      ? Icons.visibility_off
+                      : Icons.visibility,
                   ),
-                  hintText: "Name"),
-              controller: name,
-              
-            ),
-            SizedBox(height: 30),
-          
-
-            TextField(
-              cursorColor: AppColors.accentColor,
-              decoration: new InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
-                  ),
-                  hintText: "Student ID / Staff ID"),
-              controller: collegeID,
-            ),
-            SizedBox(height: 30),
-
-            TextField(
-              cursorColor: AppColors.accentColor,
-              keyboardType: TextInputType.emailAddress,
-              decoration: new InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
-                  ),
-                  hintText: "Email Address"),
-              controller: email,
-            ),
-            SizedBox(height: 30),
-            TextField(
-
-              keyboardType: TextInputType.number,
-              cursorColor: AppColors.accentColor,
-              decoration: new InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
-                  ),
-                  hintText: "Phone number"),
-              controller: phoneNumber,
-            ),
-            SizedBox(height: 30),
-            TextField(
-              controller: password,
-              obscureText: shouldHidePassword,
-              keyboardType: TextInputType.visiblePassword,
-              cursorColor: AppColors.accentColor,
-              decoration: 
-              new InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.accentColor,width: 2),
-                  ),
-                  hintText: "Password",
-              suffixIcon: IconButton(icon:Icon(shouldHidePassword?Icons.visibility_off:Icons.visibility),onPressed: (){
-                setState(() {    
-                  shouldHidePassword= !shouldHidePassword;
-                });
-              },)),
-            ),
-            SizedBox(
-              height:MediaQuery.of(context).size.width/2
-            )
+                  onPressed: () {
+                    setState(() {
+                      shouldHidePassword = !shouldHidePassword;
+                    });
+                  },
+                )),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.width / 2)
         ],
       ),
     );
   }
-
 
   Widget getFooter(context) {
     return Container(
@@ -168,27 +168,29 @@ class _SignUpState extends State<SignUp> {
       width: MediaQuery.of(context).size.width,
       height: 100,
       child: Material(
-      color: AppColors.backgroundColor,
+        color: AppColors.backgroundColor,
 
-        borderRadius: BorderRadius.only(topLeft:Radius.circular(20)),
-          // elevation: 20,
-              child: Row(children: [
-                 SizedBox(width: 20),
-        GestureDetector(
-                onTap: ()async{
-                  try{
-                         launch("mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Support");
-                  }catch(e){}
-                       },
-                  child: Text(
-            "Need help?",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20)),
+        // elevation: 20,
+        child: Row(children: [
+          SizedBox(width: 20),
+          GestureDetector(
+            onTap: () async {
+              try {
+                launch(
+                    "mailto:rMart.support@rajalakshmi.edu.in?subject=rMart Support");
+              } catch (e) {}
+            },
+            child: Text(
+              "Need help?",
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
           Expanded(child: Center()),
           GestureDetector(
             onTap: () {
-                next(context);
+              next(context);
             },
             child: Material(
               color: AppColors.accentColor,
@@ -212,74 +214,92 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  next(context) async{
+  next(context) async {
     print("next");
-   if(isValidInput(context)){
-
-     setState(() {
-       isLoading=true;
-     });
+    if (isValidInput(context)) {
+      setState(() {
+        isLoading = true;
+      });
 
       var dataGetOtp = {
-        "email":email.text.trim().toLowerCase(),
-        "number":phoneNumber.text.trim()
+        "email": email.text.trim().toLowerCase(),
+        "number": phoneNumber.text.trim()
       };
 
-
       var signUpData = {
-        "email":email.text.trim().toLowerCase(),
-        "phoneNumber":phoneNumber.text.trim(),
-        "name":name.text.trim(),
-        "collegeID":collegeID.text.trim(),
-        "password":password.text.trim()
+        "email": email.text.trim().toLowerCase(),
+        "phoneNumber": phoneNumber.text.trim(),
+        "name": name.text.trim(),
+        "collegeID": null,
+        "password": password.text.trim()
       };
 
       var result = await RegistrationApi.getOtp(dataGetOtp);
-      if(result["message"]=="done"){
-          HelperFunctions.navigate(context, Otp(signUpdata:signUpData,email: email.text.trim().toLowerCase(),number: phoneNumber.text.trim(),isRecoveryOtp: false,));
-      }else{
+      if (result["message"] == "done") {
+        HelperFunctions.navigate(
+            context,
+            Otp(
+              signUpdata: signUpData,
+              email: email.text.trim().toLowerCase(),
+              number: phoneNumber.text.trim(),
+              isRecoveryOtp: false,
+            ));
+      } else {
         setState(() {
-          isLoading=false;
+          isLoading = false;
         });
-        Scaffold.of(context).showSnackBar(SnackBar(content:Text("Failed")));
-
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text("Failed")));
       }
-
-   }
+    }
   }
 
-  bool isValidInput(context){
-
-    if(name.text.isEmpty || collegeID.text.isEmpty || phoneNumber.text.isEmpty || password.text.isEmpty || email.text.isEmpty ){
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid credientials"),));
+  bool isValidInput(context) {
+    if (name.text.isEmpty ||
+        phoneNumber.text.isEmpty ||
+        password.text.isEmpty ||
+        email.text.isEmpty) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Invalid credentials"),
+      ));
       return false;
     }
 
-    if(name.text.length<3){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Name"),));
+    if (name.text.length < 3) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Invalid Name"),
+      ));
       return false;
     }
 
-
-    if(email.text.length<5 || !email.text.contains("@") || !email.text.contains(".")){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Email"),));
+    if (email.text.length < 5 ||
+        !email.text.contains("@") ||
+        !email.text.contains(".")) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Invalid Email"),
+      ));
       return false;
     }
 
-     if(collegeID.text.length<2){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid College ID"),));
+    // if (collegeID.text.length < 2) {
+    //   Scaffold.of(context).showSnackBar(SnackBar(
+    //     content: Text("Invalid College ID"),
+    //   ));
+    //   return false;
+    // }
+
+    if (phoneNumber.text.length != 10) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Invalid Phone Number"),
+      ));
       return false;
     }
 
-    if(phoneNumber.text.length!=10 ){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
-      return false;
-    }
-
-    try{
+    try {
       int.parse(phoneNumber.text);
-    }catch(e){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
+    } catch (e) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Invalid Phone Number"),
+      ));
     }
 
     // try{
@@ -288,36 +308,37 @@ class _SignUpState extends State<SignUp> {
     //    Scaffold.of(context).showSnackBar(SnackBar(content: Text("Invalid Phone Number"),));
     // }
 
-    if(password.text.length<8){
-       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Password must be atleast 8 character"),));
-       return false;
+    if (password.text.length < 8) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Password must be atleast 8 character"),
+      ));
+      return false;
     }
     return true;
   }
 
-  Widget getGreetings(){
+  Widget getGreetings() {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.only(left:20),
+        padding: const EdgeInsets.only(left: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-                Text(
-                  "Create New",
-                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                    Text(
-                  "Account",
-                  style: TextStyle(
-                    fontSize: 32,
-                  ),
-                ),
+            Text(
+              "Create New",
+              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Account",
+              style: TextStyle(
+                fontSize: 32,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-
 }

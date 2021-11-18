@@ -3,7 +3,7 @@ import 'package:RMart/Api/RecoveryApi.dart';
 import 'package:RMart/Api/RegistrationApi.dart';
 import 'package:RMart/Api/TransactionApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/User.dart';
@@ -137,10 +137,10 @@ class _AddMoneyState extends State<AddMoney> {
       var data = {
         "amount": amount,
         "toMetadata": {
-          "id": UserContext.getId,
-          "name": UserContext.user.name,
-          "number": UserContext.user.number,
-          "email": UserContext.user.email
+          "id": UserModel.getId,
+          "name": UserModel.user.name,
+          "number": UserModel.user.number,
+          "email": UserModel.user.email
         }
       };
       var result = await TransactionApi.createAddMoneyOrder(data);
@@ -157,10 +157,7 @@ class _AddMoneyState extends State<AddMoney> {
   var options = {
     'name': 'rMart',
     'description': 'by team initiators',
-    'prefill': {
-      'contact': UserContext.user.number,
-      'email': UserContext.user.email
-    }
+    'prefill': {'contact': UserModel.user.number, 'email': UserModel.user.email}
   };
 
   razorpayCheckout(amount, orderID, signature, key) {

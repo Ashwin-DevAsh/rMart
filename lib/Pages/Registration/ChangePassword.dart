@@ -1,5 +1,5 @@
 import 'package:RMart/Api/RecoveryApi.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Widgets/HelperWidgets.dart';
 import 'package:RMart/assets/AppCololrs.dart';
@@ -86,7 +86,8 @@ class _ChangePasswordState extends State<ChangePassword> {
             cursorColor: AppColors.accentColor,
             decoration: new InputDecoration(
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                  borderSide:
+                      BorderSide(color: AppColors.accentColor, width: 2),
                 ),
                 hintText: "Password",
                 suffixIcon: IconButton(
@@ -108,7 +109,8 @@ class _ChangePasswordState extends State<ChangePassword> {
             cursorColor: AppColors.accentColor,
             decoration: new InputDecoration(
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.accentColor,width: 2),
+                  borderSide:
+                      BorderSide(color: AppColors.accentColor, width: 2),
                 ),
                 hintText: "Confirm Password",
                 suffixIcon: IconButton(

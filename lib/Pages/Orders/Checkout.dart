@@ -2,7 +2,7 @@ import 'package:RMart/Api/OrderApi.dart';
 import 'package:RMart/Api/ProfileApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Models/CartListModel.dart';
 import 'package:RMart/Models/CartProduct.dart';
@@ -138,10 +138,10 @@ class _CheckOutState extends State<CheckOut> {
       "amount": widget.totalAmount.toString(),
       "walletAmount": walletAmount,
       "orderBy": {
-        "id": UserContext.getId,
-        "name": UserContext.user.name,
-        "number": UserContext.user.number,
-        "email": UserContext.user.email
+        "id": UserModel.getId,
+        "name": UserModel.user.name,
+        "number": UserModel.user.number,
+        "email": UserModel.user.email
       },
     };
     var result = await OrderApi.makeOrderUsingRazorpay(data);
@@ -179,16 +179,16 @@ class _CheckOutState extends State<CheckOut> {
       "products": widget.products,
       "amount": widget.totalAmount.toString(),
       "orderBy": {
-        "id": "rMart@" + UserContext.user.number,
-        "name": UserContext.user.name,
-        "number": UserContext.user.number,
-        "email": UserContext.user.email
+        "id": "rMart@" + UserModel.user.number,
+        "name": UserModel.user.name,
+        "number": UserModel.user.number,
+        "email": UserModel.user.email
       },
     };
     var response = await OrderApi.placeOrderUsingWallet(data);
     print(response);
-    UserContext.user.balance =
-        (await ProfileApi.getBalance({"id": UserContext.getId})).toString();
+    UserModel.user.balance =
+        (await ProfileApi.getBalance({"id": UserModel.getId})).toString();
     try {
       var productMap = widget.products[0]["product"];
       try {
@@ -215,10 +215,7 @@ class _CheckOutState extends State<CheckOut> {
   var options = {
     'name': 'rMart',
     'description': 'by team initiators',
-    'prefill': {
-      'contact': UserContext.user.number,
-      'email': UserContext.user.email
-    }
+    'prefill': {'contact': UserModel.user.number, 'email': UserModel.user.email}
   };
 
   razorpayCheckout(amount, orderID, signature, key) {
@@ -281,7 +278,7 @@ class _CheckOutState extends State<CheckOut> {
   }
 
   Widget toggleWalletPayment(isWalletPaymentEnabled, callback) {
-    if (UserContext.getBalance == 0) {
+    if (UserModel.getBalance == 0) {
       return Center();
     }
 
@@ -313,7 +310,7 @@ class _CheckOutState extends State<CheckOut> {
                 ),
                 // Text.rich(
                 Text(
-                  "Use your ₹${UserContext.getBalance}.00 rMart Pay balance",
+                  "Use your ₹${UserModel.getBalance}.00 rMart Pay balance",
                   maxLines: 2,
                   style: TextStyle(
                     fontSize: 15,
@@ -333,7 +330,7 @@ class _CheckOutState extends State<CheckOut> {
     var paybuttonText = "Pay Now - Rs ${widget.totalAmount}.00";
     var finalAmount = widget.totalAmount;
     if (isWalletPaymntEnabled) {
-      finalAmount = widget.totalAmount - UserContext.getBalance;
+      finalAmount = widget.totalAmount - UserModel.getBalance;
       if (finalAmount > 0) {
         paybuttonText = "Pay Now - Rs $finalAmount.00";
       } else {
@@ -457,7 +454,7 @@ class _CheckOutState extends State<CheckOut> {
                   } else if (finalAmount <= 0) {
                     placeOrderUsingWallet(context);
                   } else {
-                    makeOrderUsingRazorpay(context, UserContext.getBalance);
+                    makeOrderUsingRazorpay(context, UserModel.getBalance);
                   }
                 },
                 child: Material(

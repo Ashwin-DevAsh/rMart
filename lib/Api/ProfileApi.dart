@@ -1,5 +1,5 @@
 import 'package:RMart/Context/ApiContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/RemoteConfig/FirebaseRemoteConfig.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -10,7 +10,7 @@ class ProfileApi {
     var body = json.encode(data);
     var uriResponse = await client.post(ApiContext.profileURL + "/getBalance",
         headers: {
-          "token": UserContext.user.token,
+          "token": UserModel.user.token,
           "key": await FirebaseRempteConfig.getServerKey(),
           "Content-Type": "application/json",
         },

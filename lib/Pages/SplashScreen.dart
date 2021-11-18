@@ -3,7 +3,7 @@ import 'package:RMart/Api/ProfileApi.dart';
 import 'package:RMart/Api/RegistrationApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Database/Appdatabase.dart';
 import 'package:RMart/Database/Databasehelper.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
@@ -69,15 +69,15 @@ class _SplashScreenState extends State<SplashScreen> {
         await DataBaseHelper.store.record("User").exists(DataBaseHelper.db);
 
     if (userExist) {
-      UserContext.user = User.fromMap(
+      UserModel.user = User.fromMap(
           await DataBaseHelper.store.record("User").get(DataBaseHelper.db));
       bool isValidKeys =
           (await RegistrationApi.checkKeys())["message"] == "success";
 
       if (isValidKeys) {
-        UserContext.user.balance =
-            (await ProfileApi.getBalance({"id": UserContext.getId})).toString();
-        print("balance = ${UserContext.user.balance}");
+        UserModel.user.balance =
+            (await ProfileApi.getBalance({"id": UserModel.getId})).toString();
+        print("balance = ${UserModel.user.balance}");
         openHomePage(context);
       } else {
         await DataBaseHelper.store.record("User").delete(DataBaseHelper.db);
@@ -98,9 +98,9 @@ class _SplashScreenState extends State<SplashScreen> {
   loadContextData() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CartListModel>(context, listen: false)
-          .init(UserContext.user.cart);
+          .init(UserModel.user.cart);
       Provider.of<FavouriteListModel>(context, listen: false)
-          .init(UserContext.user.favourite);
+          .init(UserModel.user.favourite);
     });
   }
 

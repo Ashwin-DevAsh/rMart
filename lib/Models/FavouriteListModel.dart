@@ -1,5 +1,4 @@
-
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Models/Product.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -7,7 +6,7 @@ class FavouriteListModel extends ChangeNotifier {
   List<Product> favourite = [];
   static List favouriteMap = [];
 
-  init(cartMap){
+  init(cartMap) {
     favourite = [];
     favouriteMap = cartMap;
     favouriteMap.forEach((element) {
@@ -15,24 +14,19 @@ class FavouriteListModel extends ChangeNotifier {
     });
 
     notifyListeners();
-
-
   }
 
-
-  toggleFavourite(Product product){
-
-    if( favourite.contains(product)){
-       var index = favourite.indexOf(product);
-        favourite.remove(product);
-        favouriteMap.removeAt(index);
-    }else{
-        favourite.add(product);
-        favouriteMap.add(product.toMap());
+  toggleFavourite(Product product) {
+    if (favourite.contains(product)) {
+      var index = favourite.indexOf(product);
+      favourite.remove(product);
+      favouriteMap.removeAt(index);
+    } else {
+      favourite.add(product);
+      favouriteMap.add(product.toMap());
     }
 
     notifyListeners();
-    UserContext.user.updateUserDatabase();
+    UserModel.user.updateUserDatabase();
   }
-
 }

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/RemoteConfig/FirebaseRemoteConfig.dart';
 import 'package:http/http.dart' as http;
 
@@ -58,11 +58,11 @@ class ProductsApi {
     var uriResponse = await client.get(
       ApiContext.martURL +
           "/v2/getMyOrders/rMart@" +
-          UserContext.user.number +
+          UserModel.user.number +
           "/${status.toLowerCase()}",
       headers: {
         "key": await FirebaseRempteConfig.getServerKey(),
-        "token": UserContext.user.token,
+        "token": UserModel.user.token,
         "Content-Type": "application/json",
       },
     );

@@ -4,7 +4,7 @@ import 'package:RMart/Api/OrderApi.dart';
 import 'package:RMart/Api/ProfileApi.dart';
 import 'package:RMart/Api/TransactionApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Pages/Explore.dart';
 import 'package:RMart/Pages/Orders/MyOrders.dart';
@@ -12,6 +12,7 @@ import 'package:RMart/assets/AppCololrs.dart';
 import 'package:RMart/assets/AppFonts.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class AddMoneyResult extends StatefulWidget {
@@ -39,8 +40,8 @@ class _AddMoneyResultState extends State<AddMoneyResult> {
 
     var result = await TransactionApi.addMoney(data);
     print(result);
-    UserContext.user.balance =
-        (await ProfileApi.getBalance({"id": UserContext.getId})).toString();
+    UserModel.user.balance =
+        (await ProfileApi.getBalance({"id": UserModel.getId})).toString();
     if (result["message"] == "success") {
       setState(() {
         isLoading = false;
@@ -95,7 +96,7 @@ class _AddMoneyResultState extends State<AddMoneyResult> {
           subtitle: getSubTitle(),
           buttonText: "Done",
           onButtonTap: () {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           });
     } else {
       return getSuccessSheet(
@@ -135,70 +136,78 @@ class _AddMoneyResultState extends State<AddMoneyResult> {
       subtitle,
       buttonText,
       onButtonTap}) {
-    return Scaffold(
-      bottomNavigationBar: getBottomSheet(buttonText, onButtonTap),
-      backgroundColor: AppColors.backgroundColor,
-      body: SafeArea(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: Image.asset(imagePath).image,
-                width: MediaQuery.of(context).size.width * 0.5,
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Column(
-                children: [
-                  Text(
-                    titleFirstLine,
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.accentColor,
-                        fontFamily: AppFonts.textFonts),
-                  ),
-                  titleSecondLine == null
-                      ? Center()
-                      : Text(
-                          titleSecondLine,
+    return Consumer<UserModel>(builder: (context, user, _) {
+      return Scaffold(
+          bottomNavigationBar: getBottomSheet(buttonText, onButtonTap, user),
+          backgroundColor: AppColors.backgroundColor,
+          body: WillPopScope(
+            onWillPop: () {
+              user.refresh();
+              Navigator.pop(context);
+              return;
+            },
+            child: SafeArea(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: Image.asset(imagePath).image,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Column(
+                      children: [
+                        Text(
+                          titleFirstLine,
                           style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.w600,
                               color: AppColors.accentColor,
                               fontFamily: AppFonts.textFonts),
                         ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25),
-                    child: Text(
-                      subtitle,
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontFamily: AppFonts.textFonts,
-                          fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+                        titleSecondLine == null
+                            ? Center()
+                            : Text(
+                                titleSecondLine,
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.accentColor,
+                                    fontFamily: AppFonts.textFonts),
+                              ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 25, right: 25),
+                          child: Text(
+                            subtitle,
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: AppFonts.textFonts,
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ));
+    });
   }
 
   String getSubTitle() {
     return "Amount of Rs. ${widget.amount} has been successful added in your rMart wallet.";
   }
 
-  Widget getBottomSheet(buttonText, onButtonTap) {
+  Widget getBottomSheet(buttonText, onButtonTap, UserModel user) {
     return Container(
       height: 80,
       width: MediaQuery.of(context).size.width,
@@ -206,6 +215,7 @@ class _AddMoneyResultState extends State<AddMoneyResult> {
         children: [
           GestureDetector(
               onTap: () {
+                user.refresh();
                 onButtonTap();
               },
               child: Material(

@@ -1,6 +1,7 @@
 import 'package:RMart/Models/User.dart';
+import 'package:flutter/cupertino.dart';
 
-class UserContext {
+class UserModel extends ChangeNotifier {
   static User user;
 
   static String get getId {
@@ -9,5 +10,9 @@ class UserContext {
 
   static int get getBalance {
     return int.parse(user.balance);
+  }
+
+  refresh() async {
+    notifyListeners();
   }
 }

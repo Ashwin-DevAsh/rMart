@@ -1,7 +1,7 @@
 import 'package:RMart/Api/ProductsApi.dart';
 import 'package:RMart/Context/ApiContext.dart';
 import 'package:RMart/Context/ProductsContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/Helpers/HelperFunctions.dart';
 import 'package:RMart/Pages/Explore.dart';
 import 'package:RMart/Pages/Merchant.dart';
@@ -331,7 +331,7 @@ class _HomeState extends State<Home> {
                     fit: BoxFit.cover,
                     imageUrl: "https://www.google.com/" +
                         "/rMart@" +
-                        UserContext.user.number +
+                        UserModel.user.number +
                         ".jpg",
                     placeholder: (context, url) =>
                         Image.asset("lib/assets/Images/avatar.webp"),

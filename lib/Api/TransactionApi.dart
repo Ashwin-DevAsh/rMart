@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:RMart/Context/ApiContext.dart';
-import 'package:RMart/Context/UserContext.dart';
+import 'package:RMart/Models/UserModel.dart';
 import 'package:RMart/RemoteConfig/FirebaseRemoteConfig.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +12,7 @@ class TransactionApi {
     var uriResponse =
         await client.post(ApiContext.martURL + "/createAddMoneyOrder",
             headers: {
-              "token": UserContext.user.token,
+              "token": UserModel.user.token,
               "key": await FirebaseRempteConfig.getServerKey(),
               "Content-Type": "application/json",
             },
@@ -26,7 +26,7 @@ class TransactionApi {
     var body = json.encode(data);
     var uriResponse = await client.post(ApiContext.martURL + "/addMoney",
         headers: {
-          "token": UserContext.user.token,
+          "token": UserModel.user.token,
           "key": await FirebaseRempteConfig.getServerKey(),
           "Content-Type": "application/json",
         },
