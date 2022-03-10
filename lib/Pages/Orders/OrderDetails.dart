@@ -66,6 +66,10 @@ class _OrderDetailsState extends State<OrderDetails> {
     await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
+  isDelivered(status,product){
+
+  }
+
   @override
   void initState() {
     // connectSocket();
@@ -273,7 +277,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                     productMap["imageURL"],
                     productMap["productOwner"],
                     productMap["category"],
-                    productMap["discount"]);
+                    productMap["discount"],
+                    isDelivered:productMap["isDelivered"],
+                );
                 return productTile(CartProduct(
                     product,
                     widget.products[index]["count"],
@@ -350,23 +356,30 @@ class _OrderDetailsState extends State<OrderDetails> {
                             SizedBox(
                               height: 5,
                             ),
-                            Material(
-                              borderRadius: BorderRadius.circular(20),
-                              color: AppColors.accentColor,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 2.5, bottom: 2.5, left: 10, right: 10),
-                                child: Container(
-                                    child: Text(
-                                  "x${cartProduct.count}",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      color: AppColors.backgroundColor,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ),
+                            Row(
+                              children: [
+                                Material(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: AppColors.accentColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2.5, bottom: 2.5, left: 10, right: 10),
+                                    child: Container(
+                                        child: Text(
+                                      "x${cartProduct.count}",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: AppColors.backgroundColor,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                  ),
+                                ),
+                                SizedBox(width: 10,),
+
+                                cartProduct.product.isDelivered?  Image(image: Image.asset("lib/assets/Images/checkMark.png").image,height: 17.5,width: 20,):Center()
+                              ],
                             )
                           ],
                         ),

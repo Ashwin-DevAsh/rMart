@@ -20,7 +20,7 @@ class MyOrders extends StatefulWidget {
 }
 
 class MyOrdersState extends State<MyOrders> {
-  var categories = ["Pending", "Delivered", "Expired", "All"];
+  var categories = ["Pending", "Delivered", "All"];
   var selectedCategory = 0;
   var isLoaded = true;
 

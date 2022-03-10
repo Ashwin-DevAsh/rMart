@@ -5,10 +5,15 @@ class Product{
   String productOwner;
   String category;
   int price;
-  int discount; 
+  int discount;
+  bool isDelivered;
 
   Product(this.productID, this.productName,this.price,this.imageURL,
-      this.productOwner, this.category,this.discount);
+      this.productOwner, this.category,this.discount,{this.isDelivered}){
+      if(this.isDelivered == null){
+        this.isDelivered = false;
+      }
+  }
 
   Product.fromMap(object){
     this.productID=object["productID"];

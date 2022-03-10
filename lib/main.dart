@@ -48,7 +48,6 @@ class MyApp extends StatelessWidget {
                       primaryVariant: AppColors.accentColor,
                     ),
                   ),
-
                   debugShowCheckedModeBanner: false,
                   home: SplashScreen())),
         ),
