@@ -22,16 +22,16 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     if (widget.shouldShowDisclimer) {
-      Future.delayed(Duration(seconds: 2), () {
-        HelperFunctions.showAlertDialog(
-            context,
-            "Disclaimer",
-            "The product images shown are for illustration purposes only and may not be an exact representation of the product.\n\n" +
-                "Orders which are not collected within a day will expire automatically.\n\n" +
-                "No refund will be issued if the customer fails to collect the product before the token expires.\n\n" +
-                "Orders cannot be cancelled once the order is placed and token is generated.\n\n" +
-                "Exchange of product with different item is not applicable.\n\n");
-      });
+      // Future.delayed(Duration(seconds: 2), () {
+      //   HelperFunctions.showAlertDialog(
+      //       context,
+      //       "Disclaimer",
+      //       "The product images shown are for illustration purposes only and may not be an exact representation of the product.\n\n" +
+      //           "Orders which are not collected within a day will expire automatically.\n\n" +
+      //           "No refund will be issued if the customer fails to collect the product before the token expires.\n\n" +
+      //           "Orders cannot be cancelled once the order is placed and token is generated.\n\n" +
+      //           "Exchange of product with different item is not applicable.\n\n");
+      // });
     }
 
     super.initState();
