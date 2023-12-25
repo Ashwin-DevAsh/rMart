@@ -1,16 +1,10 @@
-# RMart
+# rMart
 
-A new Flutter project.
+Food Ordering App tailored for college students, simplifying the lunch experience through efficient pre-ordering
 
-## Getting Started
+## Architecture Diagram
 
-This project is a starting point for a Flutter application.
+![Architecture Diagram](diagram-export-12-25-2023-4_51_14-PM.png)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## rMart-Backend
+[Check out Backedend repository](https://github.com/Ashwin-DevAsh/rMart-Backend)
