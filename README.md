@@ -27,17 +27,21 @@ rMart is a Flutter application designed for college students to conveniently ord
 
 Follow these steps to set up and run rMart on your local machine:
 
+
+1. Clone the Repository
 ```bash
-# Clone the Repository
 git clone https://github.com/Ashwin-DevAsh/rMart
 cd rMart
+```
 
-# Install Dependencies
+2. Install Dependencies
+```bash
 flutter pub get
+```
 
-# Run the Application
+3. Run the Application
+```bash
 flutter run
-
 ```
 
 ## Usage
