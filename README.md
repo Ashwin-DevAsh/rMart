@@ -46,5 +46,6 @@ flutter run
 
 ## Google Play Store
 
-[Download the app from the Google Play Store](https://play.google.com/store/apps/details?id=com.DevAsh.RMart&hl=en_IN&gl=IN)
-[![Download on the Google Play Store](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.DevAsh.RMart&hl=en_IN&gl=IN)
+<a href="https://play.google.com/store/apps/details?id=com.DevAsh.RMart&hl=en_IN&gl=IN">
+  <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Download on the Google Play Store" width="200">
+</a>
