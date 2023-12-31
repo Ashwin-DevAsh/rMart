@@ -42,10 +42,10 @@ flutter run
 
 ## Usage
 
-- **User Registration/Login:**: Launch the app and create an account or log in.
-- **Explore Menus**: Browse through available menus from local vendors.
-- **Place an Order:**: Select items from the menu and place your order.
-- **View Order History:**: Check your order history for past transactions.
+- **User Registration/Login:** Launch the app and create an account or log in.
+- **Explore Menus** Browse through available menus from local vendors.
+- **Place an Order:** Select items from the menu and place your order.
+- **View Order History:** Check your order history for past transactions.
 
 ## Screenshots
 
