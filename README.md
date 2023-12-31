@@ -67,6 +67,10 @@ flutter run
 
 </div>
 
+## Dependency Repositories
+- [rMart-Backend](https://github.com/Ashwin-DevAsh/rMart-Backend): Microservice handling backend functionality.
+- [rMart-Scanner](https://github.com/Ashwin-DevAsh/rMart-Scanner): Vendor application for scanning and delivering orders.
+
 
 ## Google Play Store
 
