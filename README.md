@@ -1,6 +1,6 @@
 [![rMart Logo](https://play-lh.googleusercontent.com/oJ3bOlsP9fN6gSTV6h9s47BlSR4Vf0WnDY8VtqmZJfOGTFTxKuryK4h3ufyvDJMr2mk=w240-h480-rw)](https://play.google.com/store/apps/details?id=com.DevAsh.RMart&hl=en_IN&gl=IN)
 
-# rMart - Flutter Food Ordering App
+# rMart - Food Ordering App
 
 [![Flutter Version](https://img.shields.io/badge/Flutter-v2.8.0-blue.svg)](https://flutter.dev/)
 [![Dart Version](https://img.shields.io/badge/Dart-v2.15.0-blue.svg)](https://dart.dev/)
