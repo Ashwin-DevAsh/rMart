@@ -1,5 +1,5 @@
 <a href="https://play.google.com/store/apps/details?id=com.DevAsh.RMart&hl=en_IN&gl=IN">
-  <img src="https://play-lh.googleusercontent.com/oJ3bOlsP9fN6gSTV6h9s47BlSR4Vf0WnDY8VtqmZJfOGTFTxKuryK4h3ufyvDJMr2mk=w240-h480-rwg" alt="RPay Logo" width="100"/>
+  <img src="https://play-lh.googleusercontent.com/oJ3bOlsP9fN6gSTV6h9s47BlSR4Vf0WnDY8VtqmZJfOGTFTxKuryK4h3ufyvDJMr2mk=w240-h480-rw" alt="rMart Logo" width="100"/>
 </a>
 
 # rMart - Food Ordering App
