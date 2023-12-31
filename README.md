@@ -3,6 +3,7 @@
 Food Ordering App tailored for college students, simplifying the lunch experience through efficient pre-ordering
 
 ## Architecture Diagram
+<img src="./rpay_arch.png" width="128"/>
 
 ![Architecture Diagram](./rpay_arch.png)
 
