@@ -10,6 +10,7 @@ rMart is a Flutter application designed for college students to conveniently ord
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Screenshots](#screenshots)
 
 ## Features
 
@@ -26,7 +27,7 @@ Follow these steps to set up and run rMart on your local machine:
 
 ```bash
 # Clone the Repository
-git clone https://github.com/your-username/rMart.git
+git clone https://github.com/Ashwin-DevAsh/rMart
 cd rMart
 
 # Install Dependencies
@@ -43,6 +44,15 @@ flutter run
 - **Explore Menus**: Browse through available menus from local vendors.
 - **Place an Order:**: Select items from the menu and place your order.
 - **View Order History:**: Check your order history for past transactions.
+
+## Screenshots
+
+![Screenshot 1](https://play-lh.googleusercontent.com/JNMUwB2mMogXtszuNWVYkDs6s-vIKvk3iEaiJXFPKH-L8eve0aI9bmu1wU3TyabcWpzY=w2560-h1440-rw)
+![Screenshot 2](https://play-lh.googleusercontent.com/E5a0QuDFs--bvUcJah83-Cw8q64W4YJJ40qZ2CpFPVWLdUsFgRyiD4v4-mdCPVzu4Tpp=w2560-h1440-rw)
+![Screenshot 3](https://play-lh.googleusercontent.com/epV4EAsjgNY7tfnXd__6Ck4m1z00oaaTfamHPdNMe7trffum3lzVRZRZ9uCASCpMBH8=w2560-h1440-rw)
+![Screenshot 4](https://play-lh.googleusercontent.com/QWakoEtQ2Q-ScJ9KYTprWp4MCsaT5x3vsVT3jOYsTtO4i-A9KOW9qrKg-1KFgNQKA0M=w2560-h1440-rw)
+![Screenshot 5](https://play-lh.googleusercontent.com/mpUxnAJtloNN-SpYAsVqIOMAfJXUz81Iaqax2RTZEG5C0N90hhhZA3yiekwDuKzAFg=w2560-h1440-rw)
+
 
 ## Google Play Store
 
