@@ -57,19 +57,19 @@ flutter run
 
 <div style="display: flex; justify-content: space-between; border-radius: 10px; overflow: hidden;">
 
-  <img src="https://play-lh.googleusercontent.com/JNMUwB2mMogXtszuNWVYkDs6s-vIKvk3iEaiJXFPKH-L8eve0aI9bmu1wU3TyabcWpzY=w2560-h1440-rw" alt="Screenshot 1" style="width: 30%; border-radius: 10px;">
+  <img src="https://play-lh.googleusercontent.com/JNMUwB2mMogXtszuNWVYkDs6s-vIKvk3iEaiJXFPKH-L8eve0aI9bmu1wU3TyabcWpzY=w2560-h1440-rw" alt="Screenshot 1" style="width: 200px; border-radius: 10px;">
 
-  <img src="https://play-lh.googleusercontent.com/E5a0QuDFs--bvUcJah83-Cw8q64W4YJJ40qZ2CpFPVWLdUsFgRyiD4v4-mdCPVzu4Tpp=w2560-h1440-rw" alt="Screenshot 2" style="width: 30%; border-radius: 10px;">
+  <img src="https://play-lh.googleusercontent.com/E5a0QuDFs--bvUcJah83-Cw8q64W4YJJ40qZ2CpFPVWLdUsFgRyiD4v4-mdCPVzu4Tpp=w2560-h1440-rw" alt="Screenshot 2" style="width: 200px; border-radius: 10px;">
 
-  <img src="https://play-lh.googleusercontent.com/epV4EAsjgNY7tfnXd__6Ck4m1z00oaaTfamHPdNMe7trffum3lzVRZRZ9uCASCpMBH8=w2560-h1440-rw" alt="Screenshot 3" style="width: 30%; border-radius: 10px;">
+  <img src="https://play-lh.googleusercontent.com/epV4EAsjgNY7tfnXd__6Ck4m1z00oaaTfamHPdNMe7trffum3lzVRZRZ9uCASCpMBH8=w2560-h1440-rw" alt="Screenshot 3" style="width: 200px; border-radius: 10px;">
 
 </div>
 
 <div style="display: flex; justify-content: space-between; border-radius: 10px; overflow: hidden; margin-top: 10px;">
 
-  <img src="https://play-lh.googleusercontent.com/QWakoEtQ2Q-ScJ9KYTprWp4MCsaT5x3vsVT3jOYsTtO4i-A9KOW9qrKg-1KFgNQKA0M=w2560-h1440-rw" alt="Screenshot 4" style="width: 30%; border-radius: 10px;">
+  <img src="https://play-lh.googleusercontent.com/QWakoEtQ2Q-ScJ9KYTprWp4MCsaT5x3vsVT3jOYsTtO4i-A9KOW9qrKg-1KFgNQKA0M=w2560-h1440-rw" alt="Screenshot 4" style="width: 200px; border-radius: 10px;">
 
-  <img src="https://play-lh.googleusercontent.com/mpUxnAJtloNN-SpYAsVqIOMAfJXUz81Iaqax2RTZEG5C0N90hhhZA3yiekwDuKzAFg=w2560-h1440-rw" alt="Screenshot 5" style="width: 30%; border-radius: 10px;">
+  <img src="https://play-lh.googleusercontent.com/mpUxnAJtloNN-SpYAsVqIOMAfJXUz81Iaqax2RTZEG5C0N90hhhZA3yiekwDuKzAFg=w2560-h1440-rw" alt="Screenshot 5" style="width: 200px; border-radius: 10px;">
 
 </div>
 
