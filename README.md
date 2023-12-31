@@ -10,9 +10,6 @@ rMart is a Flutter application designed for college students to conveniently ord
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
@@ -37,6 +34,8 @@ flutter pub get
 
 # Run the Application
 flutter run
+
+```
 
 ## Usage
 
