@@ -77,6 +77,8 @@ flutter run
 
 ## Google Play Store
 
+The app has over 5,000 active users.
+
 <a href="https://play.google.com/store/apps/details?id=com.DevAsh.RMart&hl=en_IN&gl=IN">
   <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Download on the Google Play Store" width="200">
 </a>
